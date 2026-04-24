@@ -1,0 +1,1642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bruce Dando — SAP Data & Intelligence</title>
+<meta name="description" content="Bruce Dando helps organisations make sense of their SAP data. Independent consultant specialising in Datasphere, SAC, MDG, sustainability reporting and AI-ready data foundations.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◈</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink: #1a1a1d;
+  --ink-2: #3a3a40;
+  --ink-3: #6e6e78;
+  --ink-4: #a0a0aa;
+  --bg: #faf9f7;
+  --bg-2: #f2f1ed;
+  --bg-3: #e8e7e2;
+  --white: #ffffff;
+  --border: #e4e3dc;
+  --border-2: #d0cfc7;
+  --accent: #2c5f8a;
+  --accent-2: #1e4264;
+  --accent-light: #edf3f8;
+  --warm: #8a5c2c;
+  --warm-light: #f8f2ea;
+  --green: #2d7a5e;
+  --green-light: #edf7f2;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --nav-h: 60px;
+  --max-w: 1060px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-weight: 400;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.7;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── NAV ─── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--nav-h);
+  background: rgba(250,249,247,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+}
+.nav-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: -0.01em;
+}
+.nav-logo span { color: var(--accent); }
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--ink-3);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  transition: color 0.15s;
+}
+.nav-links a:hover { color: var(--ink); }
+.nav-cta {
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+  color: var(--accent) !important;
+  border: 1.5px solid var(--accent);
+  padding: 5px 14px;
+  border-radius: 20px;
+  transition: all 0.15s !important;
+}
+.nav-cta:hover { background: var(--accent) !important; color: white !important; }
+
+/* Mobile menu */
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
+.nav-toggle svg { display: block; }
+
+/* ─── HERO ─── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: calc(var(--nav-h) + 5rem) 2rem 6rem;
+  position: relative;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -15%;
+  right: -8%;
+  width: 550px;
+  height: 550px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(44,95,138,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1.1fr 320px;
+  gap: 5rem;
+  align-items: center;
+}
+.hero-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.hero-eyebrow::before {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 1.5px;
+  background: var(--accent);
+}
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 4.5vw, 54px);
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin-bottom: 1.75rem;
+}
+.hero-title em {
+  font-style: italic;
+  color: var(--accent);
+}
+.hero-body {
+  font-size: 16.5px;
+  color: var(--ink-2);
+  line-height: 1.8;
+  max-width: 520px;
+  margin-bottom: 2.5rem;
+  font-weight: 300;
+}
+.hero-body strong { font-weight: 600; color: var(--ink); }
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.btn-primary {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 0.7rem 1.6rem;
+  border-radius: 28px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-primary:hover { background: var(--accent-2); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(44,95,138,0.25); }
+.btn-ghost {
+  color: var(--ink-3);
+  font-size: 13.5px;
+  font-weight: 400;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: color 0.15s;
+}
+.btn-ghost:hover { color: var(--accent); }
+
+/* Hero photo card */
+.hero-photo-card { position: relative; }
+.hero-photo-frame {
+  width: 100%;
+  aspect-ratio: 3/4;
+  background: var(--bg-2);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero-photo-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.photo-initials {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--accent-light);
+  border: 2px solid var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--accent);
+}
+.photo-note {
+  font-size: 11.5px;
+  color: var(--ink-4);
+  text-align: center;
+}
+.hero-card-tag {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 7px 16px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--ink-2);
+  white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+  text-align: center;
+  margin-top: 1rem;
+}
+.hero-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 1rem;
+}
+.hero-stat {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 0.85rem;
+  text-align: center;
+}
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 2px;
+}
+.stat-label {
+  font-size: 10.5px;
+  color: var(--ink-3);
+  line-height: 1.3;
+}
+
+/* ─── SECTIONS ─── */
+section { padding: 5.5rem 2rem; }
+section:nth-child(even) { background: var(--white); }
+.section-inner { max-width: var(--max-w); margin: 0 auto; }
+.section-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-label::before {
+  content: '';
+  display: block;
+  width: 18px;
+  height: 1.5px;
+  background: var(--accent);
+}
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(26px, 3.2vw, 38px);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 1rem;
+}
+.section-title em { font-style: italic; color: var(--accent); }
+.section-body {
+  font-size: 15.5px;
+  color: var(--ink-2);
+  line-height: 1.8;
+  font-weight: 300;
+  max-width: 580px;
+  margin-bottom: 2.75rem;
+}
+
+/* ─── ABOUT ─── */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4.5rem;
+  align-items: start;
+}
+.about-text p {
+  font-size: 15.5px;
+  color: var(--ink-2);
+  line-height: 1.85;
+  font-weight: 300;
+  margin-bottom: 1.25rem;
+}
+.about-text p strong { font-weight: 600; color: var(--ink); }
+.about-aside {
+  background: var(--accent-light);
+  border-radius: var(--radius-sm);
+  padding: 1.25rem 1.5rem;
+  margin-top: 0.75rem;
+  font-size: 14px;
+  color: var(--ink-2);
+  line-height: 1.7;
+  border: 1px solid rgba(44,95,138,0.1);
+}
+.about-aside strong { color: var(--accent); font-weight: 600; }
+.about-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.highlight-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 1rem 1.25rem;
+}
+.highlight-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 3px;
+}
+.highlight-body {
+  font-size: 12.5px;
+  color: var(--ink-3);
+  line-height: 1.55;
+}
+
+/* ─── SPECIALISMS ─── */
+.spec-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+.spec-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.spec-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2.5px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s;
+}
+.spec-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.07); transform: translateY(-2px); }
+.spec-card:hover::before { transform: scaleX(1); }
+.spec-icon {
+  font-size: 24px;
+  margin-bottom: 0.85rem;
+  display: block;
+}
+.spec-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 0.4rem;
+}
+.spec-body {
+  font-size: 13px;
+  color: var(--ink-3);
+  line-height: 1.65;
+}
+.spec-tag {
+  display: inline-block;
+  margin-top: 0.85rem;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--accent);
+  background: var(--accent-light);
+  padding: 3px 9px;
+  border-radius: 16px;
+}
+
+/* ─── BUILDING (Side Projects) ─── */
+.building-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+.building-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: block;
+}
+.building-card:hover { box-shadow: 0 8px 28px rgba(0,0,0,0.07); transform: translateY(-2px); }
+.building-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.building-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.building-card-icon.green { background: var(--green-light); border: 1px solid rgba(45,122,94,0.12); }
+.building-card-icon.warm { background: var(--warm-light); border: 1px solid rgba(138,92,44,0.12); }
+.building-status {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 12px;
+}
+.building-status.live { color: var(--green); background: var(--green-light); }
+.building-status.beta { color: var(--warm); background: var(--warm-light); }
+.building-card-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 0.35rem;
+}
+.building-card-tagline {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--accent);
+  margin-bottom: 0.85rem;
+}
+.building-card-body {
+  font-size: 13.5px;
+  color: var(--ink-3);
+  line-height: 1.7;
+  margin-bottom: 1.25rem;
+}
+.building-card-details {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 1.25rem;
+}
+.building-card-details li {
+  font-size: 12.5px;
+  color: var(--ink-2);
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+}
+.building-card-details li::before {
+  content: '→';
+  color: var(--accent);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.building-card-link {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  text-decoration: none;
+}
+.building-card-link:hover { text-decoration: underline; }
+.building-note {
+  margin-top: 1.5rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--accent-light);
+  border: 1px solid rgba(44,95,138,0.1);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  color: var(--ink-2);
+  line-height: 1.7;
+}
+.building-note strong { color: var(--accent); font-weight: 600; }
+
+/* ─── ARTICLES ─── */
+.articles-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+.article-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.2s;
+}
+.article-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.07); transform: translateY(-2px); }
+.article-tag {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.7rem;
+}
+.article-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 15.5px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.4;
+  margin-bottom: 0.7rem;
+  flex: 1;
+}
+.article-excerpt {
+  font-size: 12.5px;
+  color: var(--ink-3);
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
+}
+.article-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--ink-4);
+  border-top: 1px solid var(--border);
+  padding-top: 0.85rem;
+  margin-top: auto;
+}
+.article-read-more {
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 11px;
+}
+.articles-linkedin {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+.articles-linkedin a {
+  font-size: 13.5px;
+  color: var(--accent);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 400;
+}
+.articles-linkedin a:hover { text-decoration: underline; }
+
+/* ─── TOOLS ─── */
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+.tool-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+.tool-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.07); transform: translateY(-2px); }
+.tool-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  background: var(--accent-light);
+  border: 1px solid rgba(44,95,138,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.tool-meta { flex: 1; }
+.tool-tag {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.3rem;
+}
+.tool-title {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 0.35rem;
+  line-height: 1.3;
+}
+.tool-body {
+  font-size: 12.5px;
+  color: var(--ink-3);
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+}
+.tool-link {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.tool-coming {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--ink-4);
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+.tool-group { margin-top: 2.5rem; }
+.tool-group:first-of-type { margin-top: 2rem; }
+.tool-group-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--border);
+}
+.tool-group-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.tool-group-title em { font-style: italic; color: var(--accent); }
+.tool-group-sub {
+  font-size: 12px;
+  color: var(--ink-3);
+  max-width: 360px;
+  text-align: right;
+}
+.tool-status {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+.tool-status.live { color: var(--green); background: var(--green-light); border-color: rgba(45,122,94,0.2); }
+.tool-status.waitlist { color: var(--warm); background: var(--warm-light); border-color: rgba(138,92,44,0.2); }
+.tool-status.soon { color: var(--ink-4); background: var(--bg-2); }
+.tool-card.agent .tool-icon-wrap { background: var(--warm-light); border-color: rgba(138,92,44,0.15); }
+.tool-card.guide .tool-icon-wrap { background: var(--green-light); border-color: rgba(45,122,94,0.15); }
+.tool-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.3rem;
+}
+
+/* ─── CASE STUDIES ─── */
+.cases-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+.case-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  transition: all 0.2s;
+}
+.case-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.07); }
+.case-sector {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--warm);
+  background: var(--warm-light);
+  padding: 3px 10px;
+  border-radius: 16px;
+  display: inline-block;
+  margin-bottom: 0.85rem;
+}
+.case-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 0.65rem;
+  line-height: 1.3;
+}
+.case-body {
+  font-size: 13px;
+  color: var(--ink-3);
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+.case-outcomes {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.case-outcomes li {
+  font-size: 12.5px;
+  color: var(--ink-2);
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+}
+.case-outcomes li::before {
+  content: '→';
+  color: var(--accent);
+  font-weight: 600;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.case-note {
+  margin-top: 0.85rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--ink-4);
+  font-style: italic;
+}
+.linkedin-strip {
+  background: var(--accent-light);
+  border: 1px solid rgba(44,95,138,0.12);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-top: 1.25rem;
+  flex-wrap: wrap;
+}
+.linkedin-strip-text {
+  font-size: 13.5px;
+  color: var(--ink-2);
+  line-height: 1.6;
+}
+.linkedin-strip-text strong { color: var(--ink); font-weight: 600; }
+
+/* ─── READING ─── */
+.reading-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+.reading-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  transition: all 0.2s;
+}
+.reading-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.07); }
+.reading-card-category {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--warm);
+  margin-bottom: 0.65rem;
+}
+.reading-card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 15.5px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.35;
+  margin-bottom: 0.25rem;
+}
+.reading-card-author {
+  font-size: 12px;
+  color: var(--ink-4);
+  margin-bottom: 0.85rem;
+}
+.reading-card-note {
+  font-size: 13px;
+  color: var(--ink-3);
+  line-height: 1.65;
+  font-style: italic;
+}
+
+/* ─── CONTACT ─── */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 4.5rem;
+  align-items: start;
+}
+.contact-info p {
+  font-size: 15px;
+  color: var(--ink-2);
+  line-height: 1.8;
+  font-weight: 300;
+  margin-bottom: 1rem;
+}
+.contact-detail {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13.5px;
+  color: var(--ink-2);
+  margin-bottom: 0.65rem;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.contact-detail:hover { color: var(--accent); }
+.contact-detail-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm);
+  background: var(--accent-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+.contact-availability {
+  margin-top: 1.75rem;
+  padding: 1.1rem 1.25rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  color: var(--ink-2);
+  line-height: 1.6;
+}
+.availability-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  background: var(--green);
+  border-radius: 50%;
+  margin-right: 5px;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+/* Contact form */
+.contact-form { display: flex; flex-direction: column; gap: 0.85rem; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+.form-group { display: flex; flex-direction: column; gap: 0.35rem; }
+.form-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.form-input, .form-select, .form-textarea {
+  font-family: 'Inter', sans-serif;
+  font-size: 13.5px;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.65rem 0.9rem;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  width: 100%;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(44,95,138,0.08);
+  background: var(--white);
+}
+.form-textarea { resize: vertical; min-height: 110px; line-height: 1.6; }
+.form-select { cursor: pointer; }
+.form-submit {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.75rem;
+  border-radius: 28px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.form-submit:hover { background: var(--accent-2); transform: translateY(-1px); }
+.form-note {
+  font-size: 11.5px;
+  color: var(--ink-4);
+  line-height: 1.5;
+}
+.form-success {
+  display: none;
+  background: var(--green-light);
+  border: 1px solid rgba(45,122,94,0.2);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.25rem;
+  font-size: 14px;
+  color: var(--green);
+  line-height: 1.6;
+}
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--ink);
+  color: rgba(255,255,255,0.45);
+  padding: 2.75rem 2rem;
+}
+.footer-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+.footer-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: white;
+}
+.footer-logo span { color: var(--accent-light); opacity: 0.65; }
+.footer-tagline {
+  font-size: 11.5px;
+  color: rgba(255,255,255,0.3);
+  margin-top: 3px;
+}
+.footer-links {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+}
+.footer-links a {
+  font-size: 12.5px;
+  color: rgba(255,255,255,0.4);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.footer-links a:hover { color: rgba(255,255,255,0.8); }
+.footer-copy {
+  font-size: 11.5px;
+  color: rgba(255,255,255,0.2);
+  width: 100%;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
+
+/* ─── ANIMATIONS ─── */
+.fade-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+.fade-up-delay-1 { transition-delay: 0.08s; }
+.fade-up-delay-2 { transition-delay: 0.16s; }
+.fade-up-delay-3 { transition-delay: 0.24s; }
+.fade-up-delay-4 { transition-delay: 0.32s; }
+.fade-up-delay-5 { transition-delay: 0.4s; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 900px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
+  .hero-photo-card { display: none; }
+  .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .spec-grid { grid-template-columns: 1fr 1fr; }
+  .articles-grid, .reading-grid { grid-template-columns: 1fr 1fr; }
+  .tools-grid, .cases-grid, .building-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 620px) {
+  nav { padding: 0 1.25rem; }
+  section { padding: 3.5rem 1.25rem; }
+  .hero { padding: calc(var(--nav-h) + 2.5rem) 1.25rem 3.5rem; }
+  .spec-grid, .articles-grid, .reading-grid { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+  .nav-toggle { display: block; }
+  .hero-stats { grid-template-columns: 1fr 1fr; }
+  footer { padding: 2rem 1.25rem; }
+  .footer-links { display: none; }
+  .linkedin-strip { flex-direction: column; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">Bruce <span>Dando</span></a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#expertise">Expertise</a></li>
+      <li><a href="#articles">Writing</a></li>
+      <li><a href="#tools">Tools</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="extras.html">Extras</a></li>
+      <li><a href="#contact" class="nav-cta">Get in touch</a></li>
+    </ul>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('show')" aria-label="Menu">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-inner">
+    <div class="hero-content">
+      <p class="hero-eyebrow fade-up">Independent SAP Consultant · Sydney, Australia</p>
+      <h1 class="hero-title fade-up fade-up-delay-1">I help organisations<br>make sense of their<br><em>SAP data.</em></h1>
+      <p class="hero-body fade-up fade-up-delay-2">
+        Not just the data layer — the <strong>process behind it, the finance that depends on it, and the executive decisions it needs to support.</strong> From J&amp;J to BAT's 183-country rollout to Shiseido's global platform — I've learned that the technology is rarely the hard part.
+      </p>
+      <div class="hero-actions fade-up fade-up-delay-3">
+        <a href="#contact" class="btn-primary">Start a conversation →</a>
+        <a href="#about" class="btn-ghost">Learn more ↓</a>
+      </div>
+    </div>
+    <div class="hero-photo-card fade-up fade-up-delay-2">
+      <div class="hero-photo-frame">
+        <img src="hero-photo.jpg" alt="Bruce Dando" style="width:100%;height:100%;object-fit:cover;object-position:center top;">
+      </div>
+      <div class="hero-card-tag">Sydney · Available for engagements</div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="stat-num">20+</div>
+          <div class="stat-label">Years SAP consulting</div>
+        </div>
+        <div class="hero-stat">
+          <div class="stat-num">183</div>
+          <div class="stat-label">Countries across BAT &amp; Shiseido</div>
+        </div>
+        <div class="hero-stat">
+          <div class="stat-num">6</div>
+          <div class="stat-label">Areas of SAP expertise</div>
+        </div>
+        <div class="hero-stat">
+          <div class="stat-num">ANZ</div>
+          <div class="stat-label">Primary market focus</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <p class="section-label fade-up">About</p>
+    <h2 class="section-title fade-up fade-up-delay-1">Technically deep.<br><em>Commercially grounded.</em></h2>
+    <div class="about-grid">
+      <div class="about-text fade-up fade-up-delay-2">
+        <p>I started in finance — not technology. I joined <strong>Johnson &amp; Johnson Medical</strong> out of university as an accountant, completed my CA there, and worked across several roles before becoming finance lead on their ASPAC SAP programme. That programme was a success, and it's where I discovered that the most interesting problems in any organisation sit at the intersection of data, finance and systems.</p>
+        <p>From there I joined <strong>British American Tobacco</strong> during what became one of the largest SAP implementations in history — 183 countries rolled onto a single platform in just over two years. Over six and a half years at BAT I moved from SAP implementation to regional stabilisation, then to <strong>Global Finance BI Lead</strong>, product costing standardisation across 45 factories, and finally <strong>Global PM for Commercial Finance Operations</strong>, building a centre of excellence in Kuala Lumpur serving 47 factories and 183 countries.</p>
+        <p>Halfway through BAT I founded <strong>Liquid Peak</strong>, my own SAP consultancy — shifting from employee to contractor through my own company. That independence has defined how I've worked ever since.</p>
+        <p>I then joined <strong>Stockland</strong> as finance lead for their S4 programme — brought in for the final year to get it across the line and into go-live. After that, a year back with <strong>BAT in the US</strong> to integrate their BI team onto the global platform. Then <strong>Shiseido</strong> as <strong>Global BI Lead</strong> during their global S4 implementation, managing data and reporting requirements across 120+ countries.</p>
+        <p>Today I lead the <strong>Data &amp; Intelligence practice at Emphasys</strong>, an SAP Gold Partner — focused on helping organisations turn SAP data into trusted, decision-ready intelligence through Datasphere, SAC, and the Business Data Cloud. I also build products on the side — SaaS platforms and AI tools that apply the same thinking about data and process to entirely different industries.</p>
+        <div class="about-aside">
+          <strong>Outside work:</strong> I surf and run daily — currently training for a sub-4-hour Sydney Marathon. Most of my better ideas happen somewhere between the water and the pavement.
+        </div>
+      </div>
+      <div class="fade-up fade-up-delay-3">
+        <div class="about-highlights">
+          <div class="highlight-card">
+            <div class="highlight-title">6.5 years · British American Tobacco</div>
+            <div class="highlight-body">SAP implementation to Global PM for Commercial Finance Operations. 183 countries, 45 factories, centre of excellence in KL. One of the largest SAP programmes ever delivered.</div>
+          </div>
+          <div class="highlight-card">
+            <div class="highlight-title">Global BI Lead · Shiseido</div>
+            <div class="highlight-body">Developed global reporting strategy during S4 implementation. SAP Analytics Cloud and Analysis for Office across 120+ countries and all regions.</div>
+          </div>
+          <div class="highlight-card">
+            <div class="highlight-title">Founder · Liquid Peak</div>
+            <div class="highlight-body">Independent SAP consultancy founded in 2015. The vehicle through which I've delivered every engagement since — from Stockland's S4 go-live to BAT US to Shiseido.</div>
+          </div>
+          <div class="highlight-card">
+            <div class="highlight-title">Director of Data &amp; Intelligence · Emphasys</div>
+            <div class="highlight-body">Leading the D&amp;I practice alongside Enterprise Architecture and Process Transformation. Datasphere, SAC, BW/4HANA, and AI-driven data foundations.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERTISE -->
+<section id="expertise">
+  <div class="section-inner">
+    <p class="section-label fade-up">Expertise</p>
+    <h2 class="section-title fade-up fade-up-delay-1">What I'm <em>genuinely good at</em></h2>
+    <p class="section-body fade-up fade-up-delay-2">These aren't checkbox certifications. They're areas where I've done the real work — designed the architecture, built the model, explained it to the CFO, and delivered something that actually got used.</p>
+    <div class="spec-grid">
+      <div class="spec-card fade-up">
+        <span class="spec-icon">🌐</span>
+        <div class="spec-title">SAP Datasphere & Business Data Cloud</div>
+        <div class="spec-body">Building governed data products that teams can discover, trust and consume — without needing to know how they were built.</div>
+        <span class="spec-tag">Data Products · BDC Connect · Data Marketplace</span>
+      </div>
+      <div class="spec-card fade-up fade-up-delay-1">
+        <span class="spec-icon">📊</span>
+        <div class="spec-title">SAP Analytics Cloud</div>
+        <div class="spec-body">From live connections to planning models. Dashboards that executives actually open — clear, fast, and connected to governed data.</div>
+        <span class="spec-tag">Planning · Stories · SAC + Datasphere</span>
+      </div>
+      <div class="spec-card fade-up fade-up-delay-2">
+        <span class="spec-icon">🏛️</span>
+        <div class="spec-title">Master Data Governance</div>
+        <div class="spec-body">Data quality foundations that everything else depends on. Customer, supplier, material — governed centrally, trusted everywhere.</div>
+        <span class="spec-tag">Customer · Supplier · Material · Finance</span>
+      </div>
+      <div class="spec-card fade-up fade-up-delay-3">
+        <span class="spec-icon">🌿</span>
+        <div class="spec-title">Sustainability & ASRS Reporting</div>
+        <div class="spec-body">Helping Australian companies meet mandatory climate disclosure obligations under the ASRS framework, connected to governed SAP data.</div>
+        <span class="spec-tag">ASRS · ISSB · Scope 1, 2 & 3</span>
+      </div>
+      <div class="spec-card fade-up fade-up-delay-4">
+        <span class="spec-icon">🤖</span>
+        <div class="spec-title">AI Agent Architecture</div>
+        <div class="spec-body">Multi-agent systems that compress delivery time. AI as internal infrastructure — currently running a live agent architecture across my own businesses.</div>
+        <span class="spec-tag">Claude · MCP · Agentic Workflows</span>
+      </div>
+      <div class="spec-card fade-up fade-up-delay-5">
+        <span class="spec-icon">📦</span>
+        <div class="spec-title">BW/4HANA</div>
+        <div class="spec-body">Migrations, upgrades, and keeping legacy BW investments alive while building a path to Datasphere. What to preserve, what to retire, how to bridge.</div>
+        <span class="spec-tag">Migration · BW Bridge · 2.0 to 2023</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ARTICLES -->
+<section id="articles">
+  <div class="section-inner">
+    <p class="section-label fade-up">Writing</p>
+    <h2 class="section-title fade-up fade-up-delay-1">Practical thinking,<br><em>not marketing copy.</em></h2>
+    <p class="section-body fade-up fade-up-delay-2">I write about SAP data and AI in plain English. The goal is always the same — give someone something they can actually use.</p>
+    <div class="articles-grid">
+      <a href="https://www.linkedin.com/in/bruce-dando-b507a429" target="_blank" class="article-card fade-up">
+        <div class="article-tag">SAP Datasphere</div>
+        <div class="article-title">How to Create Your First Data Product in SAP Datasphere</div>
+        <div class="article-excerpt">A step-by-step guide from business question to governed, reusable data asset. Six practical steps for teams that have the platform but haven't shipped anything yet.</div>
+        <div class="article-meta">
+          <span>Published on LinkedIn</span>
+          <span class="article-read-more">Read →</span>
+        </div>
+      </a>
+      <div class="article-card fade-up fade-up-delay-1" style="opacity:0.5; cursor:default;">
+        <div class="article-tag">SAP Analytics Cloud</div>
+        <div class="article-title">Why SAC Stories Fail: The Data Foundation Problem</div>
+        <div class="article-excerpt">Most SAC implementations struggle because the data model underneath wasn't built for consumption. How to fix the root cause, not the symptom.</div>
+        <div class="article-meta">
+          <span>Coming soon</span>
+          <span class="article-read-more" style="color:var(--ink-4);">Draft</span>
+        </div>
+      </div>
+      <div class="article-card fade-up fade-up-delay-2" style="opacity:0.5; cursor:default;">
+        <div class="article-tag">Sustainability</div>
+        <div class="article-title">ASRS Is Coming: What SAP Customers Need to Know</div>
+        <div class="article-excerpt">Australia's mandatory climate disclosure requirements are real and the deadlines are moving. What they mean for your SAP data.</div>
+        <div class="article-meta">
+          <span>Coming soon</span>
+          <span class="article-read-more" style="color:var(--ink-4);">Draft</span>
+        </div>
+      </div>
+    </div>
+    <div class="articles-linkedin fade-up">
+      <a href="https://www.linkedin.com/in/bruce-dando-b507a429" target="_blank">
+        View all articles and posts on LinkedIn →
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section id="tools">
+  <div class="section-inner">
+    <p class="section-label fade-up">Tools & Resources</p>
+    <h2 class="section-title fade-up fade-up-delay-1">Free tools that make<br><em>complex things simpler.</em></h2>
+    <p class="section-body fade-up fade-up-delay-2">A growing library for SAP teams — practical worksheets you can use today, structured guides for preparing data products, and a new wave of AI-backed tools launching soon. All free to try.</p>
+
+    <!-- Group 1: Interactive worksheets & canvases -->
+    <div class="tool-group">
+      <div class="tool-group-head fade-up">
+        <div class="tool-group-title">Worksheets &amp; <em>Canvases</em></div>
+        <div class="tool-group-sub">Browser-based. Work through them in 20–30 minutes and walk away with a structured output.</div>
+      </div>
+      <div class="tools-grid">
+        <a href="WORKSHEET_URL_HERE" target="_blank" class="tool-card fade-up">
+          <div class="tool-icon-wrap">📋</div>
+          <div class="tool-meta">
+            <div class="tool-card-head">
+              <div class="tool-tag">SAP Datasphere</div>
+              <span class="tool-status live">Live</span>
+            </div>
+            <div class="tool-title">Data Product Readiness Worksheet</div>
+            <div class="tool-body">Work through all six steps to your first governed data product. Built for business and IT teams — produces a structured brief you can hand to a delivery team.</div>
+            <span class="tool-link">Open worksheet →</span>
+          </div>
+        </a>
+        <div class="tool-card fade-up fade-up-delay-1" style="cursor:default;">
+          <div class="tool-icon-wrap">📊</div>
+          <div class="tool-meta">
+            <div class="tool-card-head">
+              <div class="tool-tag">SAP Analytics Cloud</div>
+              <span class="tool-status soon">Coming soon</span>
+            </div>
+            <div class="tool-title">SAC Story Design Canvas</div>
+            <div class="tool-body">Map your analytics requirements before touching SAC. Define measures, dimensions, filters and layout in a structured canvas.</div>
+          </div>
+        </div>
+        <div class="tool-card fade-up fade-up-delay-2" style="cursor:default;">
+          <div class="tool-icon-wrap">🏛️</div>
+          <div class="tool-meta">
+            <div class="tool-card-head">
+              <div class="tool-tag">MDG</div>
+              <span class="tool-status soon">Coming soon</span>
+            </div>
+            <div class="tool-title">Master Data Health Assessment</div>
+            <div class="tool-body">A structured diagnostic for customer, supplier and material master data quality. Identify your highest-impact data issues in under 30 minutes.</div>
+          </div>
+        </div>
+        <div class="tool-card fade-up fade-up-delay-3" style="cursor:default;">
+          <div class="tool-icon-wrap">🌿</div>
+          <div class="tool-meta">
+            <div class="tool-card-head">
+              <div class="tool-tag">Sustainability</div>
+              <span class="tool-status soon">Coming soon</span>
+            </div>
+            <div class="tool-title">ASRS Readiness Checker</div>
+            <div class="tool-body">Assess your organisation's readiness for Australia's mandatory climate disclosure requirements. Identify gaps before the deadline.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Group 2: Guides & frameworks -->
+    <div class="tool-group">
+      <div class="tool-group-head fade-up">
+        <div class="tool-group-title">Guides &amp; <em>Frameworks</em></div>
+        <div class="tool-group-sub">Opinionated playbooks for the hard parts of preparing data products and governed analytics.</div>
+      </div>
+      <div class="tools-grid">
+        <div class="tool-card guide fade-up" style="cursor:default;">
+          <div class="tool-icon-wrap">📘</div>
+          <div class="tool-meta">
+            <div class="tool-card-head">
+              <div class="tool-tag">Data Products</div>
+              <span class="tool-status soon">Coming soon</span>
+            </div>
+            <div class="tool-title">Preparing Your First Data Product</div>
+            <div class="tool-body">A step-by-step guide to scoping, modelling, governing and publishing a data product on SAP Datasphere — written for teams who've never shipped one.</div>
+          </div>
+        </div>
+        <div class="tool-card guide fade-up fade-up-delay-1" style="cursor:default;">
+          <div class="tool-icon-wrap">🧭</div>
+          <div class="tool-meta">
+            <div class="tool-card-head">
+              <div class="tool-tag">Governance</div>
+              <span class="tool-status soon">Coming soon</span>
+            </div>
+            <div class="tool-title">Data Product Ownership Playbook</div>
+            <div class="tool-body">Who owns what, how decisions get made, and how to keep a data product healthy after go-live. The part most programmes skip.</div>
+          </div>
+        </div>
+        <div class="tool-card guide fade-up fade-up-delay-2" style="cursor:default;">
+          <div class="tool-icon-wrap">🧱</div>
+          <div class="tool-meta">
+            <div class="tool-card-head">
+              <div class="tool-tag">Architecture</div>
+              <span class="tool-status soon">Coming soon</span>
+            </div>
+            <div class="tool-title">BW/4HANA → Datasphere Migration Notes</div>
+            <div class="tool-body">Field notes from real upgrade and migration programmes. What carries over, what doesn't, and where the traps are.</div>
+          </div>
+        </div>
+        <div class="tool-card guide fade-up fade-up-delay-3" style="cursor:default;">
+          <div class="tool-icon-wrap">📐</div>
+          <div class="tool-meta">
+            <div class="tool-card-head">
+              <div class="tool-tag">Modelling</div>
+              <span class="tool-status soon">Coming soon</span>
+            </div>
+            <div class="tool-title">Semantic Layer Design Guide</div>
+            <div class="tool-body">How to design a semantic layer business users actually understand — naming, grain, measures, and the conversations that make it stick.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Group 3: AI-backed tools -->
+    <div class="tool-group">
+      <div class="tool-group-head fade-up">
+        <div class="tool-group-title">AI-Backed <em>Tools</em></div>
+        <div class="tool-group-sub">Thin interfaces over managed agents. Early access opening soon — join the waitlist for first access.</div>
+      </div>
+      <div class="tools-grid">
+        <div class="tool-card agent fade-up" style="cursor:default;">
+          <div class="tool-icon-wrap">⚙️</div>
+          <div class="tool-meta">
+            <div class="tool-card-head">
+              <div class="tool-tag">Functional Specs</div>
+              <span class="tool-status waitlist">Waitlist open</span>
+            </div>
+            <div class="tool-title">SpecForge</div>
+            <div class="tool-body">Turn your SAP workshop notes into review-ready functional specs in minutes. Built for consultants who'd rather ship than type.</div>
+          </div>
+        </div>
+        <div class="tool-card agent fade-up fade-up-delay-1" style="cursor:default;">
+          <div class="tool-icon-wrap">🧪</div>
+          <div class="tool-meta">
+            <div class="tool-card-head">
+              <div class="tool-tag">Testing</div>
+              <span class="tool-status waitlist">Waitlist open</span>
+            </div>
+            <div class="tool-title">TestForge</div>
+            <div class="tool-body">Generate structured test scripts from a functional spec. Covers positive, negative and edge cases — and flags its own assumptions.</div>
+          </div>
+        </div>
+        <div class="tool-card agent fade-up fade-up-delay-2" style="cursor:default;">
+          <div class="tool-icon-wrap">🧩</div>
+          <div class="tool-meta">
+            <div class="tool-card-head">
+              <div class="tool-tag">Datasphere</div>
+              <span class="tool-status waitlist">Waitlist open</span>
+            </div>
+            <div class="tool-title">BDP Designer</div>
+            <div class="tool-body">Draft a business data product definition — scope, grain, measures, ownership — from a short conversation about what the business actually needs.</div>
+          </div>
+        </div>
+        <div class="tool-card agent fade-up fade-up-delay-3" style="cursor:default;">
+          <div class="tool-icon-wrap">🗂️</div>
+          <div class="tool-meta">
+            <div class="tool-card-head">
+              <div class="tool-tag">Datasphere</div>
+              <span class="tool-status waitlist">Waitlist open</span>
+            </div>
+            <div class="tool-title">Spaces Manager</div>
+            <div class="tool-body">A guided walkthrough for designing and documenting Datasphere spaces — boundaries, sharing, and who gets what.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section id="work">
+  <div class="section-inner">
+    <p class="section-label fade-up">Work</p>
+    <h2 class="section-title fade-up fade-up-delay-1">Experience that<br><em>speaks for itself.</em></h2>
+    <p class="section-body fade-up fade-up-delay-2">I don't publish detailed case studies without client permission. But I can share the shape of the work and the outcomes it delivers.</p>
+    <div class="cases-grid">
+      <div class="case-card fade-up">
+        <span class="case-sector">Global Enterprise · Luxury Goods</span>
+        <div class="case-title">Global BI Lead · Shiseido</div>
+        <div class="case-body">Developed the global reporting strategy and governance framework during Shiseido's S4 implementation (Project FOCUS), integrating BPC, IBP, PaPM, Ariba and MES across 120+ countries.</div>
+        <ul class="case-outcomes">
+          <li>Global reporting across function, geography and organisational level</li>
+          <li>SAP Analytics Cloud and Analysis for Office as dual reporting tools</li>
+          <li>Internal and external data sources consolidated into central data warehouse</li>
+        </ul>
+        <p class="case-note">Contract role, Dec 2021 – present</p>
+      </div>
+      <div class="case-card fade-up fade-up-delay-1">
+        <span class="case-sector">Independent Practice · ANZ</span>
+        <div class="case-title">Independent SAP Delivery · Liquid Peak</div>
+        <div class="case-body">Founded my own SAP consultancy in 2015, initially while at BAT. Every engagement since — Stockland's S4 go-live, BAT US BI integration, Shiseido's global programme — delivered through Liquid Peak.</div>
+        <ul class="case-outcomes">
+          <li>Finance and management reporting transformations</li>
+          <li>BW and BW/4HANA implementations and migrations</li>
+          <li>Master data governance programmes</li>
+          <li>Long-term advisory relationships with Australian enterprises</li>
+        </ul>
+        <p class="case-note">Selected client references available on request</p>
+      </div>
+      <div class="case-card fade-up fade-up-delay-2">
+        <span class="case-sector">Current Engagement · Emphasys</span>
+        <div class="case-title">BW/4HANA Upgrade Programme</div>
+        <div class="case-body">Leading technical delivery of a BW/4HANA upgrade from 2.0 SP6 to the 2023 release. Managing architecture decisions, team coordination and client stakeholder engagement.</div>
+        <ul class="case-outcomes">
+          <li>Platform stability and performance improvements</li>
+          <li>Preserving existing model investments during upgrade</li>
+          <li>Laying groundwork for future Datasphere transition</li>
+        </ul>
+        <p class="case-note">Active engagement — client details withheld</p>
+      </div>
+      <div class="case-card fade-up fade-up-delay-3">
+        <span class="case-sector">Advisory · SAP Data Strategy</span>
+        <div class="case-title">Datasphere & BDC Advisory</div>
+        <div class="case-body">Helping SAP customers understand where Datasphere fits — and how to build the first governed data products that create real business value.</div>
+        <ul class="case-outcomes">
+          <li>Data product design workshops</li>
+          <li>BDC strategy and roadmap development</li>
+          <li>SAC + Datasphere architecture design</li>
+          <li>Sustainability data foundation assessment</li>
+        </ul>
+        <p class="case-note">Enquiries welcome for 2026 engagements</p>
+      </div>
+    </div>
+    <div class="linkedin-strip fade-up">
+      <div class="linkedin-strip-text">
+        <strong>See my full professional history on LinkedIn.</strong> Recommendations, endorsements and project history from 20+ years of SAP consulting.
+      </div>
+      <a href="https://www.linkedin.com/in/bruce-dando-b507a429" target="_blank" class="btn-primary" style="white-space:nowrap; font-size:12.5px;">View LinkedIn profile →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <p class="section-label fade-up">Get in touch</p>
+    <h2 class="section-title fade-up fade-up-delay-1">Let's have a<br><em>real conversation.</em></h2>
+    <div class="contact-grid">
+      <div class="fade-up fade-up-delay-1">
+        <div class="contact-info">
+          <p>If you're thinking about Datasphere, SAC, MDG, sustainability reporting, or just trying to make sense of where SAP data fits in your AI strategy — I'm happy to talk it through. No pitch deck, no sales process.</p>
+          <p>I typically start with a 30-minute conversation to understand what you're dealing with. If there's something I can help with, I'll tell you. If there isn't, I'll tell you that too.</p>
+        </div>
+        <a href="mailto:bruce@brucedando.com" class="contact-detail">
+          <div class="contact-detail-icon">✉️</div>
+          bruce@brucedando.com
+        </a>
+        <a href="https://www.linkedin.com/in/bruce-dando-b507a429" target="_blank" class="contact-detail">
+          <div class="contact-detail-icon">💼</div>
+          linkedin.com/in/bruce-dando-b507a429
+        </a>
+        <a href="#" class="contact-detail">
+          <div class="contact-detail-icon">📍</div>
+          Sydney, NSW · Available Australia-wide
+        </a>
+        <div class="contact-availability">
+          <span class="availability-dot"></span>
+          <strong>Currently available</strong> for new engagements and advisory conversations in 2026. Typical lead time 2–4 weeks.
+        </div>
+      </div>
+      <div class="fade-up fade-up-delay-2">
+        <div id="contact-form-wrap">
+          <form class="contact-form" onsubmit="handleSubmit(event)">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">First name</label>
+                <input type="text" class="form-input" placeholder="Your name" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Organisation</label>
+                <input type="text" class="form-input" placeholder="Company or role">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-input" placeholder="your@email.com" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">What are you working on?</label>
+              <select class="form-select form-input">
+                <option value="">Select a topic...</option>
+                <option>SAP Datasphere / Business Data Cloud</option>
+                <option>SAP Analytics Cloud (SAC)</option>
+                <option>Master Data Governance (MDG)</option>
+                <option>Sustainability / ASRS Reporting</option>
+                <option>BW/4HANA</option>
+                <option>AI strategy and data foundations</option>
+                <option>General SAP data advisory</option>
+                <option>Something else</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Tell me more</label>
+              <textarea class="form-textarea" placeholder="What's the situation? What are you trying to figure out? No need to be formal."></textarea>
+            </div>
+            <button type="submit" class="form-submit">Send message →</button>
+            <p class="form-note">I reply personally, usually within 24 hours on business days.</p>
+          </form>
+          <div class="form-success" id="form-success">
+            Thanks — message received. I'll come back to you personally within one business day.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">Bruce <span>Dando</span></div>
+      <div class="footer-tagline">Independent SAP Consultant · Sydney, Australia</div>
+    </div>
+    <ul class="footer-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#expertise">Expertise</a></li>
+      <li><a href="#articles">Writing</a></li>
+      <li><a href="#tools">Tools</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="extras.html">Extras</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+  <div class="footer-inner">
+    <div class="footer-copy">© 2026 Bruce Dando. Operating through Emphasys, SAP Gold Partner. All tools and resources are provided free of charge.</div>
+  </div>
+</footer>
+
+<script>
+  // Fade-up on scroll
+  var fadeEls = document.querySelectorAll('.fade-up');
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+  fadeEls.forEach(function(el) { observer.observe(el); });
+
+  // Trigger hero elements immediately
+  setTimeout(function() {
+    document.querySelectorAll('.hero .fade-up').forEach(function(el) {
+      el.classList.add('visible');
+    });
+  }, 100);
+
+  // Contact form submit
+  function handleSubmit(e) {
+    e.preventDefault();
+    var form = e.target;
+    form.style.display = 'none';
+    document.getElementById('form-success').style.display = 'block';
+  }
+
+  // Active nav link
+  var sections = document.querySelectorAll('section[id]');
+  window.addEventListener('scroll', function() {
+    var scrollY = window.scrollY;
+    sections.forEach(function(s) {
+      var top = s.offsetTop - 80;
+      var bottom = top + s.offsetHeight;
+      var link = document.querySelector('nav a[href="#' + s.id + '"]');
+      if (link) {
+        if (scrollY >= top && scrollY < bottom) {
+          link.style.color = 'var(--ink)';
+        } else {
+          link.style.color = '';
+        }
+      }
+    });
+  });
+
+  // Mobile nav
+  var style = document.createElement('style');
+  style.textContent = '@media(max-width:620px){.nav-links.show{display:flex!important;flex-direction:column;position:fixed;top:var(--nav-h);left:0;right:0;background:rgba(250,249,247,0.98);backdrop-filter:blur(12px);padding:1.5rem 2rem;gap:1.25rem;border-bottom:1px solid var(--border);box-shadow:0 8px 24px rgba(0,0,0,0.08)}.nav-links.show .nav-cta{align-self:flex-start}}';
+  document.head.appendChild(style);
+</script>
+</body>
+</html>

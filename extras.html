@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Extras — Bruce Dando</title>
+<meta name="description" content="Side projects, reading and interests from Bruce Dando — independent SAP consultant based in Sydney.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◈</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="" defer></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink: #1a1a1d;
+  --ink-2: #3a3a40;
+  --ink-3: #6e6e78;
+  --ink-4: #a0a0aa;
+  --bg: #faf9f7;
+  --bg-2: #f2f1ed;
+  --bg-3: #e8e7e2;
+  --white: #ffffff;
+  --border: #e4e3dc;
+  --border-2: #d0cfc7;
+  --accent: #2c5f8a;
+  --accent-2: #1e4264;
+  --accent-light: #edf3f8;
+  --warm: #8a5c2c;
+  --warm-light: #f8f2ea;
+  --green: #2d7a5e;
+  --green-light: #edf7f2;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --nav-h: 60px;
+  --max-w: 1060px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-weight: 400;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.7;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── NAV ─── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--nav-h);
+  background: rgba(250,249,247,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+}
+.nav-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: -0.01em;
+}
+.nav-logo span { color: var(--accent); }
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--ink-3);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  transition: color 0.15s;
+}
+.nav-links a:hover { color: var(--ink); }
+.nav-links a.active { color: var(--ink); }
+.nav-cta {
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+  color: var(--accent) !important;
+  border: 1.5px solid var(--accent);
+  padding: 5px 14px;
+  border-radius: 20px;
+  transition: all 0.15s !important;
+}
+.nav-cta:hover { background: var(--accent) !important; color: white !important; }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
+.nav-toggle svg { display: block; }
+
+/* ─── PAGE HEADER ─── */
+.page-header {
+  padding: calc(var(--nav-h) + 4rem) 2rem 3rem;
+}
+.page-header-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+}
+.page-back {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--accent);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 1.5rem;
+  transition: color 0.15s;
+}
+.page-back:hover { color: var(--accent-2); }
+.page-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(32px, 4vw, 46px);
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin-bottom: 1rem;
+}
+.page-title em { font-style: italic; color: var(--accent); }
+.page-body {
+  font-size: 16px;
+  color: var(--ink-2);
+  line-height: 1.8;
+  font-weight: 300;
+  max-width: 600px;
+}
+
+/* ─── SECTIONS ─── */
+section { padding: 4rem 2rem; }
+section:nth-child(even) { background: var(--white); }
+.section-inner { max-width: var(--max-w); margin: 0 auto; }
+.section-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-label::before {
+  content: '';
+  display: block;
+  width: 18px;
+  height: 1.5px;
+  background: var(--accent);
+}
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(26px, 3.2vw, 38px);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 1rem;
+}
+.section-title em { font-style: italic; color: var(--accent); }
+.section-body {
+  font-size: 15.5px;
+  color: var(--ink-2);
+  line-height: 1.8;
+  font-weight: 300;
+  max-width: 580px;
+  margin-bottom: 2.75rem;
+}
+
+/* ─── BUILDING ─── */
+.building-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+.building-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: block;
+}
+.building-card:hover { box-shadow: 0 8px 28px rgba(0,0,0,0.07); transform: translateY(-2px); }
+.building-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.building-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.building-card-icon.green { background: var(--green-light); border: 1px solid rgba(45,122,94,0.12); }
+.building-card-icon.warm { background: var(--warm-light); border: 1px solid rgba(138,92,44,0.12); }
+.building-status {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 12px;
+}
+.building-status.live { color: var(--green); background: var(--green-light); }
+.building-status.beta { color: var(--warm); background: var(--warm-light); }
+.building-card-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 0.35rem;
+}
+.building-card-tagline {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--accent);
+  margin-bottom: 0.85rem;
+}
+.building-card-body {
+  font-size: 13.5px;
+  color: var(--ink-3);
+  line-height: 1.7;
+  margin-bottom: 1.25rem;
+}
+.building-card-details {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 1.25rem;
+}
+.building-card-details li {
+  font-size: 12.5px;
+  color: var(--ink-2);
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+}
+.building-card-details li::before {
+  content: '→';
+  color: var(--accent);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.building-card-link {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  text-decoration: none;
+}
+.building-card-link:hover { text-decoration: underline; }
+.building-note {
+  margin-top: 1.5rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--accent-light);
+  border: 1px solid rgba(44,95,138,0.1);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  color: var(--ink-2);
+  line-height: 1.7;
+}
+.building-note strong { color: var(--accent); font-weight: 600; }
+
+/* ─── READING ─── */
+.reading-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+.reading-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  transition: all 0.2s;
+}
+.reading-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.07); }
+.reading-card-category {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--warm);
+  margin-bottom: 0.65rem;
+}
+.reading-card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 15.5px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.35;
+  margin-bottom: 0.25rem;
+}
+.reading-card-author {
+  font-size: 12px;
+  color: var(--ink-4);
+  margin-bottom: 0.85rem;
+}
+.reading-card-note {
+  font-size: 13px;
+  color: var(--ink-3);
+  line-height: 1.65;
+  font-style: italic;
+}
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--ink);
+  color: rgba(255,255,255,0.45);
+  padding: 2.75rem 2rem;
+}
+.footer-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+.footer-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: white;
+}
+.footer-logo span { color: var(--accent-light); opacity: 0.65; }
+.footer-tagline {
+  font-size: 11.5px;
+  color: rgba(255,255,255,0.3);
+  margin-top: 3px;
+}
+.footer-links {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+}
+.footer-links a {
+  font-size: 12.5px;
+  color: rgba(255,255,255,0.4);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.footer-links a:hover { color: rgba(255,255,255,0.8); }
+.footer-copy {
+  font-size: 11.5px;
+  color: rgba(255,255,255,0.2);
+  width: 100%;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
+
+/* ─── ANIMATIONS ─── */
+.fade-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+.fade-up-delay-1 { transition-delay: 0.08s; }
+.fade-up-delay-2 { transition-delay: 0.16s; }
+.fade-up-delay-3 { transition-delay: 0.24s; }
+.fade-up-delay-4 { transition-delay: 0.32s; }
+.fade-up-delay-5 { transition-delay: 0.4s; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 900px) {
+  .building-grid { grid-template-columns: 1fr; }
+  .reading-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 620px) {
+  nav { padding: 0 1.25rem; }
+  section { padding: 3rem 1.25rem; }
+  .page-header { padding: calc(var(--nav-h) + 2.5rem) 1.25rem 2rem; }
+  .reading-grid { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+  .nav-toggle { display: block; }
+  footer { padding: 2rem 1.25rem; }
+  .footer-links { display: none; }
+}
+/* ─── TRAVEL MAP ─── */
+#travel-map {
+  height: 520px;
+  width: 100%;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--bg-2);
+  margin-top: 1.5rem;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+}
+.leaflet-container { font-family: 'Inter', sans-serif; background: #eef2f5; }
+.travel-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-top: 1.25rem;
+}
+.travel-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 12px;
+  color: var(--ink-2);
+  font-weight: 500;
+}
+.travel-legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--white);
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.15);
+}
+.dot-lived { background: var(--accent); }
+.dot-worked { background: var(--warm); }
+.dot-holiday { background: var(--green); }
+.travel-note {
+  margin-top: 1.5rem;
+  font-size: 13px;
+  color: var(--ink-3);
+  text-align: center;
+  font-style: italic;
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ─── MILESTONES ─── */
+.milestones-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.milestone-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+  transition: all 0.2s;
+}
+.milestone-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.07); transform: translateY(-2px); }
+.milestone-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  background: var(--warm-light);
+  border: 1px solid rgba(138,92,44,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.milestone-meta { flex: 1; }
+.milestone-year {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--warm);
+  margin-bottom: 0.3rem;
+}
+.milestone-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 0.35rem;
+  line-height: 1.3;
+}
+.milestone-body {
+  font-size: 13px;
+  color: var(--ink-3);
+  line-height: 1.6;
+}
+@media (max-width: 780px) {
+  .milestones-grid { grid-template-columns: 1fr; }
+  #travel-map { height: 360px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Bruce <span>Dando</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#expertise">Expertise</a></li>
+      <li><a href="index.html#articles">Writing</a></li>
+      <li><a href="index.html#tools">Tools</a></li>
+      <li><a href="index.html#work">Work</a></li>
+      <li><a href="extras.html" class="active">Extras</a></li>
+      <li><a href="index.html#contact" class="nav-cta">Get in touch</a></li>
+    </ul>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('show')" aria-label="Menu">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-header-inner">
+    <a href="index.html" class="page-back fade-up">← Back to main site</a>
+    <h1 class="page-title fade-up fade-up-delay-1">Beyond the<br><em>day job.</em></h1>
+    <p class="page-body fade-up fade-up-delay-2">Side projects I'm building and books that have shaped how I think. None of this is core to what I do for clients — but it's part of what makes the work better.</p>
+  </div>
+</div>
+
+<!-- THINGS I'M BUILDING -->
+<section id="building">
+  <div class="section-inner">
+    <p class="section-label fade-up">Things I'm Building</p>
+    <h2 class="section-title fade-up fade-up-delay-1">Side projects that<br><em>solve real problems.</em></h2>
+    <p class="section-body fade-up fade-up-delay-2">I build products outside of SAP consulting — not as distractions, but because I'm drawn to problems where the right software changes the equation. Each one is a live experiment in shipping something useful.</p>
+    <div class="building-grid">
+      <div class="building-card fade-up">
+        <div class="building-card-header">
+          <div class="building-card-icon green">🎒</div>
+          <span class="building-status live">Live</span>
+        </div>
+        <div class="building-card-name">Personhood360</div>
+        <div class="building-card-tagline">Wellbeing and development tracking for early education</div>
+        <div class="building-card-body">A SaaS platform that helps early childhood educators nurture, monitor and measure child wellbeing — using 9 Wellbeing Markers and 8 Developmental Domains to build a fluid picture of each learner.</div>
+        <ul class="building-card-details">
+          <li>Learning stories and activity documentation</li>
+          <li>Real-time parent connection and feedback</li>
+          <li>96% of teachers say it saves them valuable time</li>
+          <li>Cost-per-learner model, works on desktop and mobile</li>
+        </ul>
+        <a href="https://www.personhood360.com" target="_blank" class="building-card-link">Visit personhood360.com →</a>
+      </div>
+      <div class="building-card fade-up fade-up-delay-1">
+        <div class="building-card-header">
+          <div class="building-card-icon warm">🔧</div>
+          <span class="building-status beta">Beta</span>
+        </div>
+        <div class="building-card-name">Tradie-AI</div>
+        <div class="building-card-tagline">The on-site AI assistant for Australian tradies</div>
+        <div class="building-card-body">An AI agent that handles the admin tradies hate — quoting, invoicing, emails, material lists, site checklists — through voice, text or image input. Built for plumbers, electricians and every trade in between.</div>
+        <ul class="building-card-details">
+          <li>Voice, text and image interaction on-site</li>
+          <li>Generates quotes, invoices and proposals</li>
+          <li>AI-powered job matching and career support</li>
+          <li>Standards lookup with instant answers</li>
+        </ul>
+        <a href="https://www.tradie-ai.com" target="_blank" class="building-card-link">Visit tradie-ai.com →</a>
+      </div>
+    </div>
+    <div class="building-note fade-up">
+      <strong>Why these?</strong> They come from the same instinct as my SAP work — find a process that's harder than it should be, understand the data behind it, and build something that makes the outcome better. Different industries, same thinking.
+    </div>
+  </div>
+</section>
+
+<!-- TRAVEL -->
+<section id="travel">
+  <div class="section-inner">
+    <p class="section-label fade-up">Travel</p>
+    <h2 class="section-title fade-up fade-up-delay-1">Places that shaped<br><em>how I work.</em></h2>
+    <p class="section-body fade-up fade-up-delay-2">Twenty years of global SAP programmes took me to a lot of countries. Three I've called home, a dozen I've run workshops in, and a few more I've just been lucky enough to visit.</p>
+    <div id="travel-map" class="fade-up fade-up-delay-3"></div>
+    <div class="travel-legend fade-up fade-up-delay-3">
+      <div class="travel-legend-item"><span class="travel-legend-dot dot-lived"></span> Lived</div>
+      <div class="travel-legend-item"><span class="travel-legend-dot dot-worked"></span> Worked / ran workshops</div>
+      <div class="travel-legend-item"><span class="travel-legend-dot dot-holiday"></span> Visited</div>
+    </div>
+    <p class="travel-note fade-up">The best lesson from running global programmes: every country thinks its SAP problems are unique, and most of them are right — in interesting ways.</p>
+  </div>
+</section>
+
+<!-- MILESTONES -->
+<section id="milestones">
+  <div class="section-inner">
+    <p class="section-label fade-up">Milestones</p>
+    <h2 class="section-title fade-up fade-up-delay-1">Things that took<br><em>more than a weekend.</em></h2>
+    <p class="section-body fade-up fade-up-delay-2">A few personal commitments that remind me the same principles apply outside work: show up, prepare, pace yourself, finish.</p>
+    <div class="milestones-grid">
+      <div class="milestone-card fade-up">
+        <div class="milestone-icon">🏃</div>
+        <div class="milestone-meta">
+          <div class="milestone-year">2023 · Blue Mountains</div>
+          <div class="milestone-title">100km Ultramarathon</div>
+          <div class="milestone-body">A year of training taught me more about pacing long programmes than any project-management course. Preparation is the whole game — the race is just the audit.</div>
+        </div>
+      </div>
+      <div class="milestone-card fade-up fade-up-delay-1">
+        <div class="milestone-icon">🏔️</div>
+        <div class="milestone-meta">
+          <div class="milestone-year">Brașov · Romania</div>
+          <div class="milestone-title">Winter Hike, Carpathian Mountains</div>
+          <div class="milestone-body">Hiking the Romanian mountains in the middle of winter. Cold, quiet, and a useful reminder that good gear and a calm pace beat enthusiasm every time.</div>
+        </div>
+      </div>
+      <div class="milestone-card fade-up fade-up-delay-2">
+        <div class="milestone-icon">🏉</div>
+        <div class="milestone-meta">
+          <div class="milestone-year">Rugby · Humanitarian Tour</div>
+          <div class="milestone-title">Cuba</div>
+          <div class="milestone-body">A tour that was half rugby, half community work. Came back with a very different view of what "under-resourced" actually means — and what people still manage to build with almost nothing.</div>
+        </div>
+      </div>
+      <div class="milestone-card fade-up fade-up-delay-3">
+        <div class="milestone-icon">🏉</div>
+        <div class="milestone-meta">
+          <div class="milestone-year">Rugby · Humanitarian Tour</div>
+          <div class="milestone-title">Kenya</div>
+          <div class="milestone-body">Playing and working alongside local clubs and community projects. One of those experiences that quietly reframes what you think is important back home.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- READING -->
+<section id="reading">
+  <div class="section-inner">
+    <p class="section-label fade-up">Reading</p>
+    <h2 class="section-title fade-up fade-up-delay-1">Ideas that shape<br><em>how I work.</em></h2>
+    <p class="section-body fade-up fade-up-delay-2">A few books that have stuck with me — not because they're popular, but because they changed how I think about building things, running a practice, or understanding complex systems.</p>
+    <div class="reading-grid">
+      <div class="reading-card fade-up">
+        <div class="reading-card-category">Strategy</div>
+        <div class="reading-card-title">The Mom Test</div>
+        <div class="reading-card-author">Rob Fitzpatrick</div>
+        <div class="reading-card-note">"How to talk to customers and learn if your business is a good idea when everyone is lying to you." Changed how I run discovery workshops — in SAP and in product.</div>
+      </div>
+      <div class="reading-card fade-up fade-up-delay-1">
+        <div class="reading-card-category">Systems Thinking</div>
+        <div class="reading-card-title">Thinking in Systems</div>
+        <div class="reading-card-author">Donella Meadows</div>
+        <div class="reading-card-note">The best explanation I've read of why complex organisations behave the way they do. Every SAP programme is a systems problem in disguise.</div>
+      </div>
+      <div class="reading-card fade-up fade-up-delay-2">
+        <div class="reading-card-category">Building</div>
+        <div class="reading-card-title">The Lean Startup</div>
+        <div class="reading-card-author">Eric Ries</div>
+        <div class="reading-card-note">Build, measure, learn. The same loop that works for startups works for SAP data products — ship something small, get feedback, iterate.</div>
+      </div>
+      <div class="reading-card fade-up fade-up-delay-3">
+        <div class="reading-card-category">Craft</div>
+        <div class="reading-card-title">Shape Up</div>
+        <div class="reading-card-author">Ryan Singer (Basecamp)</div>
+        <div class="reading-card-note">The best framework I've found for scoping work so it actually gets finished. I use the "appetite" concept constantly — in consulting and in product builds.</div>
+      </div>
+      <div class="reading-card fade-up fade-up-delay-4">
+        <div class="reading-card-category">AI &amp; Future</div>
+        <div class="reading-card-title">Co-Intelligence</div>
+        <div class="reading-card-author">Ethan Mollick</div>
+        <div class="reading-card-note">The most grounded take I've read on working alongside AI. Not hype, not fear — practical frameworks for what's already happening.</div>
+      </div>
+      <div class="reading-card fade-up fade-up-delay-5">
+        <div class="reading-card-category">Endurance</div>
+        <div class="reading-card-title">Placeholder</div>
+        <div class="reading-card-author">—</div>
+        <div class="reading-card-note">Bruce — swap this for a book that's meaningful to you. Running, surfing, resilience, mindset — whatever fits. This slot is yours.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">Bruce <span>Dando</span></div>
+      <div class="footer-tagline">Independent SAP Consultant · Sydney, Australia</div>
+    </div>
+    <ul class="footer-links">
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#expertise">Expertise</a></li>
+      <li><a href="index.html#articles">Writing</a></li>
+      <li><a href="index.html#tools">Tools</a></li>
+      <li><a href="index.html#work">Work</a></li>
+      <li><a href="extras.html">Extras</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+  </div>
+  <div class="footer-inner">
+    <div class="footer-copy">© 2026 Bruce Dando. Operating through Emphasys, SAP Gold Partner. All tools and resources are provided free of charge.</div>
+  </div>
+</footer>
+
+<script>
+  // Fade-up on scroll
+  var fadeEls = document.querySelectorAll('.fade-up');
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+  fadeEls.forEach(function(el) { observer.observe(el); });
+
+  // Trigger header elements immediately
+  setTimeout(function() {
+    document.querySelectorAll('.page-header .fade-up').forEach(function(el) {
+      el.classList.add('visible');
+    });
+  }, 100);
+
+  // Mobile nav
+  var style = document.createElement('style');
+  style.textContent = '@media(max-width:620px){.nav-links.show{display:flex!important;flex-direction:column;position:fixed;top:var(--nav-h);left:0;right:0;background:rgba(250,249,247,0.98);backdrop-filter:blur(12px);padding:1.5rem 2rem;gap:1.25rem;border-bottom:1px solid var(--border);box-shadow:0 8px 24px rgba(0,0,0,0.08)}.nav-links.show .nav-cta{align-self:flex-start}}';
+  document.head.appendChild(style);
+
+  // ─── Travel map ───
+  function initTravelMap() {
+    if (typeof L === 'undefined') { setTimeout(initTravelMap, 100); return; }
+    var el = document.getElementById('travel-map');
+    if (!el) return;
+    var map = L.map('travel-map', {
+      zoomControl: true,
+      scrollWheelZoom: false,
+      worldCopyJump: true,
+      minZoom: 1,
+      maxZoom: 6
+    }).setView([20, 30], 2);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
+      attribution: '© OpenStreetMap contributors © CARTO',
+      subdomains: 'abcd',
+      maxZoom: 19
+    }).addTo(map);
+
+    // Country centroids (approx)
+    var lived = [
+      { name: 'South Africa', lat: -30.6, lon: 22.9 },
+      { name: 'New Zealand',  lat: -41.0, lon: 174.0 },
+      { name: 'Australia',    lat: -25.3, lon: 133.8 }
+    ];
+    var worked = [
+      { name: 'Fiji',         lat: -17.7, lon: 178.0 },
+      { name: 'Singapore',    lat: 1.35,  lon: 103.8 },
+      { name: 'Malaysia',     lat: 4.2,   lon: 101.9 },
+      { name: 'Japan',        lat: 36.2,  lon: 138.3 },
+      { name: 'Turkey',       lat: 38.9,  lon: 35.2 },
+      { name: 'Romania',      lat: 45.9,  lon: 24.9 },
+      { name: 'England',      lat: 52.4,  lon: -1.5 },
+      { name: 'Costa Rica',   lat: 9.7,   lon: -83.7 },
+      { name: 'Brazil',       lat: -14.2, lon: -51.9 },
+      { name: 'France',       lat: 46.2,  lon: 2.2 }
+    ];
+    var holiday = [
+      { name: 'Ireland',      lat: 53.4,  lon: -8.2 },
+      { name: 'Scotland',     lat: 56.8,  lon: -4.2 },
+      { name: 'Wales',        lat: 52.1,  lon: -3.8 },
+      { name: 'USA',          lat: 39.0,  lon: -98.0 },
+      { name: 'Canada',       lat: 56.1,  lon: -106.3 },
+      { name: 'Cuba',         lat: 21.5,  lon: -77.8 },
+      { name: 'Kenya',        lat: -0.02, lon: 37.9 },
+      { name: 'Papua New Guinea', lat: -6.3, lon: 143.9 },
+      { name: 'Mauritius',    lat: -20.3, lon: 57.5 },
+      { name: 'Italy',        lat: 41.9,  lon: 12.6 },
+      { name: 'Germany',      lat: 51.2,  lon: 10.4 },
+      { name: 'Netherlands',  lat: 52.1,  lon: 5.3 },
+      { name: 'Indonesia',    lat: -2.5,  lon: 118.0 }
+    ];
+
+    function addMarkers(list, color, label, radius) {
+      list.forEach(function(p) {
+        L.circleMarker([p.lat, p.lon], {
+          radius: radius,
+          color: '#ffffff',
+          weight: 2,
+          fillColor: color,
+          fillOpacity: 0.92
+        }).addTo(map).bindTooltip(p.name + ' · ' + label, { direction: 'top', offset: [0, -4] });
+      });
+    }
+
+    // Draw in order: holiday (smallest) → worked → lived (largest, on top)
+    addMarkers(holiday, '#2d7a5e', 'Visited', 5);
+    addMarkers(worked,  '#8a5c2c', 'Worked', 6);
+    addMarkers(lived,   '#2c5f8a', 'Lived',  8);
+  }
+  initTravelMap();
+</script>
+</body>
+</html>
