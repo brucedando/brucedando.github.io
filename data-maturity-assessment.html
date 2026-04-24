@@ -1,0 +1,2289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data & Reporting Maturity Assessment | Liquid Peak</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Serif+Text:ital@0;1&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --lp-dark: #0f2d32;
+  --lp-navy: #01385f;
+  --lp-charcoal: #20282d;
+  --lp-text: #223035;
+  --lp-text-light: #547079;
+  --lp-muted: #85979b;
+  --lp-teal: #67cbb9;
+  --lp-teal-light: rgba(103, 203, 185, 0.15);
+  --lp-teal-soft: #e1f2f2;
+  --lp-teal-bg: rgba(225, 242, 242, 0.4);
+  --lp-mint: rgba(243, 250, 250, 0.6);
+  --lp-white: #fbfbfb;
+  --lp-border: #aec5cd;
+  --lp-radius: 12px;
+  --lp-radius-lg: 20px;
+  --font-display: 'DM Serif Text', Georgia, serif;
+  --font-heading: 'Sora', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --shadow-soft: 0 4px 24px rgba(15, 45, 50, 0.06);
+  --shadow-card: 0 8px 40px rgba(15, 45, 50, 0.08);
+  --shadow-hover: 0 12px 48px rgba(15, 45, 50, 0.12);
+  --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-body);
+  color: var(--lp-text);
+  background: var(--lp-white);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── HERO SECTION ─── */
+.hero {
+  background: linear-gradient(135deg, var(--lp-dark) 0%, var(--lp-navy) 50%, #0a3f5c 100%);
+  padding: 100px 24px 80px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(103,203,185,0.12) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  left: -10%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(103,203,185,0.08) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.hero-badge {
+  display: inline-block;
+  background: rgba(103, 203, 185, 0.15);
+  border: 1px solid rgba(103, 203, 185, 0.3);
+  color: var(--lp-teal);
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  padding: 8px 20px;
+  border-radius: 50px;
+  margin-bottom: 28px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  color: #fff;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 400;
+  line-height: 1.2;
+  max-width: 720px;
+  margin: 0 auto 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero p {
+  color: rgba(255,255,255,0.7);
+  font-size: 17px;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.7;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--lp-teal);
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 24px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-time svg { width: 16px; height: 16px; }
+
+/* ─── PROGRESS BAR ─── */
+.progress-container {
+  background: #fff;
+  border-bottom: 1px solid rgba(174, 197, 205, 0.3);
+  padding: 0 24px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(12px);
+}
+
+.progress-inner {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 16px 0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.progress-bar-wrap {
+  flex: 1;
+  height: 6px;
+  background: var(--lp-teal-soft);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--lp-teal), var(--lp-navy));
+  border-radius: 10px;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 0%;
+}
+
+.progress-text {
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--lp-text-light);
+  white-space: nowrap;
+  min-width: 90px;
+  text-align: right;
+}
+
+/* ─── MAIN CONTAINER ─── */
+.assessment-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 48px 24px 120px;
+}
+
+/* ─── SECTION HEADERS ─── */
+.section-header {
+  margin-bottom: 36px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(174, 197, 205, 0.2);
+}
+
+.section-number {
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--lp-teal);
+  margin-bottom: 8px;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  color: var(--lp-dark);
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+
+.section-desc {
+  color: var(--lp-text-light);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* ─── QUESTION CARDS ─── */
+.question-card {
+  background: #fff;
+  border: 1px solid rgba(174, 197, 205, 0.25);
+  border-radius: var(--lp-radius);
+  padding: 32px;
+  margin-bottom: 20px;
+  transition: var(--transition);
+  position: relative;
+}
+
+.question-card:hover {
+  border-color: rgba(103, 203, 185, 0.4);
+  box-shadow: var(--shadow-soft);
+}
+
+.question-card.answered {
+  border-left: 3px solid var(--lp-teal);
+}
+
+.question-label {
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--lp-dark);
+  margin-bottom: 20px;
+  line-height: 1.5;
+  padding-right: 40px;
+}
+
+.question-number {
+  position: absolute;
+  top: 32px;
+  right: 32px;
+  font-family: var(--font-heading);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--lp-muted);
+}
+
+/* ─── RADIO OPTIONS ─── */
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.option-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 18px;
+  border: 1px solid rgba(174, 197, 205, 0.2);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+}
+
+.option-item:hover {
+  background: var(--lp-mint);
+  border-color: rgba(103, 203, 185, 0.3);
+}
+
+.option-item.selected {
+  background: var(--lp-teal-light);
+  border-color: var(--lp-teal);
+}
+
+.option-item input[type="radio"] {
+  display: none;
+}
+
+.radio-custom {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  border: 2px solid var(--lp-border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  margin-top: 1px;
+}
+
+.option-item.selected .radio-custom {
+  border-color: var(--lp-teal);
+  background: var(--lp-teal);
+}
+
+.radio-custom::after {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: #fff;
+  border-radius: 50%;
+  opacity: 0;
+  transition: var(--transition);
+}
+
+.option-item.selected .radio-custom::after {
+  opacity: 1;
+}
+
+.option-text {
+  font-size: 14px;
+  color: var(--lp-text);
+  line-height: 1.5;
+}
+
+/* ─── CATEGORY DIVIDERS ─── */
+.category-divider {
+  margin: 56px 0 40px;
+  position: relative;
+}
+
+.category-divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--lp-border), transparent);
+}
+
+/* ─── EMAIL CAPTURE ─── */
+.email-section {
+  background: linear-gradient(135deg, var(--lp-dark), var(--lp-navy));
+  border-radius: var(--lp-radius-lg);
+  padding: 48px 40px;
+  margin-top: 48px;
+  position: relative;
+  overflow: hidden;
+}
+
+.email-section::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(103,203,185,0.15) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.email-section h3 {
+  font-family: var(--font-display);
+  color: #fff;
+  font-size: 1.6rem;
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.email-section p {
+  color: rgba(255,255,255,0.65);
+  font-size: 15px;
+  margin-bottom: 28px;
+  position: relative;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.form-group {
+  position: relative;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-group label {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.5);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 14px 18px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 10px;
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 15px;
+  transition: var(--transition);
+  outline: none;
+}
+
+.form-input::placeholder {
+  color: rgba(255,255,255,0.3);
+}
+
+.form-input:focus {
+  border-color: var(--lp-teal);
+  background: rgba(255,255,255,0.12);
+}
+
+.form-input.error {
+  border-color: #e74c3c;
+}
+
+.form-select {
+  width: 100%;
+  padding: 14px 18px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 10px;
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 15px;
+  transition: var(--transition);
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(255,255,255,0.4)' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 18px center;
+}
+
+.form-select option {
+  background: var(--lp-dark);
+  color: #fff;
+}
+
+.submit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 36px;
+  background: linear-gradient(135deg, var(--lp-teal), #4db8a4);
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-top: 12px;
+  position: relative;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(103, 203, 185, 0.35);
+}
+
+.submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.submit-btn svg { width: 18px; height: 18px; }
+
+.validation-msg {
+  color: #e74c3c;
+  font-size: 13px;
+  margin-top: 12px;
+  display: none;
+  position: relative;
+}
+
+/* ─── RESULTS SECTION ─── */
+#resultsSection {
+  display: none;
+}
+
+.results-hero {
+  background: linear-gradient(135deg, var(--lp-dark) 0%, var(--lp-navy) 100%);
+  padding: 80px 24px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.results-hero::before {
+  content: '';
+  position: absolute;
+  top: -30%;
+  right: -15%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(103,203,185,0.1) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.results-hero h2 {
+  font-family: var(--font-display);
+  color: #fff;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.results-hero p {
+  color: rgba(255,255,255,0.6);
+  font-size: 16px;
+  position: relative;
+}
+
+/* ─── SCORE RING ─── */
+.score-overview {
+  max-width: 900px;
+  margin: -50px auto 0;
+  padding: 0 24px;
+  position: relative;
+  z-index: 2;
+}
+
+.score-card {
+  background: #fff;
+  border-radius: var(--lp-radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: 48px;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+.score-ring-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.score-ring {
+  width: 180px;
+  height: 180px;
+  position: relative;
+}
+
+.score-ring svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.score-ring-bg {
+  fill: none;
+  stroke: var(--lp-teal-soft);
+  stroke-width: 8;
+}
+
+.score-ring-fill {
+  fill: none;
+  stroke: var(--lp-teal);
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-dasharray: 452;
+  stroke-dashoffset: 452;
+  transition: stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.score-ring-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.score-value {
+  font-family: var(--font-heading);
+  font-size: 42px;
+  font-weight: 700;
+  color: var(--lp-dark);
+  line-height: 1;
+}
+
+.score-max {
+  font-size: 14px;
+  color: var(--lp-muted);
+  font-weight: 500;
+}
+
+.maturity-label {
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 6px 18px;
+  border-radius: 50px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.maturity-level-1 { background: #ffeaea; color: #c0392b; }
+.maturity-level-2 { background: #fff3e0; color: #e67e22; }
+.maturity-level-3 { background: #fff8e1; color: #f39c12; }
+.maturity-level-4 { background: #e8f5e9; color: #27ae60; }
+.maturity-level-5 { background: var(--lp-teal-light); color: #0f8b7a; }
+
+.score-details h3 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--lp-dark);
+  margin-bottom: 12px;
+}
+
+.score-details p {
+  color: var(--lp-text-light);
+  font-size: 15px;
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+/* ─── DIMENSION BARS ─── */
+.dimensions-section {
+  max-width: 900px;
+  margin: 48px auto 0;
+  padding: 0 24px;
+}
+
+.dimensions-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--lp-dark);
+  margin-bottom: 8px;
+}
+
+.dimensions-subtitle {
+  color: var(--lp-text-light);
+  font-size: 15px;
+  margin-bottom: 32px;
+}
+
+.dimension-card {
+  background: #fff;
+  border: 1px solid rgba(174, 197, 205, 0.2);
+  border-radius: var(--lp-radius);
+  padding: 28px 32px;
+  margin-bottom: 16px;
+  transition: var(--transition);
+}
+
+.dimension-card:hover {
+  box-shadow: var(--shadow-soft);
+}
+
+.dimension-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.dimension-name {
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--lp-dark);
+}
+
+.dimension-score {
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--lp-teal);
+}
+
+.dimension-bar-wrap {
+  height: 8px;
+  background: var(--lp-teal-soft);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.dimension-bar-fill {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 0%;
+}
+
+.dimension-insight {
+  font-size: 14px;
+  color: var(--lp-text-light);
+  line-height: 1.6;
+}
+
+/* ─── RECOMMENDATIONS ─── */
+.recommendations-section {
+  max-width: 900px;
+  margin: 56px auto 0;
+  padding: 0 24px;
+}
+
+.rec-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--lp-dark);
+  margin-bottom: 8px;
+}
+
+.rec-subtitle {
+  color: var(--lp-text-light);
+  font-size: 15px;
+  margin-bottom: 32px;
+}
+
+.rec-card {
+  background: #fff;
+  border: 1px solid rgba(174, 197, 205, 0.2);
+  border-radius: var(--lp-radius);
+  padding: 32px;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.rec-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+}
+
+.rec-priority-high::before { background: #e74c3c; }
+.rec-priority-medium::before { background: #f39c12; }
+.rec-priority-low::before { background: var(--lp-teal); }
+
+.rec-priority-tag {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding: 4px 12px;
+  border-radius: 50px;
+  margin-bottom: 12px;
+}
+
+.rec-priority-high .rec-priority-tag { background: #ffeaea; color: #c0392b; }
+.rec-priority-medium .rec-priority-tag { background: #fff3e0; color: #e67e22; }
+.rec-priority-low .rec-priority-tag { background: var(--lp-teal-light); color: #0f8b7a; }
+
+.rec-card h4 {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--lp-dark);
+  margin-bottom: 10px;
+}
+
+.rec-card p {
+  font-size: 14px;
+  color: var(--lp-text-light);
+  line-height: 1.7;
+}
+
+/* ─── CTA SECTION ─── */
+.cta-section {
+  max-width: 900px;
+  margin: 56px auto 0;
+  padding: 0 24px 80px;
+}
+
+.cta-card {
+  background: linear-gradient(135deg, var(--lp-dark), var(--lp-navy));
+  border-radius: var(--lp-radius-lg);
+  padding: 56px 48px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-card::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  right: -15%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(103,203,185,0.12) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.cta-card h3 {
+  font-family: var(--font-display);
+  color: #fff;
+  font-size: 1.8rem;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.cta-card p {
+  color: rgba(255,255,255,0.65);
+  font-size: 16px;
+  max-width: 520px;
+  margin: 0 auto 32px;
+  line-height: 1.7;
+  position: relative;
+}
+
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 40px;
+  background: var(--lp-teal);
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+  position: relative;
+}
+
+.cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(103, 203, 185, 0.35);
+}
+
+.cta-btn svg { width: 18px; height: 18px; }
+
+/* ─── LOADING SPINNER ─── */
+.spinner {
+  display: none;
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ─── HIDDEN SECTIONS ─── */
+.assessment-section {
+  display: none;
+  animation: fadeInUp 0.5s ease;
+}
+
+.assessment-section.active {
+  display: block;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── NAVIGATION BUTTONS ─── */
+.nav-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(174, 197, 205, 0.2);
+}
+
+.nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: 50px;
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  border: none;
+}
+
+.nav-btn-back {
+  background: transparent;
+  color: var(--lp-text-light);
+  border: 1px solid var(--lp-border);
+}
+
+.nav-btn-back:hover {
+  background: var(--lp-teal-soft);
+  border-color: var(--lp-teal);
+  color: var(--lp-dark);
+}
+
+.nav-btn-next {
+  background: var(--lp-dark);
+  color: #fff;
+}
+
+.nav-btn-next:hover {
+  background: var(--lp-navy);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-soft);
+}
+
+.nav-btn svg { width: 16px; height: 16px; }
+
+/* ─── TOOLTIP ─── */
+.incomplete-warning {
+  background: #fff8e1;
+  border: 1px solid #ffd54f;
+  border-radius: 10px;
+  padding: 14px 20px;
+  margin-top: 12px;
+  font-size: 14px;
+  color: #f57f17;
+  display: none;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 768px) {
+  .hero { padding: 80px 20px 60px; }
+  .question-card { padding: 24px; }
+  .email-section { padding: 36px 24px; }
+  .form-row { grid-template-columns: 1fr; }
+  .score-card {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 32px;
+    padding: 36px 24px;
+  }
+  .score-details { text-align: left; }
+  .cta-card { padding: 40px 24px; }
+  .nav-buttons { gap: 12px; }
+  .nav-btn { padding: 12px 20px; font-size: 13px; }
+}
+
+/* ─── PRINT STYLES ─── */
+@media print {
+  .progress-container, .nav-buttons, .cta-section, .hero { display: none; }
+  .assessment-section, #resultsSection { display: block !important; }
+}
+
+/* ─── SUCCESS MESSAGE ─── */
+.success-toast {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  background: var(--lp-dark);
+  color: #fff;
+  padding: 16px 24px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: var(--shadow-card);
+  transform: translateY(120%);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.success-toast.show {
+  transform: translateY(0);
+}
+
+.success-toast svg { width: 20px; height: 20px; color: var(--lp-teal); }
+</style>
+</head>
+<body>
+
+<!-- ═══════ ASSESSMENT VIEW ═══════ -->
+<div id="assessmentView">
+
+<div class="hero">
+  <div class="hero-badge">Free Assessment</div>
+  <h1>Data & Reporting Maturity Assessment</h1>
+  <p>Understand where your organisation stands today and discover a clear roadmap to unlock the full potential of your data and reporting capabilities.</p>
+  <div class="hero-time">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    Takes approximately 8–10 minutes
+  </div>
+</div>
+
+<div class="progress-container">
+  <div class="progress-inner">
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressBar"></div>
+    </div>
+    <div class="progress-text" id="progressText">Section 1 of 7</div>
+  </div>
+</div>
+
+<div class="assessment-container" id="assessmentForm">
+
+  <!-- ═══════ SECTION 1: DATA GOVERNANCE ═══════ -->
+  <div class="assessment-section active" data-section="1">
+    <div class="section-header">
+      <div class="section-number">Section 01</div>
+      <h2 class="section-title">Data Governance & Strategy</h2>
+      <p class="section-desc">How well does your organisation govern, manage, and strategically use data assets?</p>
+    </div>
+
+    <div class="question-card" data-question="q1">
+      <div class="question-label">Does your organisation have a formally documented data strategy aligned to business objectives?</div>
+      <div class="question-number">Q1</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q1" value="1">
+          <span class="radio-custom"></span>
+          <span class="option-text">No data strategy exists; data initiatives are ad-hoc and reactive</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q1" value="2">
+          <span class="radio-custom"></span>
+          <span class="option-text">An informal or partial strategy exists but is not documented or widely communicated</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q1" value="3">
+          <span class="radio-custom"></span>
+          <span class="option-text">A documented strategy exists and is partially aligned to business goals</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q1" value="4">
+          <span class="radio-custom"></span>
+          <span class="option-text">A comprehensive strategy is documented, communicated, and actively governs data initiatives</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q1" value="5">
+          <span class="radio-custom"></span>
+          <span class="option-text">The strategy is fully embedded across the business with continuous review and optimisation cycles</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="q2">
+      <div class="question-label">How clearly are data ownership roles and responsibilities defined across your organisation?</div>
+      <div class="question-number">Q2</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q2" value="1">
+          <span class="radio-custom"></span>
+          <span class="option-text">No defined data ownership — nobody is clearly accountable for data quality or management</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q2" value="2">
+          <span class="radio-custom"></span>
+          <span class="option-text">Some teams informally own data, but roles are not documented or standardised</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q2" value="3">
+          <span class="radio-custom"></span>
+          <span class="option-text">Data owners and stewards are identified for key datasets with documented responsibilities</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q2" value="4">
+          <span class="radio-custom"></span>
+          <span class="option-text">A formal data governance framework exists with clear ownership, stewardship, and accountability</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q2" value="5">
+          <span class="radio-custom"></span>
+          <span class="option-text">Governance is enterprise-wide with automated policy enforcement, audits, and continuous improvement</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="q3">
+      <div class="question-label">How mature are your data quality management practices (validation, cleansing, monitoring)?</div>
+      <div class="question-number">Q3</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q3" value="1">
+          <span class="radio-custom"></span>
+          <span class="option-text">No data quality processes — errors are discovered reactively by end users</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q3" value="2">
+          <span class="radio-custom"></span>
+          <span class="option-text">Basic manual checks occur sporadically, with no systematic monitoring</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q3" value="3">
+          <span class="radio-custom"></span>
+          <span class="option-text">Standardised data quality rules exist for critical data with periodic reviews</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q3" value="4">
+          <span class="radio-custom"></span>
+          <span class="option-text">Automated data quality monitoring and cleansing is in place across key systems</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q3" value="5">
+          <span class="radio-custom"></span>
+          <span class="option-text">Enterprise-wide DQ framework with real-time monitoring, ML-based anomaly detection, and KPIs</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <div></div>
+      <button class="nav-btn nav-btn-next" onclick="nextSection(1)">
+        Continue
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════ SECTION 2: DATA ARCHITECTURE ═══════ -->
+  <div class="assessment-section" data-section="2">
+    <div class="section-header">
+      <div class="section-number">Section 02</div>
+      <h2 class="section-title">Data Architecture & Infrastructure</h2>
+      <p class="section-desc">How robust, scalable, and integrated is your data infrastructure?</p>
+    </div>
+
+    <div class="question-card" data-question="q4">
+      <div class="question-label">How would you describe your organisation's data architecture landscape?</div>
+      <div class="question-number">Q4</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q4" value="1">
+          <span class="radio-custom"></span>
+          <span class="option-text">Highly fragmented — data sits in isolated spreadsheets, local databases, and siloed systems</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q4" value="2">
+          <span class="radio-custom"></span>
+          <span class="option-text">Some integration exists between key systems, but significant data silos remain</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q4" value="3">
+          <span class="radio-custom"></span>
+          <span class="option-text">A centralised data warehouse or lake exists with most core systems connected</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q4" value="4">
+          <span class="radio-custom"></span>
+          <span class="option-text">Modern data platform (cloud-based) with well-designed integration layers and data pipelines</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q4" value="5">
+          <span class="radio-custom"></span>
+          <span class="option-text">Enterprise data mesh/fabric architecture with real-time streaming, scalable cloud infrastructure, and self-serve capabilities</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="q5">
+      <div class="question-label">How effectively does your organisation manage master data and maintain a single source of truth?</div>
+      <div class="question-number">Q5</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q5" value="1">
+          <span class="radio-custom"></span>
+          <span class="option-text">No master data management — multiple conflicting versions of the same data exist</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q5" value="2">
+          <span class="radio-custom"></span>
+          <span class="option-text">Some effort to identify master data but no formal MDM programme or tooling</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q5" value="3">
+          <span class="radio-custom"></span>
+          <span class="option-text">MDM is implemented for key domains (customer, product) with defined golden records</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q5" value="4">
+          <span class="radio-custom"></span>
+          <span class="option-text">Comprehensive MDM programme covers all critical domains with automated synchronisation</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q5" value="5">
+          <span class="radio-custom"></span>
+          <span class="option-text">Fully governed MDM with real-time data harmonisation, lineage tracking, and automated conflict resolution</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="q6">
+      <div class="question-label">How well are your data integration and ETL/ELT processes managed and monitored?</div>
+      <div class="question-number">Q6</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q6" value="1">
+          <span class="radio-custom"></span>
+          <span class="option-text">Mostly manual data transfers (copy-paste, CSV exports) with no automation</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q6" value="2">
+          <span class="radio-custom"></span>
+          <span class="option-text">Some scripted or scheduled jobs exist but are fragile, undocumented, and person-dependent</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q6" value="3">
+          <span class="radio-custom"></span>
+          <span class="option-text">ETL/ELT tools are in place for key pipelines with basic scheduling and error handling</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q6" value="4">
+          <span class="radio-custom"></span>
+          <span class="option-text">Robust pipeline orchestration with monitoring, alerting, and version-controlled transformations</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q6" value="5">
+          <span class="radio-custom"></span>
+          <span class="option-text">Fully automated, event-driven pipelines with CI/CD, data contracts, and self-healing capabilities</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="nav-btn nav-btn-back" onclick="prevSection(2)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        Back
+      </button>
+      <button class="nav-btn nav-btn-next" onclick="nextSection(2)">
+        Continue
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════ SECTION 3: REPORTING & ANALYTICS ═══════ -->
+  <div class="assessment-section" data-section="3">
+    <div class="section-header">
+      <div class="section-number">Section 03</div>
+      <h2 class="section-title">Reporting & Analytics Capability</h2>
+      <p class="section-desc">How mature are your reporting tools, practices, and analytical capabilities?</p>
+    </div>
+
+    <div class="question-card" data-question="q7">
+      <div class="question-label">What best describes the current state of your business reporting?</div>
+      <div class="question-number">Q7</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q7" value="1">
+          <span class="radio-custom"></span>
+          <span class="option-text">Reports are manually created in spreadsheets on an ad-hoc basis</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q7" value="2">
+          <span class="radio-custom"></span>
+          <span class="option-text">Some standardised reports exist but are largely static and require manual refresh</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q7" value="3">
+          <span class="radio-custom"></span>
+          <span class="option-text">BI tools (Power BI, SAC, Tableau) are deployed with automated dashboards for key functions</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q7" value="4">
+          <span class="radio-custom"></span>
+          <span class="option-text">Self-service analytics is available with governed semantic layers and embedded analytics</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q7" value="5">
+          <span class="radio-custom"></span>
+          <span class="option-text">AI-augmented analytics with natural language querying, automated insights, and predictive dashboards</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="q8">
+      <div class="question-label">How consistently are KPIs and metrics defined and used across the organisation?</div>
+      <div class="question-number">Q8</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q8" value="1">
+          <span class="radio-custom"></span>
+          <span class="option-text">Each team defines their own metrics with no consistency — frequent "number wars"</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q8" value="2">
+          <span class="radio-custom"></span>
+          <span class="option-text">Some common KPIs exist but definitions vary across departments</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q8" value="3">
+          <span class="radio-custom"></span>
+          <span class="option-text">A shared KPI catalogue is maintained with standardised definitions for core metrics</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q8" value="4">
+          <span class="radio-custom"></span>
+          <span class="option-text">Enterprise-wide metric framework with governed semantic layers ensuring consistent calculations</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q8" value="5">
+          <span class="radio-custom"></span>
+          <span class="option-text">Metrics are dynamically managed with automated lineage, impact analysis, and business glossary integration</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="q9">
+      <div class="question-label">To what extent does your organisation leverage advanced analytics (predictive, prescriptive, ML/AI)?</div>
+      <div class="question-number">Q9</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q9" value="1">
+          <span class="radio-custom"></span>
+          <span class="option-text">No advanced analytics — purely backward-looking descriptive reports</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q9" value="2">
+          <span class="radio-custom"></span>
+          <span class="option-text">Some individuals use basic statistical analysis or forecasting in spreadsheets</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q9" value="3">
+          <span class="radio-custom"></span>
+          <span class="option-text">Dedicated analytics teams use statistical tools and basic ML models for key use cases</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q9" value="4">
+          <span class="radio-custom"></span>
+          <span class="option-text">ML models are in production for multiple use cases with proper MLOps practices</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q9" value="5">
+          <span class="radio-custom"></span>
+          <span class="option-text">AI/ML is deeply embedded in decision-making with automated model retraining, explainability, and governance</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="nav-btn nav-btn-back" onclick="prevSection(3)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        Back
+      </button>
+      <button class="nav-btn nav-btn-next" onclick="nextSection(3)">
+        Continue
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════ SECTION 4: DATA LITERACY & CULTURE ═══════ -->
+  <div class="assessment-section" data-section="4">
+    <div class="section-header">
+      <div class="section-number">Section 04</div>
+      <h2 class="section-title">Data Literacy & Culture</h2>
+      <p class="section-desc">How deeply is data-driven decision making embedded in your organisational culture?</p>
+    </div>
+
+    <div class="question-card" data-question="q10">
+      <div class="question-label">How data-literate is your general workforce (non-technical staff)?</div>
+      <div class="question-number">Q10</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q10" value="1">
+          <span class="radio-custom"></span>
+          <span class="option-text">Very low — most staff rely on others to pull and interpret data for them</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q10" value="2">
+          <span class="radio-custom"></span>
+          <span class="option-text">Basic spreadsheet skills exist but limited ability to interpret dashboards or data outputs</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q10" value="3">
+          <span class="radio-custom"></span>
+          <span class="option-text">Most teams can use dashboards and interpret standard reports independently</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q10" value="4">
+          <span class="radio-custom"></span>
+          <span class="option-text">A data literacy programme exists with widespread self-service analytics adoption</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q10" value="5">
+          <span class="radio-custom"></span>
+          <span class="option-text">Data literacy is a core competency — staff at all levels proactively use data to inform decisions</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="q11">
+      <div class="question-label">How strongly does leadership champion and invest in data-driven decision making?</div>
+      <div class="question-number">Q11</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q11" value="1">
+          <span class="radio-custom"></span>
+          <span class="option-text">Leadership decisions are primarily gut-feel; data is rarely referenced</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q11" value="2">
+          <span class="radio-custom"></span>
+          <span class="option-text">Some leaders value data but investment and sponsorship is inconsistent</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q11" value="3">
+          <span class="radio-custom"></span>
+          <span class="option-text">Executive sponsors exist for data initiatives with dedicated budget allocation</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q11" value="4">
+          <span class="radio-custom"></span>
+          <span class="option-text">C-suite actively drives a data-first culture with a Chief Data Officer or equivalent role</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q11" value="5">
+          <span class="radio-custom"></span>
+          <span class="option-text">Data is at the core of strategy — leadership models data-driven behaviours and invests continuously</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="q12">
+      <div class="question-label">How effectively does your organisation share data and insights across departments?</div>
+      <div class="question-number">Q12</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q12" value="1">
+          <span class="radio-custom"></span>
+          <span class="option-text">Data is hoarded within departments with no cross-functional sharing</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q12" value="2">
+          <span class="radio-custom"></span>
+          <span class="option-text">Some sharing occurs informally, often through email or shared drives</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q12" value="3">
+          <span class="radio-custom"></span>
+          <span class="option-text">Shared data platforms exist with cross-functional dashboards and data catalogues</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q12" value="4">
+          <span class="radio-custom"></span>
+          <span class="option-text">Data democratisation is a priority with governed self-service access and data marketplaces</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q12" value="5">
+          <span class="radio-custom"></span>
+          <span class="option-text">Seamless cross-functional data sharing with real-time collaboration and data product thinking</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="nav-btn nav-btn-back" onclick="prevSection(4)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        Back
+      </button>
+      <button class="nav-btn nav-btn-next" onclick="nextSection(4)">
+        Continue
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════ SECTION 5: DATA SECURITY & COMPLIANCE ═══════ -->
+  <div class="assessment-section" data-section="5">
+    <div class="section-header">
+      <div class="section-number">Section 05</div>
+      <h2 class="section-title">Data Security & Compliance</h2>
+      <p class="section-desc">How well does your organisation protect data and meet regulatory requirements?</p>
+    </div>
+
+    <div class="question-card" data-question="q13">
+      <div class="question-label">How mature are your data security and access control practices?</div>
+      <div class="question-number">Q13</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q13" value="1">
+          <span class="radio-custom"></span>
+          <span class="option-text">Minimal access controls — most users can access most data without restrictions</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q13" value="2">
+          <span class="radio-custom"></span>
+          <span class="option-text">Basic password protection and some role-based access, but inconsistently applied</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q13" value="3">
+          <span class="radio-custom"></span>
+          <span class="option-text">Role-based access control (RBAC) is implemented for core systems with regular reviews</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q13" value="4">
+          <span class="radio-custom"></span>
+          <span class="option-text">Comprehensive security framework with encryption, DLP, auditing, and incident response</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q13" value="5">
+          <span class="radio-custom"></span>
+          <span class="option-text">Zero-trust security model with automated threat detection, data classification, and continuous compliance monitoring</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="q14">
+      <div class="question-label">How well does your organisation comply with data privacy regulations (GDPR, Privacy Act, etc.)?</div>
+      <div class="question-number">Q14</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q14" value="1">
+          <span class="radio-custom"></span>
+          <span class="option-text">Limited awareness of regulatory requirements with no formal compliance programme</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q14" value="2">
+          <span class="radio-custom"></span>
+          <span class="option-text">Basic awareness exists but compliance is reactive and incomplete</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q14" value="3">
+          <span class="radio-custom"></span>
+          <span class="option-text">Formal compliance programme with documented policies, training, and periodic audits</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q14" value="4">
+          <span class="radio-custom"></span>
+          <span class="option-text">Proactive compliance with automated data cataloguing, consent management, and breach protocols</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q14" value="5">
+          <span class="radio-custom"></span>
+          <span class="option-text">Industry-leading privacy practices with privacy-by-design, automated compliance reporting, and continuous regulatory monitoring</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="nav-btn nav-btn-back" onclick="prevSection(5)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        Back
+      </button>
+      <button class="nav-btn nav-btn-next" onclick="nextSection(5)">
+        Continue
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════ SECTION 6: AUTOMATION & INNOVATION ═══════ -->
+  <div class="assessment-section" data-section="6">
+    <div class="section-header">
+      <div class="section-number">Section 06</div>
+      <h2 class="section-title">Automation & Innovation</h2>
+      <p class="section-desc">How effectively does your organisation leverage automation, AI, and emerging technologies?</p>
+    </div>
+
+    <div class="question-card" data-question="q15">
+      <div class="question-label">To what extent has your organisation automated data collection, processing, and reporting workflows?</div>
+      <div class="question-number">Q15</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q15" value="1">
+          <span class="radio-custom"></span>
+          <span class="option-text">Almost entirely manual — heavy reliance on spreadsheets and manual data entry</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q15" value="2">
+          <span class="radio-custom"></span>
+          <span class="option-text">Some macros or scripts automate individual tasks, but most processes remain manual</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q15" value="3">
+          <span class="radio-custom"></span>
+          <span class="option-text">Key reporting and data processing workflows are automated using BI tools or RPA</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q15" value="4">
+          <span class="radio-custom"></span>
+          <span class="option-text">Comprehensive automation strategy with orchestrated workflows across multiple systems</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q15" value="5">
+          <span class="radio-custom"></span>
+          <span class="option-text">Intelligent automation with AI-powered workflows, hyperautomation, and continuous optimisation</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="q16">
+      <div class="question-label">How actively is your organisation exploring or adopting AI/GenAI for data and reporting use cases?</div>
+      <div class="question-number">Q16</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q16" value="1">
+          <span class="radio-custom"></span>
+          <span class="option-text">No AI initiatives — not currently on the roadmap</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q16" value="2">
+          <span class="radio-custom"></span>
+          <span class="option-text">Awareness exists but no formal pilots or investment in AI for data/analytics</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q16" value="3">
+          <span class="radio-custom"></span>
+          <span class="option-text">Pilot projects are underway or planned for specific AI/GenAI use cases</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q16" value="4">
+          <span class="radio-custom"></span>
+          <span class="option-text">AI is in production for multiple data/reporting use cases with governance frameworks</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q16" value="5">
+          <span class="radio-custom"></span>
+          <span class="option-text">AI-first organisation with GenAI deeply integrated into analytics, reporting, and decision-making</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="nav-btn nav-btn-back" onclick="prevSection(6)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        Back
+      </button>
+      <button class="nav-btn nav-btn-next" onclick="nextSection(6)">
+        Continue
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════ SECTION 7: VALUE & ROI ═══════ -->
+  <div class="assessment-section" data-section="7">
+    <div class="section-header">
+      <div class="section-number">Section 07</div>
+      <h2 class="section-title">Business Value & ROI</h2>
+      <p class="section-desc">How effectively does your organisation measure and realise value from data investments?</p>
+    </div>
+
+    <div class="question-card" data-question="q17">
+      <div class="question-label">How well can your organisation quantify the business value and ROI of data initiatives?</div>
+      <div class="question-number">Q17</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q17" value="1">
+          <span class="radio-custom"></span>
+          <span class="option-text">No measurement — data is seen as a cost centre with no tracked value</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q17" value="2">
+          <span class="radio-custom"></span>
+          <span class="option-text">Anecdotal value is recognised but no formal measurement framework exists</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q17" value="3">
+          <span class="radio-custom"></span>
+          <span class="option-text">Business cases include ROI estimates; some post-implementation value tracking occurs</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q17" value="4">
+          <span class="radio-custom"></span>
+          <span class="option-text">Systematic value measurement with defined KPIs tracking efficiency gains, revenue impact, and cost savings</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q17" value="5">
+          <span class="radio-custom"></span>
+          <span class="option-text">Data is treated as a strategic asset on the balance sheet with continuous value optimisation and data monetisation</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="q18">
+      <div class="question-label">How quickly can your organisation turn data insights into actionable business decisions?</div>
+      <div class="question-number">Q18</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q18" value="1">
+          <span class="radio-custom"></span>
+          <span class="option-text">Very slow — weeks or months to get answers; decisions are made without waiting for data</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q18" value="2">
+          <span class="radio-custom"></span>
+          <span class="option-text">Days to produce insights; often too late to influence the decision at hand</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q18" value="3">
+          <span class="radio-custom"></span>
+          <span class="option-text">Standard reports are available daily; ad-hoc analysis takes hours to days</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q18" value="4">
+          <span class="radio-custom"></span>
+          <span class="option-text">Near real-time dashboards with self-service; decisions are data-informed within hours</span>
+        </label>
+        <label class="option-item" onclick="selectOption(this)">
+          <input type="radio" name="q18" value="5">
+          <span class="radio-custom"></span>
+          <span class="option-text">Real-time insights drive automated actions and decisions; continuous optimisation loops are in place</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- ═══════ EMAIL CAPTURE ═══════ -->
+    <div class="email-section">
+      <h3>Get Your Personalised Report</h3>
+      <p>Enter your details below to receive your full maturity assessment with tailored recommendations for your organisation.</p>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" class="form-input" id="firstName" placeholder="Your first name">
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" class="form-input" id="lastName" placeholder="Your last name">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Business Email *</label>
+          <input type="email" class="form-input" id="userEmail" placeholder="you@company.com" required>
+        </div>
+        <div class="form-group">
+          <label>Company</label>
+          <input type="text" class="form-input" id="companyName" placeholder="Your company name">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Job Title</label>
+          <input type="text" class="form-input" id="jobTitle" placeholder="Your role">
+        </div>
+        <div class="form-group">
+          <label>Company Size</label>
+          <select class="form-select" id="companySize">
+            <option value="">Select size</option>
+            <option value="1-50">1–50 employees</option>
+            <option value="51-200">51–200 employees</option>
+            <option value="201-1000">201–1,000 employees</option>
+            <option value="1001-5000">1,001–5,000 employees</option>
+            <option value="5001+">5,001+ employees</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group full-width">
+          <label>Industry</label>
+          <select class="form-select" id="industry">
+            <option value="">Select industry</option>
+            <option value="Financial Services">Financial Services</option>
+            <option value="Healthcare">Healthcare & Life Sciences</option>
+            <option value="Manufacturing">Manufacturing</option>
+            <option value="Retail">Retail & Consumer Goods</option>
+            <option value="Technology">Technology</option>
+            <option value="Energy">Energy & Utilities</option>
+            <option value="Government">Government & Public Sector</option>
+            <option value="Professional Services">Professional Services</option>
+            <option value="Telecommunications">Telecommunications</option>
+            <option value="Education">Education</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="validation-msg" id="validationMsg">Please answer all questions and provide a valid email to receive your results.</div>
+
+      <button class="submit-btn" id="submitBtn" onclick="submitAssessment()">
+        <span id="submitText">View My Results</span>
+        <div class="spinner" id="submitSpinner"></div>
+        <svg id="submitArrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="nav-btn nav-btn-back" onclick="prevSection(7)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        Back
+      </button>
+      <div></div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ═══════ RESULTS VIEW ═══════ -->
+<div id="resultsSection">
+  <div class="results-hero">
+    <h2>Your Data Maturity Assessment</h2>
+    <p id="resultsSubtitle">Here's where your organisation stands today</p>
+  </div>
+
+  <div class="score-overview">
+    <div class="score-card">
+      <div class="score-ring-wrap">
+        <div class="score-ring">
+          <svg viewBox="0 0 160 160">
+            <circle class="score-ring-bg" cx="80" cy="80" r="72"/>
+            <circle class="score-ring-fill" id="scoreRingFill" cx="80" cy="80" r="72"/>
+          </svg>
+          <div class="score-ring-text">
+            <div class="score-value" id="scoreValue">0</div>
+            <div class="score-max">/ 90</div>
+          </div>
+        </div>
+        <span class="maturity-label" id="maturityLabel"></span>
+      </div>
+      <div class="score-details">
+        <h3 id="maturityTitle"></h3>
+        <p id="maturityDescription"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="dimensions-section">
+    <h3 class="dimensions-title">Dimension Breakdown</h3>
+    <p class="dimensions-subtitle">Performance across the seven key dimensions of data and reporting maturity</p>
+    <div id="dimensionCards"></div>
+  </div>
+
+  <div class="recommendations-section">
+    <h3 class="rec-title">Personalised Recommendations</h3>
+    <p class="rec-subtitle">Prioritised next steps to accelerate your data maturity journey</p>
+    <div id="recommendationCards"></div>
+  </div>
+
+  <div class="cta-section">
+    <div class="cta-card">
+      <h3>Ready to Accelerate Your Data Maturity?</h3>
+      <p>Our consultants specialise in helping organisations like yours bridge the gap between where you are and where you need to be. Book a complimentary strategy session with our team.</p>
+      <a href="https://www.liquidpeak.com.au/contact-us/" class="cta-btn" target="_blank">
+        Book a Free Consultation
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ SUCCESS TOAST ═══════ -->
+<div class="success-toast" id="successToast">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+  Your results have been sent to Liquid Peak
+</div>
+
+<script>
+// ═══════ ASSESSMENT DATA MODEL ═══════
+const TOTAL_QUESTIONS = 18;
+const TOTAL_SECTIONS = 7;
+
+const dimensionConfig = [
+  { name: 'Data Governance & Strategy', questions: ['q1','q2','q3'], icon: '🏛️' },
+  { name: 'Data Architecture & Infrastructure', questions: ['q4','q5','q6'], icon: '🔧' },
+  { name: 'Reporting & Analytics', questions: ['q7','q8','q9'], icon: '📊' },
+  { name: 'Data Literacy & Culture', questions: ['q10','q11','q12'], icon: '🎓' },
+  { name: 'Data Security & Compliance', questions: ['q13','q14'], icon: '🔒' },
+  { name: 'Automation & Innovation', questions: ['q15','q16'], icon: '⚡' },
+  { name: 'Business Value & ROI', questions: ['q17','q18'], icon: '💰' }
+];
+
+const maturityLevels = [
+  { min: 0,  max: 18, level: 1, name: 'Initial',    label: 'Level 1 — Initial',    color: '#c0392b',
+    title: 'Initial Stage: Reactive & Ad-Hoc',
+    desc: 'Your organisation is at the earliest stage of data maturity. Data practices are largely informal, reactive, and person-dependent. This is a common starting point — and recognising it is the first step toward transformation. With the right strategy and investment, you can build a strong foundation that delivers rapid returns.' },
+  { min: 19, max: 36, level: 2, name: 'Developing',  label: 'Level 2 — Developing',  color: '#e67e22',
+    title: 'Developing Stage: Building Foundations',
+    desc: 'Your organisation has started the data maturity journey with some foundational practices in place. However, significant gaps remain in consistency, governance, and tooling. Focusing on standardisation and formalising ownership will be critical to moving to the next stage. There are quick wins available that can demonstrate immediate value.' },
+  { min: 37, max: 54, level: 3, name: 'Defined',     label: 'Level 3 — Defined',     color: '#f39c12',
+    title: 'Defined Stage: Standardised & Structured',
+    desc: 'Your organisation has established structured data practices with formal processes and tooling in place. You are well positioned to drive greater value by optimising what you have and investing in advanced capabilities. The focus should shift from building to scaling and embedding data practices deeper into business operations.' },
+  { min: 55, max: 72, level: 4, name: 'Managed',     label: 'Level 4 — Managed',     color: '#27ae60',
+    title: 'Managed Stage: Optimised & Data-Driven',
+    desc: 'Your organisation demonstrates strong data maturity with well-governed, automated practices driving real business outcomes. You are ahead of most organisations. To reach the highest level, focus on advanced analytics, AI integration, and continuous innovation. The opportunity is to differentiate competitively through data excellence.' },
+  { min: 73, max: 90, level: 5, name: 'Optimising',  label: 'Level 5 — Optimising',  color: '#0f8b7a',
+    title: 'Optimising Stage: Industry-Leading',
+    desc: 'Exceptional. Your organisation is at the forefront of data maturity, leveraging data as a true strategic asset. Your practices are enterprise-wide, automated, and continuously evolving. Maintaining this position requires ongoing investment in innovation, talent, and emerging technologies. Consider how you can monetise or productise your data capabilities.' }
+];
+
+// ═══════ SECTION NAVIGATION ═══════
+function selectOption(el) {
+  const card = el.closest('.question-card');
+  card.querySelectorAll('.option-item').forEach(item => item.classList.remove('selected'));
+  el.classList.add('selected');
+  el.querySelector('input').checked = true;
+  card.classList.add('answered');
+  updateProgress();
+}
+
+function getSectionQuestions(sectionNum) {
+  const section = document.querySelector(`.assessment-section[data-section="${sectionNum}"]`);
+  return section ? section.querySelectorAll('.question-card') : [];
+}
+
+function isSectionComplete(sectionNum) {
+  const questions = getSectionQuestions(sectionNum);
+  for (const q of questions) {
+    const name = q.dataset.question;
+    if (!document.querySelector(`input[name="${name}"]:checked`)) return false;
+  }
+  return true;
+}
+
+function nextSection(currentSection) {
+  if (!isSectionComplete(currentSection)) {
+    // Highlight unanswered
+    const questions = getSectionQuestions(currentSection);
+    questions.forEach(q => {
+      const name = q.dataset.question;
+      if (!document.querySelector(`input[name="${name}"]:checked`)) {
+        q.style.borderColor = 'rgba(231, 76, 60, 0.4)';
+        q.style.background = 'rgba(231, 76, 60, 0.02)';
+        setTimeout(() => {
+          q.style.borderColor = '';
+          q.style.background = '';
+        }, 2000);
+      }
+    });
+    return;
+  }
+  showSection(currentSection + 1);
+}
+
+function prevSection(currentSection) {
+  showSection(currentSection - 1);
+}
+
+function showSection(sectionNum) {
+  document.querySelectorAll('.assessment-section').forEach(s => s.classList.remove('active'));
+  const target = document.querySelector(`.assessment-section[data-section="${sectionNum}"]`);
+  if (target) {
+    target.classList.add('active');
+    window.scrollTo({ top: document.querySelector('.progress-container').offsetTop, behavior: 'smooth' });
+    updateProgress();
+  }
+}
+
+function updateProgress() {
+  let answered = 0;
+  for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
+    if (document.querySelector(`input[name="q${i}"]:checked`)) answered++;
+  }
+  const pct = (answered / TOTAL_QUESTIONS) * 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+  
+  const activeSection = document.querySelector('.assessment-section.active');
+  const sectionNum = activeSection ? activeSection.dataset.section : 1;
+  document.getElementById('progressText').textContent = `Section ${sectionNum} of ${TOTAL_SECTIONS}`;
+}
+
+// ═══════ SUBMIT ═══════
+function submitAssessment() {
+  const email = document.getElementById('userEmail').value.trim();
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  // Check all questions answered
+  let allAnswered = true;
+  for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
+    if (!document.querySelector(`input[name="q${i}"]:checked`)) {
+      allAnswered = false;
+      break;
+    }
+  }
+
+  if (!allAnswered || !emailRegex.test(email)) {
+    document.getElementById('validationMsg').style.display = 'block';
+    if (!emailRegex.test(email)) {
+      document.getElementById('userEmail').classList.add('error');
+    }
+    return;
+  }
+
+  document.getElementById('validationMsg').style.display = 'none';
+  document.getElementById('userEmail').classList.remove('error');
+
+  // Show spinner
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  document.getElementById('submitText').textContent = 'Generating Report...';
+  document.getElementById('submitSpinner').style.display = 'block';
+  document.getElementById('submitArrow').style.display = 'none';
+
+  // Calculate scores
+  const scores = calculateScores();
+  const results = generateResults(scores);
+
+  // Send email notification (simulated — replace with actual endpoint)
+  sendNotificationEmail(scores, results);
+
+  // Show results after brief delay
+  setTimeout(() => {
+    renderResults(scores, results);
+    document.getElementById('assessmentView').style.display = 'none';
+    document.getElementById('resultsSection').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Show toast
+    setTimeout(() => {
+      document.getElementById('successToast').classList.add('show');
+      setTimeout(() => document.getElementById('successToast').classList.remove('show'), 4000);
+    }, 1000);
+  }, 1500);
+}
+
+// ═══════ SCORE CALCULATION ═══════
+function calculateScores() {
+  const answers = {};
+  for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
+    const checked = document.querySelector(`input[name="q${i}"]:checked`);
+    answers[`q${i}`] = checked ? parseInt(checked.value) : 0;
+  }
+
+  const dimensions = dimensionConfig.map(dim => {
+    const dimScores = dim.questions.map(q => answers[q]);
+    const total = dimScores.reduce((a, b) => a + b, 0);
+    const max = dim.questions.length * 5;
+    const pct = Math.round((total / max) * 100);
+    return { ...dim, total, max, pct, scores: dimScores };
+  });
+
+  const totalScore = dimensions.reduce((a, d) => a + d.total, 0);
+  const maturity = maturityLevels.find(l => totalScore >= l.min && totalScore <= l.max) || maturityLevels[0];
+
+  return { answers, dimensions, totalScore, maturity };
+}
+
+// ═══════ GENERATE RECOMMENDATIONS ═══════
+function generateResults(scores) {
+  const recs = [];
+  const dims = scores.dimensions;
+
+  // Sort dimensions by score (lowest first) for prioritisation
+  const sorted = [...dims].sort((a, b) => a.pct - b.pct);
+
+  sorted.forEach((dim, idx) => {
+    const priority = dim.pct < 40 ? 'high' : dim.pct < 65 ? 'medium' : 'low';
+    const recsByDim = getRecommendations(dim.name, dim.pct, dim.scores);
+    recsByDim.forEach(r => recs.push({ ...r, priority, dimension: dim.name }));
+  });
+
+  return recs;
+}
+
+function getRecommendations(dimName, pct, scores) {
+  const recs = [];
+
+  if (dimName === 'Data Governance & Strategy') {
+    if (pct < 40) {
+      recs.push({ title: 'Establish a Data Governance Framework', desc: 'Begin by appointing data owners for your most critical data domains (customer, financial, product). Document a simple data strategy that links data initiatives to your top 3 business priorities. Start with a data governance council that meets monthly to drive accountability.' });
+      recs.push({ title: 'Implement Basic Data Quality Controls', desc: 'Identify your top 5 most business-critical datasets and implement validation rules. Set up basic data profiling to understand current quality levels and create a data quality scorecard that is reviewed weekly.' });
+    } else if (pct < 65) {
+      recs.push({ title: 'Formalise Your Data Strategy', desc: 'Evolve your informal strategy into a comprehensive document aligned to business objectives with measurable outcomes. Ensure the strategy has executive sponsorship and is communicated across all business units with clear roadmaps.' });
+    } else {
+      recs.push({ title: 'Scale Governance with Automation', desc: 'Invest in automated policy enforcement and data cataloguing tools. Implement data lineage tracking and impact analysis to support regulatory compliance and change management at enterprise scale.' });
+    }
+  }
+
+  if (dimName === 'Data Architecture & Infrastructure') {
+    if (pct < 40) {
+      recs.push({ title: 'Consolidate Your Data Landscape', desc: 'Conduct a data architecture assessment to map all data sources, flows, and systems. Prioritise eliminating key data silos by implementing a centralised data repository (cloud data warehouse or data lake) for your most critical data assets.' });
+      recs.push({ title: 'Automate Core Data Pipelines', desc: 'Replace manual data transfers with automated ETL/ELT pipelines for your highest-volume and most business-critical data flows. Start with cloud-based integration tools that require minimal infrastructure management.' });
+    } else if (pct < 65) {
+      recs.push({ title: 'Modernise to Cloud Data Platform', desc: 'Migrate your data infrastructure to a modern cloud platform (Azure, AWS, or GCP) to gain scalability, cost efficiency, and access to advanced analytics services. Implement proper data modelling and a semantic layer.' });
+    } else {
+      recs.push({ title: 'Evolve Toward Data Mesh', desc: 'Consider adopting data mesh principles with domain-oriented data ownership and self-serve data infrastructure. Implement data contracts between producers and consumers to ensure quality and reliability at scale.' });
+    }
+  }
+
+  if (dimName === 'Reporting & Analytics') {
+    if (pct < 40) {
+      recs.push({ title: 'Deploy a Modern BI Platform', desc: 'Implement an enterprise BI tool (Power BI, SAP Analytics Cloud, or Tableau) with automated data refresh. Start by migrating your top 10 most-used manual reports into interactive dashboards with consistent KPI definitions.' });
+      recs.push({ title: 'Standardise KPI Definitions', desc: 'Create a central KPI catalogue with agreed definitions, calculation methods, and data sources for all key business metrics. This eliminates "number wars" and builds trust in your reporting across the organisation.' });
+    } else if (pct < 65) {
+      recs.push({ title: 'Enable Self-Service Analytics', desc: 'Empower business users with governed self-service analytics capabilities. Implement a semantic layer with business-friendly naming and certified datasets that users can explore independently while maintaining data integrity.' });
+    } else {
+      recs.push({ title: 'Invest in Advanced & Predictive Analytics', desc: 'Move beyond descriptive reporting into predictive and prescriptive analytics. Pilot use cases like demand forecasting, customer churn prediction, or automated anomaly detection to demonstrate the power of AI-augmented analytics.' });
+    }
+  }
+
+  if (dimName === 'Data Literacy & Culture') {
+    if (pct < 40) {
+      recs.push({ title: 'Launch a Data Literacy Programme', desc: 'Invest in training at all levels of the organisation. Start with leadership workshops to build executive buy-in, then roll out role-based training covering dashboard interpretation, data storytelling, and critical thinking with data.' });
+      recs.push({ title: 'Build a Data Champions Network', desc: 'Identify and empower data-savvy individuals in each department as "Data Champions" who can support their colleagues, share best practices, and bridge the gap between technical teams and business users.' });
+    } else if (pct < 65) {
+      recs.push({ title: 'Drive Data-Driven Decision Making', desc: 'Embed data into decision-making processes by requiring data-backed business cases for key decisions. Create regular data sharing forums and establish communities of practice where teams showcase how they use data to drive outcomes.' });
+    } else {
+      recs.push({ title: 'Create a Centre of Excellence', desc: 'Establish a Data & Analytics Centre of Excellence to standardise best practices, drive innovation, and provide consultative support across the enterprise. Focus on scaling advanced skills like data science, ML engineering, and DataOps.' });
+    }
+  }
+
+  if (dimName === 'Data Security & Compliance') {
+    if (pct < 40) {
+      recs.push({ title: 'Implement Role-Based Access Controls', desc: 'Conduct an urgent data access audit and implement role-based access control (RBAC) across all data systems. Classify your data by sensitivity level and ensure appropriate encryption is applied for sensitive and personal data.' });
+      recs.push({ title: 'Establish a Compliance Programme', desc: 'Map your regulatory obligations (Privacy Act, GDPR, industry-specific regulations) and implement formal policies, training, and audit procedures. Appoint a data protection officer or equivalent role.' });
+    } else if (pct < 65) {
+      recs.push({ title: 'Automate Compliance Monitoring', desc: 'Invest in tools that automate data discovery, classification, and compliance reporting. Implement data loss prevention (DLP) measures and regular penetration testing to proactively identify vulnerabilities.' });
+    } else {
+      recs.push({ title: 'Advance to Zero-Trust Security', desc: 'Evolve toward a zero-trust data security model with continuous verification, micro-segmentation, and AI-powered threat detection. Implement comprehensive data lineage and audit trails for full regulatory transparency.' });
+    }
+  }
+
+  if (dimName === 'Automation & Innovation') {
+    if (pct < 40) {
+      recs.push({ title: 'Automate Your Most Manual Workflows', desc: 'Identify the top 10 most time-consuming manual data tasks and implement automation using RPA or low-code tools. Focus on data collection, report generation, and data reconciliation processes that consume the most FTE hours.' });
+      recs.push({ title: 'Develop an AI Readiness Roadmap', desc: 'Assess your organisation\'s readiness for AI adoption across people, process, data, and technology dimensions. Identify 2-3 high-value, low-complexity AI pilot use cases that can demonstrate quick wins and build momentum.' });
+    } else if (pct < 65) {
+      recs.push({ title: 'Scale Intelligent Automation', desc: 'Expand your automation footprint from individual tasks to end-to-end business processes. Implement workflow orchestration tools and begin integrating AI/ML into your automation pipelines for intelligent decision-making.' });
+    } else {
+      recs.push({ title: 'Pursue Hyperautomation & GenAI Integration', desc: 'Combine RPA, AI/ML, process mining, and low-code platforms into a hyperautomation strategy. Explore GenAI use cases for automated reporting narratives, intelligent data quality, and conversational analytics interfaces.' });
+    }
+  }
+
+  if (dimName === 'Business Value & ROI') {
+    if (pct < 40) {
+      recs.push({ title: 'Build a Value Measurement Framework', desc: 'Establish a framework to track the business impact of data initiatives. Define metrics for efficiency gains (time saved, FTEs freed), quality improvements (error reduction), and revenue impact. Report these metrics monthly to leadership.' });
+    } else if (pct < 65) {
+      recs.push({ title: 'Accelerate Insight-to-Action Cycles', desc: 'Reduce the time from data insight to business action by implementing real-time dashboards, automated alerting, and decision support tools. Map the critical decision workflows and optimise data delivery for each.' });
+    } else {
+      recs.push({ title: 'Explore Data Monetisation', desc: 'Investigate opportunities to monetise your data assets — either through data products, analytics-as-a-service, or by using data to create entirely new revenue streams. Develop a data valuation model for your most strategic datasets.' });
+    }
+  }
+
+  return recs;
+}
+
+// ═══════ RENDER RESULTS ═══════
+function renderResults(scores, recommendations) {
+  const { totalScore, maturity, dimensions } = scores;
+
+  // Score ring
+  const pct = totalScore / 90;
+  const circumference = 2 * Math.PI * 72;
+  const offset = circumference * (1 - pct);
+  setTimeout(() => {
+    document.getElementById('scoreRingFill').style.strokeDashoffset = offset;
+    document.getElementById('scoreRingFill').style.stroke = maturity.color;
+  }, 300);
+
+  // Animate score counter
+  let current = 0;
+  const interval = setInterval(() => {
+    current++;
+    document.getElementById('scoreValue').textContent = current;
+    if (current >= totalScore) clearInterval(interval);
+  }, 30);
+
+  // Maturity label
+  const label = document.getElementById('maturityLabel');
+  label.textContent = maturity.label;
+  label.className = `maturity-label maturity-level-${maturity.level}`;
+
+  document.getElementById('maturityTitle').textContent = maturity.title;
+  document.getElementById('maturityDescription').textContent = maturity.desc;
+
+  // Subtitle
+  const firstName = document.getElementById('firstName').value.trim();
+  const company = document.getElementById('companyName').value.trim();
+  if (firstName && company) {
+    document.getElementById('resultsSubtitle').textContent = `${firstName}, here's where ${company} stands today`;
+  } else if (firstName) {
+    document.getElementById('resultsSubtitle').textContent = `${firstName}, here's where your organisation stands today`;
+  }
+
+  // Dimension cards
+  const dimContainer = document.getElementById('dimensionCards');
+  dimContainer.innerHTML = '';
+  dimensions.forEach((dim, idx) => {
+    const barColor = dim.pct >= 70 ? 'var(--lp-teal)' : dim.pct >= 45 ? '#f39c12' : '#e74c3c';
+    const insight = dim.pct >= 70 ? 'Strong performance — focus on sustaining and innovating' :
+                    dim.pct >= 45 ? 'Solid foundation with clear room for growth' :
+                    'Significant opportunity for improvement — prioritise this area';
+    const card = document.createElement('div');
+    card.className = 'dimension-card';
+    card.innerHTML = `
+      <div class="dimension-header">
+        <span class="dimension-name">${dim.icon} ${dim.name}</span>
+        <span class="dimension-score">${dim.total}/${dim.max}</span>
+      </div>
+      <div class="dimension-bar-wrap">
+        <div class="dimension-bar-fill" style="background: ${barColor};" data-width="${dim.pct}"></div>
+      </div>
+      <div class="dimension-insight">${insight}</div>
+    `;
+    dimContainer.appendChild(card);
+  });
+
+  // Animate bars
+  setTimeout(() => {
+    document.querySelectorAll('.dimension-bar-fill').forEach(bar => {
+      bar.style.width = bar.dataset.width + '%';
+    });
+  }, 500);
+
+  // Recommendations
+  const recContainer = document.getElementById('recommendationCards');
+  recContainer.innerHTML = '';
+  recommendations.slice(0, 8).forEach(rec => {
+    const card = document.createElement('div');
+    card.className = `rec-card rec-priority-${rec.priority}`;
+    card.innerHTML = `
+      <span class="rec-priority-tag">${rec.priority} priority</span>
+      <h4>${rec.title}</h4>
+      <p>${rec.desc}</p>
+    `;
+    recContainer.appendChild(card);
+  });
+}
+
+// ═══════ EMAIL NOTIFICATION ═══════
+function sendNotificationEmail(scores, recommendations) {
+  const formData = {
+    firstName: document.getElementById('firstName').value.trim(),
+    lastName: document.getElementById('lastName').value.trim(),
+    email: document.getElementById('userEmail').value.trim(),
+    company: document.getElementById('companyName').value.trim(),
+    jobTitle: document.getElementById('jobTitle').value.trim(),
+    companySize: document.getElementById('companySize').value,
+    industry: document.getElementById('industry').value,
+    totalScore: scores.totalScore,
+    maturityLevel: scores.maturity.name,
+    maturityTitle: scores.maturity.title,
+    dimensions: scores.dimensions.map(d => ({
+      name: d.name,
+      score: d.total,
+      max: d.max,
+      percentage: d.pct
+    })),
+    topRecommendations: recommendations.slice(0, 5).map(r => ({
+      title: r.title,
+      priority: r.priority,
+      dimension: r.dimension
+    })),
+    submittedAt: new Date().toISOString()
+  };
+
+  /*
+   * ═══════════════════════════════════════════════════════════════
+   * EMAIL INTEGRATION — Replace with your preferred method:
+   * 
+   * OPTION 1: WordPress REST API (if using Contact Form 7 or WPForms)
+   * fetch('/wp-json/contact-form-7/v1/contact-forms/YOUR_FORM_ID/feedback', {
+   *   method: 'POST',
+   *   body: formDataObj
+   * });
+   * 
+   * OPTION 2: EmailJS (free tier — no backend required)
+   * emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', formData);
+   * 
+   * OPTION 3: Custom PHP endpoint
+   * fetch('/wp-content/themes/your-theme/send-assessment.php', {
+   *   method: 'POST',
+   *   headers: { 'Content-Type': 'application/json' },
+   *   body: JSON.stringify(formData)
+   * });
+   * 
+   * OPTION 4: Zapier/Make webhook
+   * fetch('https://hooks.zapier.com/hooks/catch/YOUR_HOOK/', {
+   *   method: 'POST',
+   *   body: JSON.stringify(formData)
+   * });
+   * ═══════════════════════════════════════════════════════════════
+   */
+
+  // Log to console for development/testing
+  console.log('📧 Assessment Submission Data:', JSON.stringify(formData, null, 2));
+
+  // Uncomment one of the options above and configure with your credentials
+  // For now, the data is captured and logged
+}
+
+// Init
+updateProgress();
+</script>
+</body>
+</html>
