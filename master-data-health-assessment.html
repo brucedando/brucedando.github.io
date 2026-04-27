@@ -1,0 +1,1494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Master Data Health Assessment | Bruce Dando</title>
+<meta name="description" content="Free interactive assessment to benchmark your organisation's master data health across Customer, Vendor, Material, Financial, HR, Asset, and BOM domains — with SAP-aware scoring and recommendations.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◈</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bd-dark: #1a1a1d;
+  --bd-navy: #1e4264;
+  --bd-charcoal: #3a3a40;
+  --bd-text: #1a1a1d;
+  --bd-text-light: #6e6e78;
+  --bd-muted: #a0a0aa;
+  --bd-accent: #2c5f8a;
+  --bd-accent-light: rgba(44, 95, 138, 0.12);
+  --bd-accent-soft: #edf3f8;
+  --bd-accent-bg: rgba(237, 243, 248, 0.4);
+  --bd-mint: rgba(237, 243, 248, 0.6);
+  --bd-bg: #faf9f7;
+  --bd-white: #ffffff;
+  --bd-border: #e4e3dc;
+  --bd-green: #2d7a5e;
+  --bd-warm: #8a5c2c;
+  --bd-radius: 12px;
+  --bd-radius-lg: 20px;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-heading: 'Inter', -apple-system, sans-serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --shadow-soft: 0 4px 24px rgba(26, 26, 29, 0.06);
+  --shadow-card: 0 8px 40px rgba(26, 26, 29, 0.08);
+  --shadow-hover: 0 12px 48px rgba(26, 26, 29, 0.12);
+  --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  --nav-h: 60px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  color: var(--bd-text);
+  background: var(--bd-bg);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ─── SITE NAV ─── */
+.site-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--nav-h);
+  background: rgba(250,249,247,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--bd-border);
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+}
+.site-nav-inner {
+  max-width: 1060px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.site-nav-logo {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--bd-text);
+  text-decoration: none;
+  letter-spacing: -0.01em;
+}
+.site-nav-logo span { color: var(--bd-accent); }
+.site-nav-back {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--bd-text-light);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.15s;
+}
+.site-nav-back:hover { color: var(--bd-text); }
+.site-nav-back svg { width: 16px; height: 16px; }
+
+/* ─── HERO ─── */
+.hero {
+  background: linear-gradient(135deg, var(--bd-dark) 0%, var(--bd-navy) 50%, #1a3a5c 100%);
+  padding: calc(var(--nav-h) + 60px) 24px 80px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(44,95,138,0.15) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  left: -10%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(44,95,138,0.1) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.hero-badge {
+  display: inline-block;
+  background: rgba(44, 95, 138, 0.2);
+  border: 1px solid rgba(44, 95, 138, 0.35);
+  color: #8fb8d9;
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  padding: 8px 20px;
+  border-radius: 50px;
+  margin-bottom: 28px;
+  position: relative;
+  z-index: 1;
+}
+.hero h1 {
+  font-family: var(--font-display);
+  color: #fff;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 400;
+  line-height: 1.2;
+  max-width: 720px;
+  margin: 0 auto 20px;
+  position: relative;
+  z-index: 1;
+}
+.hero p {
+  color: rgba(255,255,255,0.7);
+  font-size: 17px;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.7;
+  position: relative;
+  z-index: 1;
+}
+.hero-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #8fb8d9;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 24px;
+  position: relative;
+  z-index: 1;
+}
+.hero-time svg { width: 16px; height: 16px; }
+
+/* ─── PROGRESS BAR ─── */
+.progress-container {
+  background: rgba(255,255,255,0.95);
+  border-bottom: 1px solid var(--bd-border);
+  padding: 0 24px;
+  position: sticky;
+  top: var(--nav-h);
+  z-index: 100;
+  backdrop-filter: blur(12px);
+}
+.progress-inner {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 16px 0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.progress-bar-wrap {
+  flex: 1;
+  height: 6px;
+  background: var(--bd-accent-soft);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--bd-accent), var(--bd-dark));
+  border-radius: 10px;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 0%;
+}
+.progress-text {
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--bd-text-light);
+  white-space: nowrap;
+  min-width: 90px;
+  text-align: right;
+}
+
+/* ─── MAIN CONTAINER ─── */
+.assessment-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 48px 24px 120px;
+}
+
+/* ─── SECTION HEADERS ─── */
+.section-header { margin-bottom: 36px; padding-bottom: 24px; border-bottom: 1px solid rgba(228,227,220,0.6); }
+.section-number {
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--bd-accent);
+  margin-bottom: 8px;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  color: var(--bd-dark);
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+.section-desc { color: var(--bd-text-light); font-size: 15px; line-height: 1.6; }
+
+/* ─── QUESTION CARDS ─── */
+.question-card {
+  background: var(--bd-white);
+  border: 1px solid var(--bd-border);
+  border-radius: var(--bd-radius);
+  padding: 32px;
+  margin-bottom: 20px;
+  transition: var(--transition);
+  position: relative;
+}
+.question-card:hover { border-color: rgba(44,95,138,0.35); box-shadow: var(--shadow-soft); }
+.question-card.answered { border-left: 3px solid var(--bd-accent); }
+.question-label {
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--bd-dark);
+  margin-bottom: 20px;
+  line-height: 1.5;
+  padding-right: 40px;
+}
+.question-number {
+  position: absolute;
+  top: 32px;
+  right: 32px;
+  font-family: var(--font-heading);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--bd-muted);
+}
+
+/* ─── RADIO OPTIONS ─── */
+.options-list { display: flex; flex-direction: column; gap: 10px; }
+.option-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 18px;
+  border: 1px solid rgba(228,227,220,0.6);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+}
+.option-item:hover { background: var(--bd-mint); border-color: rgba(44,95,138,0.25); }
+.option-item.selected { background: var(--bd-accent-light); border-color: var(--bd-accent); }
+.option-item input[type="radio"] { display: none; }
+.radio-custom {
+  width: 20px; height: 20px; min-width: 20px;
+  border: 2px solid var(--bd-border);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  transition: var(--transition);
+  margin-top: 1px;
+}
+.option-item.selected .radio-custom { border-color: var(--bd-accent); background: var(--bd-accent); }
+.radio-custom::after {
+  content: '';
+  width: 6px; height: 6px;
+  background: #fff;
+  border-radius: 50%;
+  opacity: 0;
+  transition: var(--transition);
+}
+.option-item.selected .radio-custom::after { opacity: 1; }
+.option-text { font-size: 14px; color: var(--bd-text); line-height: 1.5; }
+
+/* ─── EMAIL CAPTURE ─── */
+.email-section {
+  background: linear-gradient(135deg, #1a1a1d, #1e4264);
+  border-radius: var(--bd-radius-lg);
+  padding: 48px 40px;
+  margin-top: 48px;
+  position: relative;
+  overflow: hidden;
+}
+.email-section::before {
+  content: '';
+  position: absolute;
+  top: -50%; right: -20%;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(44,95,138,0.12) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.email-section h3 {
+  font-family: var(--font-display);
+  color: #fff;
+  font-size: 1.6rem;
+  margin-bottom: 12px;
+  position: relative;
+}
+.email-section p {
+  color: rgba(255,255,255,0.65);
+  font-size: 15px;
+  margin-bottom: 28px;
+  position: relative;
+}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; position: relative; }
+.form-group { position: relative; }
+.form-group.full-width { grid-column: 1 / -1; }
+.form-group label {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 12px; font-weight: 500;
+  color: rgba(255,255,255,0.5);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+.form-input {
+  width: 100%;
+  padding: 14px 18px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 10px;
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 15px;
+  transition: var(--transition);
+  outline: none;
+}
+.form-input::placeholder { color: rgba(255,255,255,0.3); }
+.form-input:focus { border-color: var(--bd-accent); background: rgba(255,255,255,0.12); }
+.form-input.error { border-color: #e74c3c; }
+.form-select {
+  width: 100%;
+  padding: 14px 18px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 10px;
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 15px;
+  transition: var(--transition);
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(255,255,255,0.4)' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 18px center;
+}
+.form-select option { background: #1a1a1d; color: #fff; }
+
+.submit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 36px;
+  background: var(--bd-accent);
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-top: 12px;
+  position: relative;
+}
+.submit-btn:hover { transform: translateY(-2px); background: var(--bd-navy); box-shadow: 0 8px 30px rgba(44,95,138,0.3); }
+.submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.submit-btn svg { width: 18px; height: 18px; }
+
+.validation-msg { color: #e74c3c; font-size: 13px; margin-top: 12px; display: none; position: relative; }
+
+/* ─── RESULTS ─── */
+#resultsSection { display: none; }
+.results-hero {
+  background: linear-gradient(135deg, var(--bd-dark) 0%, var(--bd-navy) 100%);
+  padding: calc(var(--nav-h) + 60px) 24px 80px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.results-hero::before {
+  content: '';
+  position: absolute;
+  top: -30%; right: -15%;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(44,95,138,0.1) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.results-hero h2 {
+  font-family: var(--font-display);
+  color: #fff;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  margin-bottom: 16px;
+  position: relative;
+}
+.results-hero p { color: rgba(255,255,255,0.6); font-size: 16px; position: relative; }
+
+/* ─── SCORE RING ─── */
+.score-overview { max-width: 900px; margin: -50px auto 0; padding: 0 24px; position: relative; z-index: 2; }
+.score-card {
+  background: var(--bd-white);
+  border-radius: var(--bd-radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: 48px;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 48px;
+  align-items: center;
+}
+.score-ring-wrap { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.score-ring { width: 180px; height: 180px; position: relative; }
+.score-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.score-ring-bg { fill: none; stroke: var(--bd-accent-soft); stroke-width: 8; }
+.score-ring-fill {
+  fill: none;
+  stroke: var(--bd-accent);
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-dasharray: 452;
+  stroke-dashoffset: 452;
+  transition: stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.score-ring-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
+.score-value { font-family: var(--font-heading); font-size: 42px; font-weight: 700; color: var(--bd-dark); line-height: 1; }
+.score-max { font-family: var(--font-heading); font-size: 14px; color: var(--bd-muted); font-weight: 500; }
+.maturity-label {
+  font-family: var(--font-heading);
+  font-size: 14px; font-weight: 600;
+  padding: 6px 18px;
+  border-radius: 50px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.maturity-level-1 { background: #ffeaea; color: #c0392b; }
+.maturity-level-2 { background: #fff3e0; color: #e67e22; }
+.maturity-level-3 { background: #fff8e1; color: #f39c12; }
+.maturity-level-4 { background: #e8f5e9; color: #27ae60; }
+.maturity-level-5 { background: var(--bd-accent-light); color: var(--bd-navy); }
+.score-details h3 { font-family: var(--font-display); font-size: 1.5rem; color: var(--bd-dark); margin-bottom: 12px; }
+.score-details p { color: var(--bd-text-light); font-size: 15px; line-height: 1.7; margin-bottom: 24px; }
+
+/* ─── DIMENSION BARS ─── */
+.dimensions-section { max-width: 900px; margin: 48px auto 0; padding: 0 24px; }
+.dimensions-title { font-family: var(--font-display); font-size: 1.5rem; color: var(--bd-dark); margin-bottom: 8px; }
+.dimensions-subtitle { color: var(--bd-text-light); font-size: 15px; margin-bottom: 32px; }
+.dimension-card {
+  background: var(--bd-white);
+  border: 1px solid rgba(228,227,220,0.6);
+  border-radius: var(--bd-radius);
+  padding: 28px 32px;
+  margin-bottom: 16px;
+  transition: var(--transition);
+}
+.dimension-card:hover { box-shadow: var(--shadow-soft); }
+.dimension-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.dimension-name { font-family: var(--font-heading); font-size: 15px; font-weight: 600; color: var(--bd-dark); }
+.dimension-score { font-family: var(--font-heading); font-size: 14px; font-weight: 600; color: var(--bd-accent); }
+.dimension-bar-wrap { height: 8px; background: var(--bd-accent-soft); border-radius: 10px; overflow: hidden; margin-bottom: 12px; }
+.dimension-bar-fill { height: 100%; border-radius: 10px; transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1); width: 0%; }
+.dimension-insight { font-size: 14px; color: var(--bd-text-light); line-height: 1.6; }
+
+/* ─── RECOMMENDATIONS ─── */
+.recommendations-section { max-width: 900px; margin: 56px auto 0; padding: 0 24px; }
+.rec-title { font-family: var(--font-display); font-size: 1.5rem; color: var(--bd-dark); margin-bottom: 8px; }
+.rec-subtitle { color: var(--bd-text-light); font-size: 15px; margin-bottom: 32px; }
+.rec-card {
+  background: var(--bd-white);
+  border: 1px solid rgba(228,227,220,0.6);
+  border-radius: var(--bd-radius);
+  padding: 32px;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+}
+.rec-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; }
+.rec-priority-high::before { background: #e74c3c; }
+.rec-priority-medium::before { background: #f39c12; }
+.rec-priority-low::before { background: var(--bd-accent); }
+.rec-priority-tag {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-size: 10px; font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding: 4px 12px;
+  border-radius: 50px;
+  margin-bottom: 12px;
+}
+.rec-priority-high .rec-priority-tag { background: #ffeaea; color: #c0392b; }
+.rec-priority-medium .rec-priority-tag { background: #fff3e0; color: #e67e22; }
+.rec-priority-low .rec-priority-tag { background: var(--bd-accent-light); color: var(--bd-navy); }
+.rec-card h4 { font-family: var(--font-heading); font-size: 16px; font-weight: 600; color: var(--bd-dark); margin-bottom: 10px; }
+.rec-card p { font-size: 14px; color: var(--bd-text-light); line-height: 1.7; }
+
+/* ─── CTA ─── */
+.cta-section { max-width: 900px; margin: 56px auto 0; padding: 0 24px 80px; }
+.cta-card {
+  background: linear-gradient(135deg, var(--bd-dark), var(--bd-navy));
+  border-radius: var(--bd-radius-lg);
+  padding: 56px 48px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.cta-card::before {
+  content: '';
+  position: absolute;
+  top: -40%; right: -15%;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(44,95,138,0.1) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.cta-card h3 { font-family: var(--font-display); color: #fff; font-size: 1.8rem; margin-bottom: 16px; position: relative; }
+.cta-card p { color: rgba(255,255,255,0.65); font-size: 16px; max-width: 520px; margin: 0 auto 32px; line-height: 1.7; position: relative; }
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 40px;
+  background: var(--bd-accent);
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  font-family: var(--font-heading);
+  font-size: 16px; font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+  position: relative;
+}
+.cta-btn:hover { transform: translateY(-2px); background: var(--bd-navy); box-shadow: 0 8px 30px rgba(44,95,138,0.3); }
+.cta-btn svg { width: 18px; height: 18px; }
+
+/* ─── SPINNER ─── */
+.spinner { display: none; width: 24px; height: 24px; border: 3px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ─── SECTION VISIBILITY ─── */
+.assessment-section { display: none; animation: fadeInUp 0.5s ease; }
+.assessment-section.active { display: block; }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ─── NAV BUTTONS ─── */
+.nav-buttons {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 40px; padding-top: 32px;
+  border-top: 1px solid rgba(228,227,220,0.6);
+}
+.nav-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 28px; border-radius: 50px;
+  font-family: var(--font-heading); font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: var(--transition); border: none;
+}
+.nav-btn-back { background: transparent; color: var(--bd-text-light); border: 1px solid var(--bd-border); }
+.nav-btn-back:hover { background: var(--bd-accent-soft); border-color: var(--bd-accent); color: var(--bd-dark); }
+.nav-btn-next { background: var(--bd-dark); color: #fff; }
+.nav-btn-next:hover { background: var(--bd-navy); transform: translateY(-1px); box-shadow: var(--shadow-soft); }
+.nav-btn svg { width: 16px; height: 16px; }
+
+/* ─── TOAST ─── */
+.success-toast {
+  position: fixed; bottom: 32px; right: 32px;
+  background: var(--bd-dark); color: #fff;
+  padding: 16px 24px; border-radius: 12px;
+  font-size: 14px; font-weight: 500;
+  box-shadow: var(--shadow-card);
+  transform: translateY(120%);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+  display: flex; align-items: center; gap: 10px;
+}
+.success-toast.show { transform: translateY(0); }
+.success-toast svg { width: 20px; height: 20px; color: #2d7a5e; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 768px) {
+  .site-nav { padding: 0 1rem; }
+  .hero { padding: calc(var(--nav-h) + 40px) 20px 60px; }
+  .question-card { padding: 24px; }
+  .email-section { padding: 36px 24px; }
+  .form-row { grid-template-columns: 1fr; }
+  .score-card { grid-template-columns: 1fr; text-align: center; gap: 32px; padding: 36px 24px; }
+  .score-details { text-align: left; }
+  .cta-card { padding: 40px 24px; }
+  .nav-buttons { gap: 12px; }
+  .nav-btn { padding: 12px 20px; font-size: 13px; }
+}
+
+@media print {
+  .site-nav, .progress-container, .nav-buttons, .cta-section, .hero { display: none; }
+  .assessment-section, #resultsSection { display: block !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════ SITE NAVIGATION ═══════ -->
+<nav class="site-nav">
+  <div class="site-nav-inner">
+    <a href="/" class="site-nav-logo">Bruce <span>Dando</span></a>
+    <a href="/#tools" class="site-nav-back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Tools
+    </a>
+  </div>
+</nav>
+
+<!-- ═══════ ASSESSMENT VIEW ═══════ -->
+<div id="assessmentView">
+
+<div class="hero">
+  <div class="hero-badge">Free Assessment</div>
+  <h1>Master Data Health Assessment</h1>
+  <p>Benchmark the health of your master data across Customer, Vendor, Material, Financial, HR, Asset, and BOM domains. SAP-aware scoring with actionable recommendations.</p>
+  <div class="hero-time">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    Takes approximately 10–12 minutes
+  </div>
+</div>
+
+<div class="progress-container">
+  <div class="progress-inner">
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressBar"></div>
+    </div>
+    <div class="progress-text" id="progressText">Section 1 of 7</div>
+  </div>
+</div>
+
+<div class="assessment-container" id="assessmentForm">
+
+  <!-- ═══════ SECTION 1: CUSTOMER MASTER DATA ═══════ -->
+  <div class="assessment-section active" data-section="1">
+    <div class="section-header">
+      <div class="section-number">Section 01</div>
+      <h2 class="section-title">Customer Master Data</h2>
+      <p class="section-desc">How healthy, governed, and reliable is your customer master data (e.g. BP, KNA1, or Business Partner in S/4HANA)?</p>
+    </div>
+
+    <div class="question-card" data-question="q1">
+      <div class="question-label">How complete and accurate are your customer master records (name, address, payment terms, tax codes, partner functions)?</div>
+      <div class="question-number">Q1</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q1" value="1"><span class="radio-custom"></span><span class="option-text">Major gaps — many records have missing or clearly incorrect fields; duplicates are widespread</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q1" value="2"><span class="radio-custom"></span><span class="option-text">Core fields are mostly populated but secondary data (bank details, tax, partner functions) is inconsistent</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q1" value="3"><span class="radio-custom"></span><span class="option-text">Key fields are standardised with validation rules; duplicates are identified but not fully resolved</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q1" value="4"><span class="radio-custom"></span><span class="option-text">Comprehensive data quality rules enforced at creation (e.g. via MDG workflows); duplicate checks run regularly</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q1" value="5"><span class="radio-custom"></span><span class="option-text">Near-complete records with automated enrichment, real-time duplicate detection, and continuous DQ monitoring via dashboards</span></label>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="q2">
+      <div class="question-label">How well governed is the customer master creation and change process?</div>
+      <div class="question-number">Q2</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q2" value="1"><span class="radio-custom"></span><span class="option-text">Anyone can create or change customer records directly in the system with no approval</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q2" value="2"><span class="radio-custom"></span><span class="option-text">Some access restrictions exist but no formal workflow — changes are ad-hoc and unaudited</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q2" value="3"><span class="radio-custom"></span><span class="option-text">A defined request-and-approve process exists (email or ticket-based) with assigned data stewards</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q2" value="4"><span class="radio-custom"></span><span class="option-text">System-enforced workflows (MDG, custom FIORI apps, or BPM) with role-based approvals and change logging</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q2" value="5"><span class="radio-custom"></span><span class="option-text">Fully automated governance with staging areas, business rule validation, mass processing, and real-time audit trails</span></label>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="q3">
+      <div class="question-label">How well is your customer data synchronised across systems (ERP, CRM, e-commerce, billing)?</div>
+      <div class="question-number">Q3</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q3" value="1"><span class="radio-custom"></span><span class="option-text">Customer data is siloed — different systems hold conflicting records with no integration</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q3" value="2"><span class="radio-custom"></span><span class="option-text">Some manual or batch syncs exist but data frequently drifts out of alignment</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q3" value="3"><span class="radio-custom"></span><span class="option-text">Integration middleware connects key systems with scheduled replication and basic conflict handling</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q3" value="4"><span class="radio-custom"></span><span class="option-text">Central hub (MDG, Datasphere, or integration platform) acts as golden record source with near-real-time distribution</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q3" value="5"><span class="radio-custom"></span><span class="option-text">Real-time event-driven sync with automated conflict resolution, lineage tracking, and cross-system consistency monitoring</span></label>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <div></div>
+      <button class="nav-btn nav-btn-next" onclick="nextSection(1)">Continue <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+    </div>
+  </div>
+
+  <!-- ═══════ SECTION 2: VENDOR / SUPPLIER MASTER DATA ═══════ -->
+  <div class="assessment-section" data-section="2">
+    <div class="section-header">
+      <div class="section-number">Section 02</div>
+      <h2 class="section-title">Vendor & Supplier Master Data</h2>
+      <p class="section-desc">How well managed is your vendor/supplier master (e.g. LFA1, Business Partner Supplier role, or Ariba supplier records)?</p>
+    </div>
+
+    <div class="question-card" data-question="q4">
+      <div class="question-label">How complete and standardised are your vendor master records (banking, purchasing org data, tax, payment terms)?</div>
+      <div class="question-number">Q4</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q4" value="1"><span class="radio-custom"></span><span class="option-text">Significant gaps — many vendors created with minimal data; duplicates common across purchasing orgs</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q4" value="2"><span class="radio-custom"></span><span class="option-text">Core purchasing data exists but bank details, tax, and compliance fields are inconsistently maintained</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q4" value="3"><span class="radio-custom"></span><span class="option-text">Standardised templates and validation rules in place for key fields; periodic duplicate clean-ups occur</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q4" value="4"><span class="radio-custom"></span><span class="option-text">Governed creation workflows with mandatory fields, bank account verification, and compliance checks (sanctions screening)</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q4" value="5"><span class="radio-custom"></span><span class="option-text">Fully governed with automated onboarding (supplier portal or Ariba), real-time risk screening, and continuous data enrichment</span></label>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="q5">
+      <div class="question-label">How effectively do you manage vendor lifecycle events (onboarding, updates, deactivation, blocking)?</div>
+      <div class="question-number">Q5</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q5" value="1"><span class="radio-custom"></span><span class="option-text">No lifecycle process — vendors are created and never cleaned up; dormant vendors accumulate indefinitely</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q5" value="2"><span class="radio-custom"></span><span class="option-text">Some ad-hoc clean-ups happen (e.g. before a project or audit) but no regular cadence</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q5" value="3"><span class="radio-custom"></span><span class="option-text">Annual or semi-annual reviews flag dormant vendors; blocking/deletion is manual but documented</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q5" value="4"><span class="radio-custom"></span><span class="option-text">Automated lifecycle workflows — dormant vendor reports trigger reviews; blocking rules enforced by policy</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q5" value="5"><span class="radio-custom"></span><span class="option-text">Full lifecycle automation with self-service portals, periodic recertification, automated blocking, and archival with audit trails</span></label>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="q6">
+      <div class="question-label">How well do you manage vendor compliance and risk data (sanctions, insurance, certifications)?</div>
+      <div class="question-number">Q6</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q6" value="1"><span class="radio-custom"></span><span class="option-text">No systematic compliance tracking — risk data is not captured in the vendor master</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q6" value="2"><span class="radio-custom"></span><span class="option-text">Some compliance data collected at onboarding but not kept current; screening is manual</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q6" value="3"><span class="radio-custom"></span><span class="option-text">Compliance fields exist in the master with periodic reviews; sanctions screening runs before payment</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q6" value="4"><span class="radio-custom"></span><span class="option-text">Integrated compliance platform with automated screening, expiry alerts, and blocked-vendor enforcement</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q6" value="5"><span class="radio-custom"></span><span class="option-text">Continuous real-time risk monitoring with AI-driven alerts, ESG scoring, and automated compliance workflows</span></label>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="nav-btn nav-btn-back" onclick="prevSection(2)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+      <button class="nav-btn nav-btn-next" onclick="nextSection(2)">Continue <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+    </div>
+  </div>
+
+  <!-- ═══════ SECTION 3: MATERIAL / PRODUCT MASTER DATA ═══════ -->
+  <div class="assessment-section" data-section="3">
+    <div class="section-header">
+      <div class="section-number">Section 03</div>
+      <h2 class="section-title">Material & Product Master Data</h2>
+      <p class="section-desc">How healthy is your material master (MARA/MARC/MARD or Material in S/4HANA) across planning, procurement, and sales views?</p>
+    </div>
+
+    <div class="question-card" data-question="q7">
+      <div class="question-label">How complete and consistent are material master records across organisational levels (plant, storage location, sales org)?</div>
+      <div class="question-number">Q7</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q7" value="1"><span class="radio-custom"></span><span class="option-text">Major inconsistencies — materials missing views, conflicting descriptions, no naming conventions</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q7" value="2"><span class="radio-custom"></span><span class="option-text">Core views are populated but planning, quality, and classification data is patchy across plants</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q7" value="3"><span class="radio-custom"></span><span class="option-text">Naming standards and mandatory fields defined; templates exist for key material types</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q7" value="4"><span class="radio-custom"></span><span class="option-text">Governed creation via MDG or custom workflows; consistent across all org levels with automated extension</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q7" value="5"><span class="radio-custom"></span><span class="option-text">Fully automated material lifecycle with AI-assisted classification, cross-plant harmonisation, and real-time DQ monitoring</span></label>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="q8">
+      <div class="question-label">How well do you manage material classification, descriptions, and units of measure?</div>
+      <div class="question-number">Q8</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q8" value="1"><span class="radio-custom"></span><span class="option-text">Free-text descriptions with no standard; units of measure vary; classification is unused or inconsistent</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q8" value="2"><span class="radio-custom"></span><span class="option-text">Some naming guidelines exist but are not enforced; material groups are partially assigned</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q8" value="3"><span class="radio-custom"></span><span class="option-text">Standardised descriptions, material groups, and UoM conversion tables; classification system adopted for key categories</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q8" value="4"><span class="radio-custom"></span><span class="option-text">Enforced classification taxonomy (e.g. UNSPSC, eCl@ss) with validated descriptions and automated UoM management</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q8" value="5"><span class="radio-custom"></span><span class="option-text">ML-assisted auto-classification, enriched product attributes, and full interoperability with PIM/DAM systems</span></label>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="q9">
+      <div class="question-label">How effectively do you manage material duplicates, obsolete records, and status changes?</div>
+      <div class="question-number">Q9</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q9" value="1"><span class="radio-custom"></span><span class="option-text">Duplicate materials are rampant; obsolete materials are never blocked or flagged; status management is not used</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q9" value="2"><span class="radio-custom"></span><span class="option-text">Some awareness of duplicates but no systematic detection; obsolete materials are sporadically cleaned up</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q9" value="3"><span class="radio-custom"></span><span class="option-text">Duplicate detection tools run periodically; material status profiles are used for key categories</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q9" value="4"><span class="radio-custom"></span><span class="option-text">Proactive duplicate prevention at creation; automated lifecycle status transitions based on usage patterns</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q9" value="5"><span class="radio-custom"></span><span class="option-text">AI-driven duplicate detection and merge, automated phase-in/phase-out workflows, and full material lifecycle analytics</span></label>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="nav-btn nav-btn-back" onclick="prevSection(3)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+      <button class="nav-btn nav-btn-next" onclick="nextSection(3)">Continue <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+    </div>
+  </div>
+
+  <!-- ═══════ SECTION 4: FINANCIAL MASTER DATA ═══════ -->
+  <div class="assessment-section" data-section="4">
+    <div class="section-header">
+      <div class="section-number">Section 04</div>
+      <h2 class="section-title">Financial Master Data</h2>
+      <p class="section-desc">How well maintained are your financial master objects — chart of accounts, cost centres, profit centres, and internal orders?</p>
+    </div>
+
+    <div class="question-card" data-question="q10">
+      <div class="question-label">How well structured and governed is your chart of accounts (GL accounts, account groups, hierarchies)?</div>
+      <div class="question-number">Q10</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q10" value="1"><span class="radio-custom"></span><span class="option-text">Chart of accounts has grown organically with no clear structure; redundant accounts proliferate</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q10" value="2"><span class="radio-custom"></span><span class="option-text">Basic structure exists but account creation is ad-hoc; hierarchies are incomplete or outdated</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q10" value="3"><span class="radio-custom"></span><span class="option-text">Defined naming conventions and account groups; new account creation follows a request process</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q10" value="4"><span class="radio-custom"></span><span class="option-text">Well-governed CoA with workflow-based creation, regular clean-ups, and alignment to reporting requirements</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q10" value="5"><span class="radio-custom"></span><span class="option-text">Harmonised global CoA (e.g. S/4HANA universal journal) with automated hierarchy maintenance and impact analysis for changes</span></label>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="q11">
+      <div class="question-label">How healthy are your cost centre and profit centre hierarchies?</div>
+      <div class="question-number">Q11</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q11" value="1"><span class="radio-custom"></span><span class="option-text">Hierarchies don't reflect the current organisation; many orphaned or duplicated centres</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q11" value="2"><span class="radio-custom"></span><span class="option-text">Broadly aligned but not updated when the org changes; some centres no longer receive postings</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q11" value="3"><span class="radio-custom"></span><span class="option-text">Regular (annual) review cycle; hierarchies largely match the organisation with documented owners</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q11" value="4"><span class="radio-custom"></span><span class="option-text">Hierarchies updated promptly after reorgs; automated validation prevents postings to closed centres</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q11" value="5"><span class="radio-custom"></span><span class="option-text">Dynamic hierarchies synchronised with HR org structure; automated lifecycle with usage-based insights and predictive clean-up</span></label>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="q12">
+      <div class="question-label">How consistently are financial master data changes controlled and audited?</div>
+      <div class="question-number">Q12</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q12" value="1"><span class="radio-custom"></span><span class="option-text">No formal controls — anyone with access can modify GL accounts, cost centres, or hierarchies directly</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q12" value="2"><span class="radio-custom"></span><span class="option-text">Basic access restrictions exist but change requests are informal with limited audit trail</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q12" value="3"><span class="radio-custom"></span><span class="option-text">Change requests go through a ticket or email process; change logs are reviewed periodically</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q12" value="4"><span class="radio-custom"></span><span class="option-text">System-enforced workflows with segregation of duties; full change history with impact analysis</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q12" value="5"><span class="radio-custom"></span><span class="option-text">Automated governance with proactive compliance monitoring, SOX-aligned controls, and continuous audit readiness</span></label>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="nav-btn nav-btn-back" onclick="prevSection(4)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+      <button class="nav-btn nav-btn-next" onclick="nextSection(4)">Continue <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+    </div>
+  </div>
+
+  <!-- ═══════ SECTION 5: EMPLOYEE, ASSET & ORG DATA ═══════ -->
+  <div class="assessment-section" data-section="5">
+    <div class="section-header">
+      <div class="section-number">Section 05</div>
+      <h2 class="section-title">Employee, Asset & Organisational Data</h2>
+      <p class="section-desc">How well maintained are your HR master records, fixed asset registers, and organisational structures (company codes, plants, sales orgs)?</p>
+    </div>
+
+    <div class="question-card" data-question="q13">
+      <div class="question-label">How accurately does your HR/employee master data reflect the current workforce (positions, org units, reporting lines)?</div>
+      <div class="question-number">Q13</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q13" value="1"><span class="radio-custom"></span><span class="option-text">HR data is unreliable — org charts don't match reality; leavers remain active; contractors are untracked</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q13" value="2"><span class="radio-custom"></span><span class="option-text">Headcount is roughly correct but positions, reporting lines, and org assignments lag behind reality</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q13" value="3"><span class="radio-custom"></span><span class="option-text">Hire/fire/transfer events are processed within days; org structure updated at least quarterly</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q13" value="4"><span class="radio-custom"></span><span class="option-text">Real-time HR events feed downstream systems (payroll, access, cost allocation) with automated position management</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q13" value="5"><span class="radio-custom"></span><span class="option-text">Fully integrated HCM with self-service updates, automated compliance (right-to-work, certifications), and predictive workforce analytics</span></label>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="q14">
+      <div class="question-label">How well are your fixed assets tracked and managed from capitalisation through to retirement?</div>
+      <div class="question-number">Q14</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q14" value="1"><span class="radio-custom"></span><span class="option-text">Asset register doesn't reflect reality — ghost assets exist; physical counts rarely happen</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q14" value="2"><span class="radio-custom"></span><span class="option-text">Basic asset accounting is in place but lifecycle management (transfers, splits, retirements) is manual and delayed</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q14" value="3"><span class="radio-custom"></span><span class="option-text">Asset master is maintained for key asset classes; annual physical verification occurs; depreciation runs correctly</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q14" value="4"><span class="radio-custom"></span><span class="option-text">Automated lifecycle management with barcode/RFID tracking, integrated CAPEX workflows, and proactive depreciation analysis</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q14" value="5"><span class="radio-custom"></span><span class="option-text">IoT-integrated asset management with predictive maintenance, automated retirement triggers, and continuous asset performance analytics</span></label>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="q15">
+      <div class="question-label">How well governed are your organisational structures (company codes, plants, purchasing/sales orgs, storage locations)?</div>
+      <div class="question-number">Q15</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q15" value="1"><span class="radio-custom"></span><span class="option-text">Org structures were set up during go-live and never revisited; they no longer reflect the business</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q15" value="2"><span class="radio-custom"></span><span class="option-text">Changes happen reactively when something breaks; no documentation of the design rationale</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q15" value="3"><span class="radio-custom"></span><span class="option-text">Org structure changes follow a change request process; documentation exists for key entities</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q15" value="4"><span class="radio-custom"></span><span class="option-text">Enterprise architecture team governs org structure changes with impact analysis and downstream validation</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q15" value="5"><span class="radio-custom"></span><span class="option-text">Dynamic org modelling with what-if analysis, automated propagation to dependent masters, and continuous alignment reviews</span></label>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="nav-btn nav-btn-back" onclick="prevSection(5)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+      <button class="nav-btn nav-btn-next" onclick="nextSection(5)">Continue <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+    </div>
+  </div>
+
+  <!-- ═══════ SECTION 6: BOM / RECIPE & PLANT / LOCATION ═══════ -->
+  <div class="assessment-section" data-section="6">
+    <div class="section-header">
+      <div class="section-number">Section 06</div>
+      <h2 class="section-title">BOM, Recipe & Plant-Level Data</h2>
+      <p class="section-desc">How healthy are your bills of material, routings/recipes, and plant-level configuration data?</p>
+    </div>
+
+    <div class="question-card" data-question="q16">
+      <div class="question-label">How accurate and up-to-date are your bills of material (BOMs) and routings or recipes?</div>
+      <div class="question-number">Q16</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q16" value="1"><span class="radio-custom"></span><span class="option-text">BOMs are unreliable — production frequently deviates from what's in the system; many unmanaged variants</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q16" value="2"><span class="radio-custom"></span><span class="option-text">Key finished goods have BOMs but components, quantities, or routings are often outdated or incomplete</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q16" value="3"><span class="radio-custom"></span><span class="option-text">BOMs are maintained for active products with periodic reviews; engineering changes follow a basic process</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q16" value="4"><span class="radio-custom"></span><span class="option-text">Governed ECN (engineering change notice) process ensures BOMs and routings stay aligned with production reality</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q16" value="5"><span class="radio-custom"></span><span class="option-text">Integrated PLM-ERP workflow with version control, automated BOM comparison, and digital twin validation</span></label>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="q17">
+      <div class="question-label">How consistently are plant-level and storage location parameters maintained (MRP settings, safety stock, lot sizes)?</div>
+      <div class="question-number">Q17</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q17" value="1"><span class="radio-custom"></span><span class="option-text">Planning parameters are set once and forgotten; MRP results are unreliable and frequently overridden manually</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q17" value="2"><span class="radio-custom"></span><span class="option-text">Key materials have reasonable settings but long-tail items have defaults that don't reflect reality</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q17" value="3"><span class="radio-custom"></span><span class="option-text">Regular parameter reviews for A/B items; safety stock and lot sizes aligned to recent demand patterns</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q17" value="4"><span class="radio-custom"></span><span class="option-text">Automated parameter optimisation runs with exception management; planner workbench actively used</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q17" value="5"><span class="radio-custom"></span><span class="option-text">ML-driven demand sensing and dynamic parameter adjustment; continuous simulation and scenario planning integrated into MRP</span></label>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="nav-btn nav-btn-back" onclick="prevSection(6)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+      <button class="nav-btn nav-btn-next" onclick="nextSection(6)">Continue <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+    </div>
+  </div>
+
+  <!-- ═══════ SECTION 7: CROSS-DOMAIN GOVERNANCE ═══════ -->
+  <div class="assessment-section" data-section="7">
+    <div class="section-header">
+      <div class="section-number">Section 07</div>
+      <h2 class="section-title">Cross-Domain Governance & Integration</h2>
+      <p class="section-desc">How mature are your enterprise-wide master data governance, tooling, and integration practices across all domains?</p>
+    </div>
+
+    <div class="question-card" data-question="q18">
+      <div class="question-label">Does your organisation have a centralised master data governance programme that spans all domains?</div>
+      <div class="question-number">Q18</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q18" value="1"><span class="radio-custom"></span><span class="option-text">No MDM programme — each domain is managed independently (or not at all) by different teams</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q18" value="2"><span class="radio-custom"></span><span class="option-text">Some awareness of MDM need but no formal programme, budget, or executive sponsor</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q18" value="3"><span class="radio-custom"></span><span class="option-text">An MDM programme exists with defined data owners, stewards, and governance councils for key domains</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q18" value="4"><span class="radio-custom"></span><span class="option-text">Enterprise-wide MDM with SAP MDG or equivalent tooling, cross-domain data stewardship, and executive sponsorship</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q18" value="5"><span class="radio-custom"></span><span class="option-text">Fully embedded MDM with automated governance, data marketplace, value tracking, and continuous improvement cycles</span></label>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="q19">
+      <div class="question-label">How effectively do you measure and monitor master data quality across domains?</div>
+      <div class="question-number">Q19</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q19" value="1"><span class="radio-custom"></span><span class="option-text">No DQ measurement — issues are discovered when downstream processes break (failed invoices, wrong deliveries)</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q19" value="2"><span class="radio-custom"></span><span class="option-text">Ad-hoc quality checks happen before audits or migrations but no ongoing monitoring</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q19" value="3"><span class="radio-custom"></span><span class="option-text">DQ rules and KPIs defined for key domains; regular reports shared with data stewards</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q19" value="4"><span class="radio-custom"></span><span class="option-text">Automated DQ dashboards with trend analysis, root cause tracking, and SLA-based remediation workflows</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q19" value="5"><span class="radio-custom"></span><span class="option-text">Real-time DQ monitoring with anomaly detection, predictive quality scoring, and business impact quantification</span></label>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="q20">
+      <div class="question-label">How well are your master data tools and platforms supporting your MDM goals (MDG, Datasphere, Information Steward, third-party tools)?</div>
+      <div class="question-number">Q20</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q20" value="1"><span class="radio-custom"></span><span class="option-text">No dedicated MDM tooling — all governance is manual via spreadsheets, emails, and direct system access</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q20" value="2"><span class="radio-custom"></span><span class="option-text">Some tools exist (e.g. LSMW, custom reports) but no integrated MDM platform</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q20" value="3"><span class="radio-custom"></span><span class="option-text">MDM platform deployed for at least one domain (e.g. MDG for customer) with workflows and DQ rules</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q20" value="4"><span class="radio-custom"></span><span class="option-text">Comprehensive MDM platform covering multiple domains with integration to ERP, analytics, and data quality tools</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q20" value="5"><span class="radio-custom"></span><span class="option-text">Best-in-class MDM stack with AI-assisted matching, cloud-native architecture, API-first integration, and continuous platform evolution</span></label>
+      </div>
+    </div>
+
+    <!-- ═══════ EMAIL CAPTURE ═══════ -->
+    <div class="email-section">
+      <h3>Get Your Master Data Health Report</h3>
+      <p>Enter your details below to see your full domain-by-domain breakdown with tailored recommendations.</p>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" class="form-input" id="firstName" placeholder="Your first name">
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" class="form-input" id="lastName" placeholder="Your last name">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Business Email *</label>
+          <input type="email" class="form-input" id="userEmail" placeholder="you@company.com" required>
+        </div>
+        <div class="form-group">
+          <label>Company</label>
+          <input type="text" class="form-input" id="companyName" placeholder="Your company name">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Primary ERP</label>
+          <select class="form-select" id="primaryErp">
+            <option value="">Select ERP</option>
+            <option value="S/4HANA Cloud">SAP S/4HANA Cloud</option>
+            <option value="S/4HANA On-Premise">SAP S/4HANA On-Premise</option>
+            <option value="ECC">SAP ECC</option>
+            <option value="Oracle">Oracle</option>
+            <option value="Microsoft Dynamics">Microsoft Dynamics</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Company Size</label>
+          <select class="form-select" id="companySize">
+            <option value="">Select size</option>
+            <option value="1-200">1–200 employees</option>
+            <option value="201-1000">201–1,000 employees</option>
+            <option value="1001-5000">1,001–5,000 employees</option>
+            <option value="5001-20000">5,001–20,000 employees</option>
+            <option value="20001+">20,001+ employees</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="validation-msg" id="validationMsg">Please answer all questions and provide a valid email to see your results.</div>
+
+      <button class="submit-btn" id="submitBtn" onclick="submitAssessment()">
+        <span id="submitText">View My Results</span>
+        <div class="spinner" id="submitSpinner"></div>
+        <svg id="submitArrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="nav-btn nav-btn-back" onclick="prevSection(7)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+      <div></div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ═══════ RESULTS VIEW ═══════ -->
+<div id="resultsSection">
+  <div class="results-hero">
+    <h2>Your Master Data Health Report</h2>
+    <p id="resultsSubtitle">Here's how your master data stacks up across all domains</p>
+  </div>
+
+  <div class="score-overview">
+    <div class="score-card">
+      <div class="score-ring-wrap">
+        <div class="score-ring">
+          <svg viewBox="0 0 160 160">
+            <circle class="score-ring-bg" cx="80" cy="80" r="72"/>
+            <circle class="score-ring-fill" id="scoreRingFill" cx="80" cy="80" r="72"/>
+          </svg>
+          <div class="score-ring-text">
+            <div class="score-value" id="scoreValue">0</div>
+            <div class="score-max">/ 100</div>
+          </div>
+        </div>
+        <span class="maturity-label" id="maturityLabel"></span>
+      </div>
+      <div class="score-details">
+        <h3 id="maturityTitle"></h3>
+        <p id="maturityDescription"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="dimensions-section">
+    <h3 class="dimensions-title">Domain Breakdown</h3>
+    <p class="dimensions-subtitle">Health scores across your seven master data domains</p>
+    <div id="dimensionCards"></div>
+  </div>
+
+  <div class="recommendations-section">
+    <h3 class="rec-title">Priority Recommendations</h3>
+    <p class="rec-subtitle">Where to focus first to improve master data health and downstream process quality</p>
+    <div id="recommendationCards"></div>
+  </div>
+
+  <div class="cta-section">
+    <div class="cta-card">
+      <h3>Want Help Fixing Your Master Data?</h3>
+      <p>I help organisations design and implement master data governance programmes, clean up legacy data, and build sustainable MDM practices. Let's talk about your results.</p>
+      <a href="/#contact" class="cta-btn">
+        Get in Touch
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ TOAST ═══════ -->
+<div class="success-toast" id="successToast">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+  Your assessment is complete
+</div>
+
+<script>
+// ═══════ DATA MODEL ═══════
+const TOTAL_QUESTIONS = 20;
+const TOTAL_SECTIONS = 7;
+const MAX_SCORE = 100; // 20 questions × 5
+
+const dimensionConfig = [
+  { name: 'Customer Master Data', questions: ['q1','q2','q3'], icon: '👤' },
+  { name: 'Vendor & Supplier Data', questions: ['q4','q5','q6'], icon: '🏭' },
+  { name: 'Material & Product Data', questions: ['q7','q8','q9'], icon: '📦' },
+  { name: 'Financial Master Data', questions: ['q10','q11','q12'], icon: '💳' },
+  { name: 'Employee, Asset & Org Data', questions: ['q13','q14','q15'], icon: '🏢' },
+  { name: 'BOM, Recipe & Plant Data', questions: ['q16','q17'], icon: '⚙️' },
+  { name: 'Cross-Domain Governance', questions: ['q18','q19','q20'], icon: '🔗' }
+];
+
+const maturityLevels = [
+  { min: 0,  max: 20, level: 1, name: 'Critical',    label: 'Level 1 — Critical',    color: '#c0392b',
+    title: 'Critical: Significant Data Health Risks',
+    desc: 'Your master data has serious health issues across multiple domains. Downstream processes — procurement, production, finance, sales — are likely experiencing frequent errors, manual workarounds, and rework. The good news: addressing master data health at this stage typically yields the fastest ROI because the cost of poor data is so high.' },
+  { min: 21, max: 40, level: 2, name: 'Unstable',     label: 'Level 2 — Unstable',     color: '#e67e22',
+    title: 'Unstable: Pockets of Quality, Systemic Gaps',
+    desc: 'Some domains have reasonable data but others are creating downstream pain. You probably know which ones — the vendor master that nobody trusts, the material duplicates that keep appearing, the cost centres that don\'t match the org chart. Focusing governance effort on your weakest domains will have the most impact.' },
+  { min: 41, max: 60, level: 3, name: 'Developing',    label: 'Level 3 — Developing',    color: '#f39c12',
+    title: 'Developing: Foundations in Place, Consistency Needed',
+    desc: 'You have governance basics in place and some domains are in good shape. The challenge now is consistency — extending what works in your strongest domains to the rest, closing tooling gaps, and moving from periodic clean-ups to proactive prevention. This is where an MDM platform investment starts to pay for itself.' },
+  { min: 61, max: 80, level: 4, name: 'Healthy',       label: 'Level 4 — Healthy',       color: '#27ae60',
+    title: 'Healthy: Well-Governed and Reliable',
+    desc: 'Your master data is in strong shape. Governance processes are mature, data quality is actively monitored, and downstream processes can rely on the data. To reach the highest level, focus on automation, advanced analytics over your master data, and embedding data quality into every business process by design.' },
+  { min: 81, max: 100, level: 5, name: 'Excellent',    label: 'Level 5 — Excellent',    color: '#2c5f8a',
+    title: 'Excellent: Best-in-Class Master Data Management',
+    desc: 'Outstanding. Your master data is a genuine competitive advantage. Governance is automated, data quality is continuously monitored with proactive remediation, and your MDM practices enable rather than constrain the business. Focus on innovation — AI-assisted data management, data products, and sharing your approach with the broader organisation.' }
+];
+
+// ═══════ SECTION NAVIGATION ═══════
+function selectOption(el) {
+  const card = el.closest('.question-card');
+  card.querySelectorAll('.option-item').forEach(item => item.classList.remove('selected'));
+  el.classList.add('selected');
+  el.querySelector('input').checked = true;
+  card.classList.add('answered');
+  updateProgress();
+}
+
+function getSectionQuestions(sectionNum) {
+  const section = document.querySelector(`.assessment-section[data-section="${sectionNum}"]`);
+  return section ? section.querySelectorAll('.question-card') : [];
+}
+
+function isSectionComplete(sectionNum) {
+  const questions = getSectionQuestions(sectionNum);
+  for (const q of questions) {
+    const name = q.dataset.question;
+    if (!document.querySelector(`input[name="${name}"]:checked`)) return false;
+  }
+  return true;
+}
+
+function nextSection(currentSection) {
+  if (!isSectionComplete(currentSection)) {
+    const questions = getSectionQuestions(currentSection);
+    questions.forEach(q => {
+      const name = q.dataset.question;
+      if (!document.querySelector(`input[name="${name}"]:checked`)) {
+        q.style.borderColor = 'rgba(231, 76, 60, 0.4)';
+        q.style.background = 'rgba(231, 76, 60, 0.02)';
+        setTimeout(() => { q.style.borderColor = ''; q.style.background = ''; }, 2000);
+      }
+    });
+    return;
+  }
+  showSection(currentSection + 1);
+}
+
+function prevSection(currentSection) { showSection(currentSection - 1); }
+
+function showSection(sectionNum) {
+  document.querySelectorAll('.assessment-section').forEach(s => s.classList.remove('active'));
+  const target = document.querySelector(`.assessment-section[data-section="${sectionNum}"]`);
+  if (target) {
+    target.classList.add('active');
+    window.scrollTo({ top: document.querySelector('.progress-container').offsetTop - 60, behavior: 'smooth' });
+    updateProgress();
+  }
+}
+
+function updateProgress() {
+  let answered = 0;
+  for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
+    if (document.querySelector(`input[name="q${i}"]:checked`)) answered++;
+  }
+  const pct = (answered / TOTAL_QUESTIONS) * 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+  const activeSection = document.querySelector('.assessment-section.active');
+  const sectionNum = activeSection ? activeSection.dataset.section : 1;
+  document.getElementById('progressText').textContent = `Section ${sectionNum} of ${TOTAL_SECTIONS}`;
+}
+
+// ═══════ SUBMIT ═══════
+function submitAssessment() {
+  const email = document.getElementById('userEmail').value.trim();
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  let allAnswered = true;
+  for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
+    if (!document.querySelector(`input[name="q${i}"]:checked`)) { allAnswered = false; break; }
+  }
+
+  if (!allAnswered || !emailRegex.test(email)) {
+    document.getElementById('validationMsg').style.display = 'block';
+    if (!emailRegex.test(email)) document.getElementById('userEmail').classList.add('error');
+    return;
+  }
+
+  document.getElementById('validationMsg').style.display = 'none';
+  document.getElementById('userEmail').classList.remove('error');
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  document.getElementById('submitText').textContent = 'Generating Report...';
+  document.getElementById('submitSpinner').style.display = 'block';
+  document.getElementById('submitArrow').style.display = 'none';
+
+  const scores = calculateScores();
+  const results = generateResults(scores);
+
+  sendNotificationEmail(scores, results);
+
+  setTimeout(() => {
+    renderResults(scores, results);
+    document.getElementById('assessmentView').style.display = 'none';
+    document.getElementById('resultsSection').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    setTimeout(() => {
+      document.getElementById('successToast').classList.add('show');
+      setTimeout(() => document.getElementById('successToast').classList.remove('show'), 4000);
+    }, 1000);
+  }, 1500);
+}
+
+// ═══════ SCORE CALCULATION ═══════
+function calculateScores() {
+  const answers = {};
+  for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
+    const checked = document.querySelector(`input[name="q${i}"]:checked`);
+    answers[`q${i}`] = checked ? parseInt(checked.value) : 0;
+  }
+
+  const dimensions = dimensionConfig.map(dim => {
+    const dimScores = dim.questions.map(q => answers[q]);
+    const total = dimScores.reduce((a, b) => a + b, 0);
+    const max = dim.questions.length * 5;
+    const pct = Math.round((total / max) * 100);
+    return { ...dim, total, max, pct, scores: dimScores };
+  });
+
+  const totalScore = dimensions.reduce((a, d) => a + d.total, 0);
+  const maturity = maturityLevels.find(l => totalScore >= l.min && totalScore <= l.max) || maturityLevels[0];
+
+  return { answers, dimensions, totalScore, maturity };
+}
+
+// ═══════ RECOMMENDATIONS ═══════
+function generateResults(scores) {
+  const recs = [];
+  const sorted = [...scores.dimensions].sort((a, b) => a.pct - b.pct);
+
+  sorted.forEach(dim => {
+    const priority = dim.pct < 40 ? 'high' : dim.pct < 65 ? 'medium' : 'low';
+    const dimRecs = getRecommendations(dim.name, dim.pct);
+    dimRecs.forEach(r => recs.push({ ...r, priority, dimension: dim.name }));
+  });
+
+  return recs;
+}
+
+function getRecommendations(dimName, pct) {
+  const recs = [];
+
+  if (dimName === 'Customer Master Data') {
+    if (pct < 40) {
+      recs.push({ title: 'Run a Customer Master Data Cleanse', desc: 'Start with a duplicate analysis using SAP\'s Business Partner Screening or a third-party DQ tool. Merge confirmed duplicates, standardise address formats, and populate missing tax and payment term fields for your top 80% of customers by transaction volume.' });
+      recs.push({ title: 'Implement Customer Master Governance Workflows', desc: 'Introduce a create/change/block workflow for customer records — even a simple approval via email or ServiceNow is better than open access. Define data stewards in Finance and Sales who own customer data quality.' });
+    } else if (pct < 65) {
+      recs.push({ title: 'Extend Customer Data Integration', desc: 'Connect your CRM and ERP customer records through a hub model. Establish the ERP Business Partner as the golden record and replicate outward. Implement conflict resolution rules for fields that can be updated in both systems.' });
+    } else {
+      recs.push({ title: 'Automate Customer Data Enrichment', desc: 'Integrate third-party data enrichment (D&B, ABN lookup, address verification) into your customer creation workflow. Move from reactive DQ fixes to proactive prevention at the point of entry.' });
+    }
+  }
+
+  if (dimName === 'Vendor & Supplier Data') {
+    if (pct < 40) {
+      recs.push({ title: 'Prioritise Vendor Master Clean-Up', desc: 'Run a vendor duplicate and dormancy analysis — most organisations find 15–30% of vendor records are duplicates or inactive. Block dormant vendors, merge duplicates, and enforce mandatory fields (bank details, tax ID, payment terms) for the remainder.' });
+      recs.push({ title: 'Implement Vendor Onboarding Controls', desc: 'Introduce a formal vendor creation request process with mandatory compliance checks (sanctions screening, bank verification). Even a basic MDG workflow for vendors dramatically reduces fraud risk and duplicate creation.' });
+    } else if (pct < 65) {
+      recs.push({ title: 'Automate Vendor Lifecycle Management', desc: 'Implement automated dormancy detection and vendor recertification workflows. Set up scheduled compliance re-screening and expiry alerts for insurance and certifications stored against vendor records.' });
+    } else {
+      recs.push({ title: 'Integrate Supplier Risk Monitoring', desc: 'Connect real-time supplier risk feeds (financial health, ESG, sanctions) into your vendor master governance. Automate risk-based vendor segmentation and escalation workflows for high-risk suppliers.' });
+    }
+  }
+
+  if (dimName === 'Material & Product Data') {
+    if (pct < 40) {
+      recs.push({ title: 'Standardise Material Naming and Classification', desc: 'Define and enforce naming conventions, material groups, and a classification standard (UNSPSC or eCl@ss). This is the single highest-impact action for material data — it unlocks spend analysis, duplicate detection, and sourcing optimisation.' });
+      recs.push({ title: 'Implement Material Creation Governance', desc: 'Introduce a governed material creation workflow with mandatory search-before-create. This alone can reduce new duplicate creation by 40–60%. Assign material data stewards by material type or plant.' });
+    } else if (pct < 65) {
+      recs.push({ title: 'Tackle Material Lifecycle and Obsolescence', desc: 'Implement material status management to systematically phase out obsolete materials. Build reports that flag materials with no transactions in 12+ months and initiate blocking/archival workflows.' });
+    } else {
+      recs.push({ title: 'Explore AI-Assisted Material Management', desc: 'Pilot ML-based auto-classification and duplicate detection for new material requests. Integrate your material master with PLM for automated BOM synchronisation and engineering change propagation.' });
+    }
+  }
+
+  if (dimName === 'Financial Master Data') {
+    if (pct < 40) {
+      recs.push({ title: 'Restructure Your Chart of Accounts', desc: 'Conduct a CoA rationalisation exercise — identify redundant accounts, align to IFRS/local GAAP reporting requirements, and establish a clear account group structure. If you\'re moving to S/4HANA, align to the universal journal model now.' });
+      recs.push({ title: 'Clean Up Cost Centre Hierarchies', desc: 'Map your cost centre and profit centre hierarchies to the current organisational structure. Close orphaned centres, reassign postings, and establish a change process that triggers when org changes happen.' });
+    } else if (pct < 65) {
+      recs.push({ title: 'Automate Financial Master Governance', desc: 'Implement workflow-based creation and change processes for GL accounts and cost objects. Integrate with your HR system so that org changes automatically trigger cost centre hierarchy updates.' });
+    } else {
+      recs.push({ title: 'Implement Continuous Financial Data Monitoring', desc: 'Deploy automated data quality rules that run before period close — catching issues like postings to blocked accounts, incorrect tax assignments, or missing cost allocations before they become reconciliation problems.' });
+    }
+  }
+
+  if (dimName === 'Employee, Asset & Org Data') {
+    if (pct < 40) {
+      recs.push({ title: 'Synchronise HR and ERP Organisational Data', desc: 'Conduct an org structure alignment exercise between HR/HCM and ERP. Ensure company codes, personnel areas, and cost centre assignments are consistent. Implement automated feeds from HCM to ERP for hire/transfer/termination events.' });
+      recs.push({ title: 'Conduct a Physical Asset Verification', desc: 'Run a physical asset count to reconcile the asset register with reality. Retire ghost assets, correct location assignments, and implement barcode or QR-based tracking for future counts.' });
+    } else if (pct < 65) {
+      recs.push({ title: 'Automate Employee and Asset Lifecycle Events', desc: 'Integrate HR events with downstream systems (access management, cost allocation, asset assignment) so that changes propagate automatically. Implement CAPEX-to-asset workflows to reduce capitalisation delays.' });
+    } else {
+      recs.push({ title: 'Leverage Predictive Asset and Workforce Analytics', desc: 'Use your clean asset and HR data to drive predictive analytics — maintenance forecasting, workforce planning, and asset utilisation optimisation. Clean data is the prerequisite; now extract value from it.' });
+    }
+  }
+
+  if (dimName === 'BOM, Recipe & Plant Data') {
+    if (pct < 40) {
+      recs.push({ title: 'Validate BOMs Against Production Reality', desc: 'Conduct a BOM accuracy audit by comparing system BOMs with actual production records. Correct component quantities, add missing alternatives, and establish an engineering change process that keeps BOMs current.' });
+      recs.push({ title: 'Review MRP Planning Parameters', desc: 'Run an ABC/XYZ analysis on your material portfolio and align planning parameters (safety stock, lot sizes, lead times) to actual consumption patterns. Incorrect MRP parameters are one of the most common causes of excess inventory and stockouts.' });
+    } else if (pct < 65) {
+      recs.push({ title: 'Integrate PLM with ERP for BOM Management', desc: 'If you use a PLM system, establish a clean handoff to ERP so that engineering changes flow through to production BOMs automatically. Eliminate the manual re-entry that causes version drift.' });
+    } else {
+      recs.push({ title: 'Implement Dynamic Planning Parameter Optimisation', desc: 'Move from static MRP parameters to demand-sensing-driven dynamic optimisation. Pilot ML-based safety stock calculation and lot size optimisation for your highest-value material categories.' });
+    }
+  }
+
+  if (dimName === 'Cross-Domain Governance') {
+    if (pct < 40) {
+      recs.push({ title: 'Establish a Master Data Governance Council', desc: 'Form a cross-functional MDM governance council with representation from Finance, Supply Chain, Sales, IT, and HR. Appoint data owners for each domain and data stewards for day-to-day quality. Meet monthly to review DQ metrics and prioritise remediation.' });
+      recs.push({ title: 'Invest in an MDM Platform', desc: 'Evaluate MDM tooling (SAP MDG, Informatica, Reltio, or Profisee) that can centralise governance workflows, DQ monitoring, and matching/merging across domains. Even deploying MDG for one domain first demonstrates ROI and builds organisational support.' });
+    } else if (pct < 65) {
+      recs.push({ title: 'Scale MDM Across All Domains', desc: 'Extend your MDM platform and governance model from your strongest domain to the rest. Standardise your DQ KPIs, remediation workflows, and stewardship model so they\'re consistent enterprise-wide. Quantify and report the business value of improved data quality.' });
+    } else {
+      recs.push({ title: 'Embed Master Data into Enterprise Strategy', desc: 'Position master data as a strategic asset at the executive level. Implement data contracts between producing and consuming systems, explore data mesh principles for domain ownership, and invest in AI-assisted data stewardship to scale governance without adding headcount.' });
+    }
+  }
+
+  return recs;
+}
+
+// ═══════ RENDER RESULTS ═══════
+function renderResults(scores, recommendations) {
+  const { totalScore, maturity, dimensions } = scores;
+
+  const pct = totalScore / MAX_SCORE;
+  const circumference = 2 * Math.PI * 72;
+  const offset = circumference * (1 - pct);
+  setTimeout(() => {
+    document.getElementById('scoreRingFill').style.strokeDashoffset = offset;
+    document.getElementById('scoreRingFill').style.stroke = maturity.color;
+  }, 300);
+
+  let current = 0;
+  const interval = setInterval(() => {
+    current++;
+    document.getElementById('scoreValue').textContent = current;
+    if (current >= totalScore) clearInterval(interval);
+  }, 25);
+
+  const label = document.getElementById('maturityLabel');
+  label.textContent = maturity.label;
+  label.className = `maturity-label maturity-level-${maturity.level}`;
+
+  document.getElementById('maturityTitle').textContent = maturity.title;
+  document.getElementById('maturityDescription').textContent = maturity.desc;
+
+  const firstName = document.getElementById('firstName').value.trim();
+  const company = document.getElementById('companyName').value.trim();
+  if (firstName && company) {
+    document.getElementById('resultsSubtitle').textContent = `${firstName}, here's how ${company}'s master data stacks up`;
+  } else if (firstName) {
+    document.getElementById('resultsSubtitle').textContent = `${firstName}, here's how your master data stacks up`;
+  }
+
+  const dimContainer = document.getElementById('dimensionCards');
+  dimContainer.innerHTML = '';
+  dimensions.forEach(dim => {
+    const barColor = dim.pct >= 70 ? '#2d7a5e' : dim.pct >= 45 ? '#f39c12' : '#e74c3c';
+    const insight = dim.pct >= 70 ? 'Strong — maintain current practices and look for automation opportunities' :
+                    dim.pct >= 45 ? 'Developing — solid base with clear room to improve governance and tooling' :
+                    'Needs attention — this domain is likely causing downstream process issues';
+    const card = document.createElement('div');
+    card.className = 'dimension-card';
+    card.innerHTML = `
+      <div class="dimension-header">
+        <span class="dimension-name">${dim.icon} ${dim.name}</span>
+        <span class="dimension-score">${dim.total}/${dim.max}</span>
+      </div>
+      <div class="dimension-bar-wrap">
+        <div class="dimension-bar-fill" style="background: ${barColor};" data-width="${dim.pct}"></div>
+      </div>
+      <div class="dimension-insight">${insight}</div>
+    `;
+    dimContainer.appendChild(card);
+  });
+
+  setTimeout(() => {
+    document.querySelectorAll('.dimension-bar-fill').forEach(bar => {
+      bar.style.width = bar.dataset.width + '%';
+    });
+  }, 500);
+
+  const recContainer = document.getElementById('recommendationCards');
+  recContainer.innerHTML = '';
+  recommendations.slice(0, 8).forEach(rec => {
+    const card = document.createElement('div');
+    card.className = `rec-card rec-priority-${rec.priority}`;
+    card.innerHTML = `
+      <span class="rec-priority-tag">${rec.priority} priority</span>
+      <h4>${rec.title}</h4>
+      <p>${rec.desc}</p>
+    `;
+    recContainer.appendChild(card);
+  });
+}
+
+// ═══════ EMAIL NOTIFICATION ═══════
+function sendNotificationEmail(scores, recommendations) {
+  const formData = {
+    firstName: document.getElementById('firstName').value.trim(),
+    lastName: document.getElementById('lastName').value.trim(),
+    email: document.getElementById('userEmail').value.trim(),
+    company: document.getElementById('companyName').value.trim(),
+    primaryErp: document.getElementById('primaryErp').value,
+    companySize: document.getElementById('companySize').value,
+    totalScore: scores.totalScore,
+    maturityLevel: scores.maturity.name,
+    maturityTitle: scores.maturity.title,
+    dimensions: scores.dimensions.map(d => ({
+      name: d.name, score: d.total, max: d.max, percentage: d.pct
+    })),
+    topRecommendations: recommendations.slice(0, 5).map(r => ({
+      title: r.title, priority: r.priority, dimension: r.dimension
+    })),
+    submittedAt: new Date().toISOString()
+  };
+
+  // Log for development — replace with your preferred email/webhook integration
+  console.log('📧 Master Data Health Assessment Submission:', JSON.stringify(formData, null, 2));
+}
+
+// Init
+updateProgress();
+</script>
+</body>
+</html>

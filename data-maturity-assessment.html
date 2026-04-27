@@ -3,48 +3,97 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Data & Reporting Maturity Assessment | Liquid Peak</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Serif+Text:ital@0;1&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>Data & Reporting Maturity Assessment | Bruce Dando</title>
+<meta name="description" content="Free interactive assessment to benchmark your organisation's data and reporting maturity across governance, architecture, analytics, culture, security, automation, and business value.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◈</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --lp-dark: #0f2d32;
-  --lp-navy: #01385f;
-  --lp-charcoal: #20282d;
-  --lp-text: #223035;
-  --lp-text-light: #547079;
-  --lp-muted: #85979b;
-  --lp-teal: #67cbb9;
-  --lp-teal-light: rgba(103, 203, 185, 0.15);
-  --lp-teal-soft: #e1f2f2;
-  --lp-teal-bg: rgba(225, 242, 242, 0.4);
-  --lp-mint: rgba(243, 250, 250, 0.6);
-  --lp-white: #fbfbfb;
-  --lp-border: #aec5cd;
+  --lp-dark: #1a1a1d;
+  --lp-navy: #1e4264;
+  --lp-charcoal: #3a3a40;
+  --lp-text: #1a1a1d;
+  --lp-text-light: #6e6e78;
+  --lp-muted: #a0a0aa;
+  --lp-teal: #2c5f8a;
+  --lp-teal-light: rgba(44, 95, 138, 0.12);
+  --lp-teal-soft: #edf3f8;
+  --lp-teal-bg: rgba(237, 243, 248, 0.4);
+  --lp-mint: rgba(237, 243, 248, 0.6);
+  --lp-white: #faf9f7;
+  --lp-border: #e4e3dc;
   --lp-radius: 12px;
   --lp-radius-lg: 20px;
-  --font-display: 'DM Serif Text', Georgia, serif;
-  --font-heading: 'Sora', sans-serif;
-  --font-body: 'DM Sans', sans-serif;
-  --shadow-soft: 0 4px 24px rgba(15, 45, 50, 0.06);
-  --shadow-card: 0 8px 40px rgba(15, 45, 50, 0.08);
-  --shadow-hover: 0 12px 48px rgba(15, 45, 50, 0.12);
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-heading: 'Inter', -apple-system, sans-serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --shadow-soft: 0 4px 24px rgba(26, 26, 29, 0.06);
+  --shadow-card: 0 8px 40px rgba(26, 26, 29, 0.08);
+  --shadow-hover: 0 12px 48px rgba(26, 26, 29, 0.12);
   --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  --nav-h: 60px;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
   font-family: var(--font-body);
+  font-weight: 400;
   color: var(--lp-text);
   background: var(--lp-white);
-  line-height: 1.6;
+  line-height: 1.7;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
+
+/* ─── SITE NAV ─── */
+.site-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--nav-h);
+  background: rgba(250,249,247,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--lp-border);
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+}
+.site-nav-inner {
+  max-width: 1060px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.site-nav-logo {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--lp-text);
+  text-decoration: none;
+  letter-spacing: -0.01em;
+}
+.site-nav-logo span { color: var(--lp-teal); }
+.site-nav-back {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--lp-text-light);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.15s;
+}
+.site-nav-back:hover { color: var(--lp-text); }
+.site-nav-back svg { width: 16px; height: 16px; }
 
 /* ─── HERO SECTION ─── */
 .hero {
-  background: linear-gradient(135deg, var(--lp-dark) 0%, var(--lp-navy) 50%, #0a3f5c 100%);
-  padding: 100px 24px 80px;
+  background: linear-gradient(135deg, var(--lp-dark) 0%, var(--lp-navy) 50%, #1a3a5c 100%);
+  padding: calc(var(--nav-h) + 60px) 24px 80px;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -57,7 +106,7 @@ body {
   right: -20%;
   width: 600px;
   height: 600px;
-  background: radial-gradient(circle, rgba(103,203,185,0.12) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(44,95,138,0.15) 0%, transparent 70%);
   border-radius: 50%;
 }
 
@@ -68,15 +117,15 @@ body {
   left: -10%;
   width: 400px;
   height: 400px;
-  background: radial-gradient(circle, rgba(103,203,185,0.08) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(44,95,138,0.1) 0%, transparent 70%);
   border-radius: 50%;
 }
 
 .hero-badge {
   display: inline-block;
-  background: rgba(103, 203, 185, 0.15);
-  border: 1px solid rgba(103, 203, 185, 0.3);
-  color: var(--lp-teal);
+  background: rgba(44, 95, 138, 0.2);
+  border: 1px solid rgba(44, 95, 138, 0.35);
+  color: #8fb8d9;
   font-family: var(--font-heading);
   font-size: 11px;
   font-weight: 600;
@@ -127,11 +176,11 @@ body {
 
 /* ─── PROGRESS BAR ─── */
 .progress-container {
-  background: #fff;
-  border-bottom: 1px solid rgba(174, 197, 205, 0.3);
+  background: rgba(255,255,255,0.95);
+  border-bottom: 1px solid var(--lp-border);
   padding: 0 24px;
   position: sticky;
-  top: 0;
+  top: var(--nav-h);
   z-index: 100;
   backdrop-filter: blur(12px);
 }
@@ -155,7 +204,7 @@ body {
 
 .progress-bar-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--lp-teal), var(--lp-navy));
+  background: linear-gradient(90deg, var(--lp-teal), var(--lp-dark));
   border-radius: 10px;
   transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   width: 0%;
@@ -182,7 +231,7 @@ body {
 .section-header {
   margin-bottom: 36px;
   padding-bottom: 24px;
-  border-bottom: 1px solid rgba(174, 197, 205, 0.2);
+  border-bottom: 1px solid rgba(228, 227, 220, 0.6);
 }
 
 .section-number {
@@ -212,7 +261,7 @@ body {
 /* ─── QUESTION CARDS ─── */
 .question-card {
   background: #fff;
-  border: 1px solid rgba(174, 197, 205, 0.25);
+  border: 1px solid var(--lp-border);
   border-radius: var(--lp-radius);
   padding: 32px;
   margin-bottom: 20px;
@@ -221,7 +270,7 @@ body {
 }
 
 .question-card:hover {
-  border-color: rgba(103, 203, 185, 0.4);
+  border-color: rgba(44, 95, 138, 0.35);
   box-shadow: var(--shadow-soft);
 }
 
@@ -261,7 +310,7 @@ body {
   align-items: flex-start;
   gap: 14px;
   padding: 14px 18px;
-  border: 1px solid rgba(174, 197, 205, 0.2);
+  border: 1px solid rgba(228, 227, 220, 0.6);
   border-radius: 10px;
   cursor: pointer;
   transition: var(--transition);
@@ -270,7 +319,7 @@ body {
 
 .option-item:hover {
   background: var(--lp-mint);
-  border-color: rgba(103, 203, 185, 0.3);
+  border-color: rgba(44, 95, 138, 0.25);
 }
 
 .option-item.selected {
@@ -338,7 +387,7 @@ body {
 
 /* ─── EMAIL CAPTURE ─── */
 .email-section {
-  background: linear-gradient(135deg, var(--lp-dark), var(--lp-navy));
+  background: linear-gradient(135deg, #1a1a1d, #1e4264);
   border-radius: var(--lp-radius-lg);
   padding: 48px 40px;
   margin-top: 48px;
@@ -353,7 +402,7 @@ body {
   right: -20%;
   width: 300px;
   height: 300px;
-  background: radial-gradient(circle, rgba(103,203,185,0.15) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(44,95,138,0.12) 0%, transparent 70%);
   border-radius: 50%;
 }
 
@@ -444,7 +493,7 @@ body {
 }
 
 .form-select option {
-  background: var(--lp-dark);
+  background: #1a1a1d;
   color: #fff;
 }
 
@@ -453,7 +502,7 @@ body {
   align-items: center;
   gap: 10px;
   padding: 16px 36px;
-  background: linear-gradient(135deg, var(--lp-teal), #4db8a4);
+  background: var(--lp-teal);
   color: #fff;
   border: none;
   border-radius: 50px;
@@ -468,7 +517,8 @@ body {
 
 .submit-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(103, 203, 185, 0.35);
+  background: var(--lp-navy);
+  box-shadow: 0 8px 30px rgba(44, 95, 138, 0.3);
 }
 
 .submit-btn:disabled {
@@ -616,7 +666,7 @@ body {
 .maturity-level-2 { background: #fff3e0; color: #e67e22; }
 .maturity-level-3 { background: #fff8e1; color: #f39c12; }
 .maturity-level-4 { background: #e8f5e9; color: #27ae60; }
-.maturity-level-5 { background: var(--lp-teal-light); color: #0f8b7a; }
+.maturity-level-5 { background: var(--lp-teal-light); color: #1e4264; }
 
 .score-details h3 {
   font-family: var(--font-display);
@@ -654,7 +704,7 @@ body {
 
 .dimension-card {
   background: #fff;
-  border: 1px solid rgba(174, 197, 205, 0.2);
+  border: 1px solid rgba(228, 227, 220, 0.6);
   border-radius: var(--lp-radius);
   padding: 28px 32px;
   margin-bottom: 16px;
@@ -729,7 +779,7 @@ body {
 
 .rec-card {
   background: #fff;
-  border: 1px solid rgba(174, 197, 205, 0.2);
+  border: 1px solid rgba(228, 227, 220, 0.6);
   border-radius: var(--lp-radius);
   padding: 32px;
   margin-bottom: 16px;
@@ -764,7 +814,7 @@ body {
 
 .rec-priority-high .rec-priority-tag { background: #ffeaea; color: #c0392b; }
 .rec-priority-medium .rec-priority-tag { background: #fff3e0; color: #e67e22; }
-.rec-priority-low .rec-priority-tag { background: var(--lp-teal-light); color: #0f8b7a; }
+.rec-priority-low .rec-priority-tag { background: var(--lp-teal-light); color: #1e4264; }
 
 .rec-card h4 {
   font-family: var(--font-heading);
@@ -803,7 +853,7 @@ body {
   right: -15%;
   width: 400px;
   height: 400px;
-  background: radial-gradient(circle, rgba(103,203,185,0.12) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(44,95,138,0.1) 0%, transparent 70%);
   border-radius: 50%;
 }
 
@@ -844,7 +894,8 @@ body {
 
 .cta-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(103, 203, 185, 0.35);
+  background: var(--lp-navy);
+  box-shadow: 0 8px 30px rgba(44, 95, 138, 0.3);
 }
 
 .cta-btn svg { width: 18px; height: 18px; }
@@ -884,7 +935,7 @@ body {
   align-items: center;
   margin-top: 40px;
   padding-top: 32px;
-  border-top: 1px solid rgba(174, 197, 205, 0.2);
+  border-top: 1px solid rgba(228, 227, 220, 0.6);
 }
 
 .nav-btn {
@@ -940,7 +991,7 @@ body {
 
 /* ─── RESPONSIVE ─── */
 @media (max-width: 768px) {
-  .hero { padding: 80px 20px 60px; }
+  .hero { padding: calc(var(--nav-h) + 40px) 20px 60px; }
   .question-card { padding: 24px; }
   .email-section { padding: 36px 24px; }
   .form-row { grid-template-columns: 1fr; }
@@ -958,7 +1009,7 @@ body {
 
 /* ─── PRINT STYLES ─── */
 @media print {
-  .progress-container, .nav-buttons, .cta-section, .hero { display: none; }
+  .site-nav, .progress-container, .nav-buttons, .cta-section, .hero { display: none; }
   .assessment-section, #resultsSection { display: block !important; }
 }
 
@@ -986,10 +1037,26 @@ body {
   transform: translateY(0);
 }
 
-.success-toast svg { width: 20px; height: 20px; color: var(--lp-teal); }
+.success-toast svg { width: 20px; height: 20px; color: #2d7a5e; }
+
+/* ─── NAV RESPONSIVE ─── */
+@media (max-width: 768px) {
+  .site-nav { padding: 0 1rem; }
+}
 </style>
 </head>
 <body>
+
+<!-- ═══════ SITE NAVIGATION ═══════ -->
+<nav class="site-nav">
+  <div class="site-nav-inner">
+    <a href="/" class="site-nav-logo">Bruce <span>Dando</span></a>
+    <a href="/#tools" class="site-nav-back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Tools
+    </a>
+  </div>
+</nav>
 
 <!-- ═══════ ASSESSMENT VIEW ═══════ -->
 <div id="assessmentView">
@@ -1843,9 +1910,9 @@ body {
   <div class="cta-section">
     <div class="cta-card">
       <h3>Ready to Accelerate Your Data Maturity?</h3>
-      <p>Our consultants specialise in helping organisations like yours bridge the gap between where you are and where you need to be. Book a complimentary strategy session with our team.</p>
-      <a href="https://www.liquidpeak.com.au/contact-us/" class="cta-btn" target="_blank">
-        Book a Free Consultation
+      <p>I help organisations bridge the gap between where they are and where they need to be with data, analytics, and AI strategy. Let's have a conversation about your results.</p>
+      <a href="/#contact" class="cta-btn">
+        Get in Touch
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
       </a>
     </div>
@@ -1855,7 +1922,7 @@ body {
 <!-- ═══════ SUCCESS TOAST ═══════ -->
 <div class="success-toast" id="successToast">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-  Your results have been sent to Liquid Peak
+  Your assessment is complete
 </div>
 
 <script>
@@ -1886,7 +1953,7 @@ const maturityLevels = [
   { min: 55, max: 72, level: 4, name: 'Managed',     label: 'Level 4 — Managed',     color: '#27ae60',
     title: 'Managed Stage: Optimised & Data-Driven',
     desc: 'Your organisation demonstrates strong data maturity with well-governed, automated practices driving real business outcomes. You are ahead of most organisations. To reach the highest level, focus on advanced analytics, AI integration, and continuous innovation. The opportunity is to differentiate competitively through data excellence.' },
-  { min: 73, max: 90, level: 5, name: 'Optimising',  label: 'Level 5 — Optimising',  color: '#0f8b7a',
+  { min: 73, max: 90, level: 5, name: 'Optimising',  label: 'Level 5 — Optimising',  color: '#2c5f8a',
     title: 'Optimising Stage: Industry-Leading',
     desc: 'Exceptional. Your organisation is at the forefront of data maturity, leveraging data as a true strategic asset. Your practices are enterprise-wide, automated, and continuously evolving. Maintaining this position requires ongoing investment in innovation, talent, and emerging technologies. Consider how you can monetise or productise your data capabilities.' }
 ];
@@ -1944,7 +2011,7 @@ function showSection(sectionNum) {
   const target = document.querySelector(`.assessment-section[data-section="${sectionNum}"]`);
   if (target) {
     target.classList.add('active');
-    window.scrollTo({ top: document.querySelector('.progress-container').offsetTop, behavior: 'smooth' });
+    window.scrollTo({ top: document.querySelector('.progress-container').offsetTop - 60, behavior: 'smooth' });
     updateProgress();
   }
 }
