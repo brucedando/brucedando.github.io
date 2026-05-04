@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASRS Readiness Checker | Bruce Dando</title>
+<meta name="description" content="Free interactive assessment to gauge your organisation's readiness for Australian Sustainability Reporting Standards (AASB S1 &amp; S2). Covers governance, strategy, risk management, emissions measurement, scenario analysis, and data readiness.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◈</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bd-dark: #1a1a1d;
+  --bd-navy: #1e4264;
+  --bd-charcoal: #3a3a40;
+  --bd-text: #1a1a1d;
+  --bd-text-light: #6e6e78;
+  --bd-muted: #a0a0aa;
+  --bd-accent: #2c5f8a;
+  --bd-accent-light: rgba(44, 95, 138, 0.12);
+  --bd-accent-soft: #edf3f8;
+  --bd-accent-bg: rgba(237, 243, 248, 0.4);
+  --bd-mint: rgba(237, 243, 248, 0.6);
+  --bd-bg: #faf9f7;
+  --bd-white: #ffffff;
+  --bd-border: #e4e3dc;
+  --bd-green: #2d7a5e;
+  --bd-warm: #8a5c2c;
+  --bd-radius: 12px;
+  --bd-radius-lg: 20px;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-heading: 'Inter', -apple-system, sans-serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --shadow-soft: 0 4px 24px rgba(26, 26, 29, 0.06);
+  --shadow-card: 0 8px 40px rgba(26, 26, 29, 0.08);
+  --shadow-hover: 0 12px 48px rgba(26, 26, 29, 0.12);
+  --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  --nav-h: 60px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  color: var(--bd-text);
+  background: var(--bd-bg);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ─── SITE NAV ─── */
+.site-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--nav-h);
+  background: rgba(250,249,247,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--bd-border);
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+}
+.site-nav-inner {
+  max-width: 1060px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.site-nav-logo {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--bd-text);
+  text-decoration: none;
+  letter-spacing: -0.01em;
+}
+.site-nav-logo span { color: var(--bd-accent); }
+.site-nav-back {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--bd-text-light);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.15s;
+}
+.site-nav-back:hover { color: var(--bd-text); }
+.site-nav-back svg { width: 16px; height: 16px; }
+
+/* ─── HERO ─── */
+.hero {
+  background: linear-gradient(135deg, #1a2e1a 0%, #1e4230 50%, #1a3a2a 100%);
+  padding: calc(var(--nav-h) + 60px) 24px 80px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(45,122,94,0.15) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  left: -10%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(45,122,94,0.1) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.hero-badge {
+  display: inline-block;
+  background: rgba(45, 122, 94, 0.2);
+  border: 1px solid rgba(45, 122, 94, 0.35);
+  color: #7cc4a5;
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  padding: 8px 20px;
+  border-radius: 50px;
+  margin-bottom: 28px;
+  position: relative;
+  z-index: 1;
+}
+.hero h1 {
+  font-family: var(--font-display);
+  color: #fff;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 400;
+  line-height: 1.2;
+  max-width: 720px;
+  margin: 0 auto 20px;
+  position: relative;
+  z-index: 1;
+}
+.hero p {
+  color: rgba(255,255,255,0.7);
+  font-size: 17px;
+  max-width: 620px;
+  margin: 0 auto;
+  line-height: 1.7;
+  position: relative;
+  z-index: 1;
+}
+.hero-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #7cc4a5;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 24px;
+  position: relative;
+  z-index: 1;
+}
+.hero-time svg { width: 16px; height: 16px; }
+
+/* ─── PROGRESS BAR ─── */
+.progress-container {
+  background: rgba(255,255,255,0.95);
+  border-bottom: 1px solid var(--bd-border);
+  padding: 0 24px;
+  position: sticky;
+  top: var(--nav-h);
+  z-index: 100;
+  backdrop-filter: blur(12px);
+}
+.progress-inner {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 16px 0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.progress-bar-wrap {
+  flex: 1;
+  height: 6px;
+  background: var(--bd-accent-soft);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--bd-green), #1a4a35);
+  border-radius: 10px;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 0%;
+}
+.progress-text {
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--bd-text-light);
+  white-space: nowrap;
+  min-width: 90px;
+  text-align: right;
+}
+
+/* ─── MAIN CONTAINER ─── */
+.assessment-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 48px 24px 120px;
+}
+
+/* ─── SECTION HEADERS ─── */
+.section-header { margin-bottom: 36px; padding-bottom: 24px; border-bottom: 1px solid rgba(228,227,220,0.6); }
+.section-number {
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--bd-green);
+  margin-bottom: 8px;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  color: var(--bd-dark);
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+.section-desc { color: var(--bd-text-light); font-size: 15px; line-height: 1.6; }
+
+/* ─── QUESTION CARDS ─── */
+.question-card {
+  background: var(--bd-white);
+  border: 1px solid var(--bd-border);
+  border-radius: var(--bd-radius);
+  padding: 32px;
+  margin-bottom: 20px;
+  transition: var(--transition);
+  position: relative;
+}
+.question-card:hover { border-color: rgba(45,122,94,0.35); box-shadow: var(--shadow-soft); }
+.question-card.answered { border-left: 3px solid var(--bd-green); }
+.question-label {
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--bd-dark);
+  margin-bottom: 20px;
+  line-height: 1.5;
+  padding-right: 40px;
+}
+.question-number {
+  position: absolute;
+  top: 32px;
+  right: 32px;
+  font-family: var(--font-heading);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--bd-muted);
+}
+
+/* ─── RADIO OPTIONS ─── */
+.options-list { display: flex; flex-direction: column; gap: 10px; }
+.option-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 18px;
+  border: 1px solid rgba(228,227,220,0.6);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+}
+.option-item:hover { background: rgba(45,122,94,0.04); border-color: rgba(45,122,94,0.25); }
+.option-item.selected { background: rgba(45,122,94,0.08); border-color: var(--bd-green); }
+.option-item input[type="radio"] { display: none; }
+.radio-custom {
+  width: 20px; height: 20px; min-width: 20px;
+  border: 2px solid var(--bd-border);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  transition: var(--transition);
+  margin-top: 1px;
+}
+.option-item.selected .radio-custom { border-color: var(--bd-green); background: var(--bd-green); }
+.radio-custom::after {
+  content: '';
+  width: 6px; height: 6px;
+  background: #fff;
+  border-radius: 50%;
+  opacity: 0;
+  transition: var(--transition);
+}
+.option-item.selected .radio-custom::after { opacity: 1; }
+.option-text { font-size: 14px; color: var(--bd-text); line-height: 1.5; }
+
+/* ─── EMAIL CAPTURE ─── */
+.email-section {
+  background: linear-gradient(135deg, #1a2e1a, #1e4230);
+  border-radius: var(--bd-radius-lg);
+  padding: 48px 40px;
+  margin-top: 48px;
+  position: relative;
+  overflow: hidden;
+}
+.email-section::before {
+  content: '';
+  position: absolute;
+  top: -50%; right: -20%;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(45,122,94,0.12) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.email-section h3 {
+  font-family: var(--font-display);
+  color: #fff;
+  font-size: 1.6rem;
+  margin-bottom: 12px;
+  position: relative;
+}
+.email-section p {
+  color: rgba(255,255,255,0.65);
+  font-size: 15px;
+  margin-bottom: 28px;
+  position: relative;
+}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; position: relative; }
+.form-group { position: relative; }
+.form-group.full-width { grid-column: 1 / -1; }
+.form-group label {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 12px; font-weight: 500;
+  color: rgba(255,255,255,0.5);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+.form-input {
+  width: 100%;
+  padding: 14px 18px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 10px;
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 15px;
+  transition: var(--transition);
+  outline: none;
+}
+.form-input::placeholder { color: rgba(255,255,255,0.3); }
+.form-input:focus { border-color: var(--bd-green); background: rgba(255,255,255,0.12); }
+.form-input.error { border-color: #e74c3c; }
+.form-select {
+  width: 100%;
+  padding: 14px 18px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 10px;
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 15px;
+  transition: var(--transition);
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(255,255,255,0.4)' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 18px center;
+}
+.form-select option { background: #1a2e1a; color: #fff; }
+
+.submit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 36px;
+  background: var(--bd-green);
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-top: 12px;
+  position: relative;
+}
+.submit-btn:hover { transform: translateY(-2px); background: #1e5e42; box-shadow: 0 8px 30px rgba(45,122,94,0.3); }
+.submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.submit-btn svg { width: 18px; height: 18px; }
+
+.validation-msg { color: #e74c3c; font-size: 13px; margin-top: 12px; display: none; position: relative; }
+
+/* ─── RESULTS ─── */
+#resultsSection { display: none; }
+.results-hero {
+  background: linear-gradient(135deg, #1a2e1a 0%, #1e4230 100%);
+  padding: calc(var(--nav-h) + 60px) 24px 80px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.results-hero::before {
+  content: '';
+  position: absolute;
+  top: -30%; right: -15%;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(45,122,94,0.1) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.results-hero h2 {
+  font-family: var(--font-display);
+  color: #fff;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  margin-bottom: 16px;
+  position: relative;
+}
+.results-hero p { color: rgba(255,255,255,0.6); font-size: 16px; position: relative; }
+
+/* ─── SCORE RING ─── */
+.score-overview { max-width: 900px; margin: -50px auto 0; padding: 0 24px; position: relative; z-index: 2; }
+.score-card {
+  background: var(--bd-white);
+  border-radius: var(--bd-radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: 48px;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 48px;
+  align-items: center;
+}
+.score-ring-wrap { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.score-ring { width: 180px; height: 180px; position: relative; }
+.score-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.score-ring-bg { fill: none; stroke: rgba(45,122,94,0.12); stroke-width: 8; }
+.score-ring-fill {
+  fill: none;
+  stroke: var(--bd-green);
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-dasharray: 452;
+  stroke-dashoffset: 452;
+  transition: stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.score-ring-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
+.score-value { font-family: var(--font-heading); font-size: 42px; font-weight: 700; color: var(--bd-dark); line-height: 1; }
+.score-max { font-family: var(--font-heading); font-size: 14px; color: var(--bd-muted); font-weight: 500; }
+.maturity-label {
+  font-family: var(--font-heading);
+  font-size: 14px; font-weight: 600;
+  padding: 6px 18px;
+  border-radius: 50px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.maturity-level-1 { background: #ffeaea; color: #c0392b; }
+.maturity-level-2 { background: #fff3e0; color: #e67e22; }
+.maturity-level-3 { background: #fff8e1; color: #f39c12; }
+.maturity-level-4 { background: #e8f5e9; color: #27ae60; }
+.maturity-level-5 { background: rgba(45,122,94,0.12); color: #1e4230; }
+.score-details h3 { font-family: var(--font-display); font-size: 1.5rem; color: var(--bd-dark); margin-bottom: 12px; }
+.score-details p { color: var(--bd-text-light); font-size: 15px; line-height: 1.7; margin-bottom: 24px; }
+
+/* ─── DIMENSION BARS ─── */
+.dimensions-section { max-width: 900px; margin: 48px auto 0; padding: 0 24px; }
+.dimensions-title { font-family: var(--font-display); font-size: 1.5rem; color: var(--bd-dark); margin-bottom: 8px; }
+.dimensions-subtitle { color: var(--bd-text-light); font-size: 15px; margin-bottom: 32px; }
+.dimension-card {
+  background: var(--bd-white);
+  border: 1px solid rgba(228,227,220,0.6);
+  border-radius: var(--bd-radius);
+  padding: 28px 32px;
+  margin-bottom: 16px;
+  transition: var(--transition);
+}
+.dimension-card:hover { box-shadow: var(--shadow-soft); }
+.dimension-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.dimension-name { font-family: var(--font-heading); font-size: 15px; font-weight: 600; color: var(--bd-dark); }
+.dimension-score { font-family: var(--font-heading); font-size: 14px; font-weight: 600; color: var(--bd-green); }
+.dimension-bar-wrap { height: 8px; background: rgba(45,122,94,0.08); border-radius: 10px; overflow: hidden; margin-bottom: 12px; }
+.dimension-bar-fill { height: 100%; border-radius: 10px; transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1); width: 0%; }
+.dimension-insight { font-size: 14px; color: var(--bd-text-light); line-height: 1.6; }
+
+/* ─── RECOMMENDATIONS ─── */
+.recommendations-section { max-width: 900px; margin: 56px auto 0; padding: 0 24px; }
+.rec-title { font-family: var(--font-display); font-size: 1.5rem; color: var(--bd-dark); margin-bottom: 8px; }
+.rec-subtitle { color: var(--bd-text-light); font-size: 15px; margin-bottom: 32px; }
+.rec-card {
+  background: var(--bd-white);
+  border: 1px solid rgba(228,227,220,0.6);
+  border-radius: var(--bd-radius);
+  padding: 32px;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+}
+.rec-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; }
+.rec-priority-high::before { background: #e74c3c; }
+.rec-priority-medium::before { background: #f39c12; }
+.rec-priority-low::before { background: var(--bd-green); }
+.rec-priority-tag {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-size: 10px; font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding: 4px 12px;
+  border-radius: 50px;
+  margin-bottom: 12px;
+}
+.rec-priority-high .rec-priority-tag { background: #ffeaea; color: #c0392b; }
+.rec-priority-medium .rec-priority-tag { background: #fff3e0; color: #e67e22; }
+.rec-priority-low .rec-priority-tag { background: rgba(45,122,94,0.1); color: #1e4230; }
+.rec-card h4 { font-family: var(--font-heading); font-size: 16px; font-weight: 600; color: var(--bd-dark); margin-bottom: 10px; }
+.rec-card p { font-size: 14px; color: var(--bd-text-light); line-height: 1.7; }
+
+/* ─── CTA ─── */
+.cta-section { max-width: 900px; margin: 56px auto 0; padding: 0 24px 80px; }
+.cta-card {
+  background: linear-gradient(135deg, #1a2e1a, #1e4230);
+  border-radius: var(--bd-radius-lg);
+  padding: 56px 48px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.cta-card::before {
+  content: '';
+  position: absolute;
+  top: -40%; right: -15%;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(45,122,94,0.1) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.cta-card h3 { font-family: var(--font-display); color: #fff; font-size: 1.8rem; margin-bottom: 16px; position: relative; }
+.cta-card p { color: rgba(255,255,255,0.65); font-size: 16px; max-width: 520px; margin: 0 auto 32px; line-height: 1.7; position: relative; }
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 40px;
+  background: var(--bd-green);
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  font-family: var(--font-heading);
+  font-size: 16px; font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+  position: relative;
+}
+.cta-btn:hover { transform: translateY(-2px); background: #1e5e42; box-shadow: 0 8px 30px rgba(45,122,94,0.3); }
+.cta-btn svg { width: 18px; height: 18px; }
+
+/* ─── SPINNER ─── */
+.spinner { display: none; width: 24px; height: 24px; border: 3px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ─── SECTION VISIBILITY ─── */
+.assessment-section { display: none; animation: fadeInUp 0.5s ease; }
+.assessment-section.active { display: block; }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ─── NAV BUTTONS ─── */
+.nav-buttons {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 40px; padding-top: 32px;
+  border-top: 1px solid rgba(228,227,220,0.6);
+}
+.nav-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 28px; border-radius: 50px;
+  font-family: var(--font-heading); font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: var(--transition); border: none;
+}
+.nav-btn-back { background: transparent; color: var(--bd-text-light); border: 1px solid var(--bd-border); }
+.nav-btn-back:hover { background: rgba(45,122,94,0.06); border-color: var(--bd-green); color: var(--bd-dark); }
+.nav-btn-next { background: var(--bd-dark); color: #fff; }
+.nav-btn-next:hover { background: #1e4230; transform: translateY(-1px); box-shadow: var(--shadow-soft); }
+.nav-btn svg { width: 16px; height: 16px; }
+
+/* ─── TOAST ─── */
+.success-toast {
+  position: fixed; bottom: 32px; right: 32px;
+  background: var(--bd-dark); color: #fff;
+  padding: 16px 24px; border-radius: 12px;
+  font-size: 14px; font-weight: 500;
+  box-shadow: var(--shadow-card);
+  transform: translateY(120%);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+  display: flex; align-items: center; gap: 10px;
+}
+.success-toast.show { transform: translateY(0); }
+.success-toast svg { width: 20px; height: 20px; color: #2d7a5e; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 768px) {
+  .site-nav { padding: 0 1rem; }
+  .hero { padding: calc(var(--nav-h) + 40px) 20px 60px; }
+  .question-card { padding: 24px; }
+  .email-section { padding: 36px 24px; }
+  .form-row { grid-template-columns: 1fr; }
+  .score-card { grid-template-columns: 1fr; text-align: center; gap: 32px; padding: 36px 24px; }
+  .score-details { text-align: left; }
+  .cta-card { padding: 40px 24px; }
+  .nav-buttons { gap: 12px; }
+  .nav-btn { padding: 12px 20px; font-size: 13px; }
+}
+
+@media print {
+  .site-nav, .progress-container, .nav-buttons, .cta-section, .hero { display: none; }
+  .assessment-section, #resultsSection { display: block !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════ SITE NAVIGATION ═══════ -->
+<nav class="site-nav">
+  <div class="site-nav-inner">
+    <a href="/" class="site-nav-logo">Bruce <span>Dando</span></a>
+    <a href="/#tools" class="site-nav-back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Tools
+    </a>
+  </div>
+</nav>
+
+<!-- ═══════ ASSESSMENT VIEW ═══════ -->
+<div id="assessmentView">
+
+<div class="hero">
+  <div class="hero-badge">Free Assessment</div>
+  <h1>ASRS Readiness Checker</h1>
+  <p>Assess your organisation's preparedness for Australia's mandatory sustainability reporting under AASB S1 (General Requirements) and AASB S2 (Climate-related Disclosures). Covers governance, strategy, risk, metrics, emissions, scenario analysis, and data readiness.</p>
+  <div class="hero-time">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    Takes approximately 12–15 minutes
+  </div>
+</div>
+
+<div class="progress-container">
+  <div class="progress-inner">
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressBar"></div>
+    </div>
+    <div class="progress-text" id="progressText">Section 1 of 7</div>
+  </div>
+</div>
+
+<div class="assessment-container" id="assessmentForm">
+
+  <!-- ═══════ SECTION 1: GOVERNANCE & OVERSIGHT ═══════ -->
+  <div class="assessment-section active" data-section="1">
+    <div class="section-header">
+      <div class="section-number">Section 01</div>
+      <h2 class="section-title">Governance & Oversight</h2>
+      <p class="section-desc">How effectively does your board and senior management govern sustainability and climate-related risks and opportunities? (AASB S1 para 26–27, AASB S2 para 5–7)</p>
+    </div>
+
+    <div class="question-card" data-question="q1">
+      <div class="question-label">Does your board (or a board committee) have formal oversight of sustainability and climate-related risks and opportunities?</div>
+      <div class="question-number">Q1</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q1" value="1"><span class="radio-custom"></span><span class="option-text">No board-level involvement — sustainability is not on the board agenda</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q1" value="2"><span class="radio-custom"></span><span class="option-text">Ad-hoc board discussions when issues arise, but no formal mandate or committee charter</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q1" value="3"><span class="radio-custom"></span><span class="option-text">Board or committee has a documented sustainability oversight mandate with periodic reporting</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q1" value="4"><span class="radio-custom"></span><span class="option-text">Dedicated sustainability committee (or Risk/Audit committee with explicit ESG charter) reviews risks, targets, and progress quarterly</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q1" value="5"><span class="radio-custom"></span><span class="option-text">Board integrates sustainability into strategic decisions, with named director accountability, skills matrix review, and remuneration linked to ESG outcomes</span></label>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="q2">
+      <div class="question-label">Does management have defined roles and responsibilities for sustainability reporting and climate risk?</div>
+      <div class="question-number">Q2</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q2" value="1"><span class="radio-custom"></span><span class="option-text">No one is formally accountable — sustainability tasks are distributed informally or not done</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q2" value="2"><span class="radio-custom"></span><span class="option-text">A single person (e.g. sustainability coordinator) manages it part-time without dedicated resources</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q2" value="3"><span class="radio-custom"></span><span class="option-text">A sustainability function exists with RACI clarity, but limited integration with Finance, Risk, and Operations</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q2" value="4"><span class="radio-custom"></span><span class="option-text">Cross-functional steering group with executive sponsor, clear RACI, and sustainability KPIs embedded in business unit plans</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q2" value="5"><span class="radio-custom"></span><span class="option-text">Chief Sustainability Officer (or equivalent) with dedicated team, budget, and direct board reporting line — sustainability is treated like financial reporting in rigour</span></label>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="q3">
+      <div class="question-label">How well do your internal controls and governance processes cover sustainability-related disclosures?</div>
+      <div class="question-number">Q3</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q3" value="1"><span class="radio-custom"></span><span class="option-text">No internal controls exist for sustainability data — it is compiled ad-hoc without review or sign-off</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q3" value="2"><span class="radio-custom"></span><span class="option-text">Basic review by the sustainability team, but no formal control framework or audit trail</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q3" value="3"><span class="radio-custom"></span><span class="option-text">Documented data collection procedures with sign-off workflows, though not yet integrated into the broader internal control framework</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q3" value="4"><span class="radio-custom"></span><span class="option-text">Sustainability disclosures are covered by the same internal control framework as financial reporting (SOX-style controls, management review, segregation of duties)</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q3" value="5"><span class="radio-custom"></span><span class="option-text">Fully integrated assurance model — sustainability data flows through the same control environment as financial data, with internal audit coverage and external limited/reasonable assurance</span></label>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <div></div>
+      <button class="nav-btn nav-btn-next" onclick="nextSection(1)">Continue <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+    </div>
+  </div>
+
+  <!-- ═══════ SECTION 2: STRATEGY & BUSINESS INTEGRATION ═══════ -->
+  <div class="assessment-section" data-section="2">
+    <div class="section-header">
+      <div class="section-number">Section 02</div>
+      <h2 class="section-title">Strategy & Business Integration</h2>
+      <p class="section-desc">How well are sustainability and climate-related risks and opportunities integrated into your business strategy, planning, and financial decisions? (AASB S1 para 28–35, AASB S2 para 8–22)</p>
+    </div>
+
+    <div class="question-card" data-question="q4">
+      <div class="question-label">Has your organisation identified and assessed the sustainability-related risks and opportunities that could reasonably be expected to affect its prospects?</div>
+      <div class="question-number">Q4</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q4" value="1"><span class="radio-custom"></span><span class="option-text">No structured identification exercise has been done — sustainability risks are not on the risk register</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q4" value="2"><span class="radio-custom"></span><span class="option-text">Some high-level risks are acknowledged (e.g. in the annual report narrative) but without systematic assessment</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q4" value="3"><span class="radio-custom"></span><span class="option-text">A structured materiality or double-materiality assessment has been conducted covering climate, nature, and social risks</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q4" value="4"><span class="radio-custom"></span><span class="option-text">Comprehensive assessment with stakeholder input, time-horizon mapping (short/medium/long-term), and quantified financial impacts where possible</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q4" value="5"><span class="radio-custom"></span><span class="option-text">Dynamic, regularly refreshed assessment integrated with enterprise risk management — sustainability risks are treated with the same rigour as financial and operational risks</span></label>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="q5">
+      <div class="question-label">How well does your strategy and capital allocation reflect identified sustainability-related risks and opportunities?</div>
+      <div class="question-number">Q5</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q5" value="1"><span class="radio-custom"></span><span class="option-text">Sustainability is not a factor in strategic planning or investment decisions</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q5" value="2"><span class="radio-custom"></span><span class="option-text">Sustainability is mentioned in strategy documents but does not meaningfully influence capital allocation</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q5" value="3"><span class="radio-custom"></span><span class="option-text">Climate and sustainability risks are considered in major investment decisions and strategic planning processes</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q5" value="4"><span class="radio-custom"></span><span class="option-text">Internal carbon pricing or shadow pricing used in investment appraisals; transition plan informs capital allocation</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q5" value="5"><span class="radio-custom"></span><span class="option-text">Sustainability is fully embedded in strategy — transition plan is board-approved, decarbonisation pathways inform CAPEX, and climate opportunities drive growth initiatives</span></label>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="q6">
+      <div class="question-label">Can your organisation describe how sustainability-related risks and opportunities have affected (or are expected to affect) its financial position, performance, and cash flows?</div>
+      <div class="question-number">Q6</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q6" value="1"><span class="radio-custom"></span><span class="option-text">No connection has been drawn between sustainability factors and financial statements</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q6" value="2"><span class="radio-custom"></span><span class="option-text">Qualitative acknowledgement only — e.g. "climate change may impact future costs" without quantification</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q6" value="3"><span class="radio-custom"></span><span class="option-text">Some quantitative estimates exist (e.g. asset impairment exposure, carbon liability) but they are not comprehensive</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q6" value="4"><span class="radio-custom"></span><span class="option-text">Financial impacts are quantified across balance sheet, P&L, and cash flow — with connectivity between sustainability and financial reports</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q6" value="5"><span class="radio-custom"></span><span class="option-text">Full financial connectivity — sustainability-related adjustments are reflected in accounting estimates, impairment testing, provisions, and forward-looking financial statements</span></label>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="nav-btn nav-btn-back" onclick="prevSection(2)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+      <button class="nav-btn nav-btn-next" onclick="nextSection(2)">Continue <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+    </div>
+  </div>
+
+  <!-- ═══════ SECTION 3: RISK MANAGEMENT ═══════ -->
+  <div class="assessment-section" data-section="3">
+    <div class="section-header">
+      <div class="section-number">Section 03</div>
+      <h2 class="section-title">Risk Management</h2>
+      <p class="section-desc">How mature are your processes for identifying, assessing, prioritising, and monitoring sustainability-related risks? (AASB S1 para 36–42, AASB S2 para 23–24)</p>
+    </div>
+
+    <div class="question-card" data-question="q7">
+      <div class="question-label">Do you have a defined process for identifying and assessing sustainability-related risks (including climate-related physical and transition risks)?</div>
+      <div class="question-number">Q7</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q7" value="1"><span class="radio-custom"></span><span class="option-text">No process — sustainability risks are not systematically identified or assessed</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q7" value="2"><span class="radio-custom"></span><span class="option-text">Informal identification based on media coverage or stakeholder pressure — reactive rather than structured</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q7" value="3"><span class="radio-custom"></span><span class="option-text">Structured risk identification process covering physical risks, transition risks, and opportunities with defined criteria</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q7" value="4"><span class="radio-custom"></span><span class="option-text">Comprehensive risk assessment with likelihood/impact scoring, value chain analysis, and time-horizon categorisation aligned to AASB S2 definitions</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q7" value="5"><span class="radio-custom"></span><span class="option-text">Continuous risk monitoring with automated triggers, scenario-linked risk updates, and full integration into enterprise risk management frameworks</span></label>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="q8">
+      <div class="question-label">Are sustainability-related risks integrated into your overall enterprise risk management (ERM) framework?</div>
+      <div class="question-number">Q8</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q8" value="1"><span class="radio-custom"></span><span class="option-text">Sustainability risks are managed separately (or not at all) — no integration with ERM</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q8" value="2"><span class="radio-custom"></span><span class="option-text">Some sustainability risks are included in the enterprise risk register but without consistent methodology</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q8" value="3"><span class="radio-custom"></span><span class="option-text">Climate and key sustainability risks are formally included in ERM with consistent scoring methodology</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q8" value="4"><span class="radio-custom"></span><span class="option-text">Full integration — sustainability risks use the same risk taxonomy, appetite thresholds, and escalation protocols as financial and operational risks</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q8" value="5"><span class="radio-custom"></span><span class="option-text">Sustainability risks are embedded in ERM with automated monitoring, cross-risk correlation analysis, and board-level risk appetite statements that explicitly cover climate</span></label>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="q9">
+      <div class="question-label">How effectively do you monitor and manage climate-related physical and transition risks across your value chain?</div>
+      <div class="question-number">Q9</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q9" value="1"><span class="radio-custom"></span><span class="option-text">No value chain risk assessment — we only consider risks within our own operations</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q9" value="2"><span class="radio-custom"></span><span class="option-text">Some awareness of supply chain climate risks but no formal assessment or monitoring</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q9" value="3"><span class="radio-custom"></span><span class="option-text">Key value chain risks mapped (e.g. critical supplier exposure, customer transition risk) with periodic review</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q9" value="4"><span class="radio-custom"></span><span class="option-text">Systematic value chain risk assessment with supplier engagement, physical risk mapping tools, and transition risk modelling</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q9" value="5"><span class="radio-custom"></span><span class="option-text">Real-time value chain monitoring with geospatial risk platforms, supplier ESG scoring, and automated exposure reporting across upstream and downstream activities</span></label>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="nav-btn nav-btn-back" onclick="prevSection(3)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+      <button class="nav-btn nav-btn-next" onclick="nextSection(3)">Continue <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+    </div>
+  </div>
+
+  <!-- ═══════ SECTION 4: METRICS & TARGETS ═══════ -->
+  <div class="assessment-section" data-section="4">
+    <div class="section-header">
+      <div class="section-number">Section 04</div>
+      <h2 class="section-title">Metrics & Targets</h2>
+      <p class="section-desc">How well does your organisation measure sustainability performance and set targets aligned to ASRS requirements? (AASB S1 para 43–53, AASB S2 para 29–36)</p>
+    </div>
+
+    <div class="question-card" data-question="q10">
+      <div class="question-label">Does your organisation track and disclose metrics that reflect material sustainability-related risks and opportunities (beyond just GHG emissions)?</div>
+      <div class="question-number">Q10</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q10" value="1"><span class="radio-custom"></span><span class="option-text">No sustainability metrics are tracked or reported</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q10" value="2"><span class="radio-custom"></span><span class="option-text">A few metrics are tracked (e.g. energy use, waste) but not linked to identified risks/opportunities or ASRS requirements</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q10" value="3"><span class="radio-custom"></span><span class="option-text">Key metrics identified for each material sustainability topic with defined calculation methodologies</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q10" value="4"><span class="radio-custom"></span><span class="option-text">Comprehensive metric set aligned to AASB S1/S2 and relevant industry standards (e.g. SASB industry metrics), with year-on-year comparability</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q10" value="5"><span class="radio-custom"></span><span class="option-text">Fully mature metrics programme with automated data collection, assured data quality, benchmarking against peers, and connectivity to financial KPIs</span></label>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="q11">
+      <div class="question-label">Has your organisation set quantitative targets for sustainability and climate performance, including interim milestones?</div>
+      <div class="question-number">Q11</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q11" value="1"><span class="radio-custom"></span><span class="option-text">No targets set — sustainability goals are aspirational statements without measurable commitments</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q11" value="2"><span class="radio-custom"></span><span class="option-text">High-level targets exist (e.g. "net zero by 2050") but without defined baselines, interim milestones, or clear scope</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q11" value="3"><span class="radio-custom"></span><span class="option-text">Quantitative targets with base year, scope, and interim milestones defined — though not yet validated by external frameworks</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q11" value="4"><span class="radio-custom"></span><span class="option-text">Science-based targets (SBTi validated or equivalent) with clear interim milestones, annual progress tracking, and board-level accountability</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q11" value="5"><span class="radio-custom"></span><span class="option-text">Comprehensive target framework covering emissions, water, waste, biodiversity, and social metrics — with validated pathways, annual recalibration, and transparent progress reporting</span></label>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="q12">
+      <div class="question-label">How mature is your approach to climate-related remuneration and incentive linkage (AASB S2 requires disclosure of whether and how climate is factored into remuneration)?</div>
+      <div class="question-number">Q12</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q12" value="1"><span class="radio-custom"></span><span class="option-text">No link between sustainability performance and executive or management remuneration</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q12" value="2"><span class="radio-custom"></span><span class="option-text">Sustainability is acknowledged in remuneration policy but not tied to specific, measurable outcomes</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q12" value="3"><span class="radio-custom"></span><span class="option-text">ESG metrics included in short-term incentive (STI) plans for senior management with defined weighting</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q12" value="4"><span class="radio-custom"></span><span class="option-text">Climate and sustainability KPIs embedded in both STI and LTI for executives, with clear targets and independent verification of outcomes</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q12" value="5"><span class="radio-custom"></span><span class="option-text">Sustainability incentives cascaded through the organisation — from board to operational management — with transparent disclosure of targets, weightings, and outcomes</span></label>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="nav-btn nav-btn-back" onclick="prevSection(4)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+      <button class="nav-btn nav-btn-next" onclick="nextSection(4)">Continue <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+    </div>
+  </div>
+
+  <!-- ═══════ SECTION 5: GHG EMISSIONS MEASUREMENT ═══════ -->
+  <div class="assessment-section" data-section="5">
+    <div class="section-header">
+      <div class="section-number">Section 05</div>
+      <h2 class="section-title">GHG Emissions Measurement</h2>
+      <p class="section-desc">How capable is your organisation at measuring and reporting greenhouse gas emissions across Scope 1, 2, and 3? (AASB S2 para 29(a), Aus-modified requirements for Scope 3 phase-in)</p>
+    </div>
+
+    <div class="question-card" data-question="q13">
+      <div class="question-label">How mature is your Scope 1 and Scope 2 GHG emissions measurement capability?</div>
+      <div class="question-number">Q13</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q13" value="1"><span class="radio-custom"></span><span class="option-text">We have not calculated Scope 1 or 2 emissions — no data collection or methodology in place</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q13" value="2"><span class="radio-custom"></span><span class="option-text">Rough estimates exist using spend-based proxies or high-level activity data, but no formal GHG inventory</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q13" value="3"><span class="radio-custom"></span><span class="option-text">Formal GHG inventory using GHG Protocol and NGER methodology; Scope 1 and 2 calculated annually with documented emission factors</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q13" value="4"><span class="radio-custom"></span><span class="option-text">Comprehensive Scope 1 and 2 with facility-level granularity, market-based and location-based Scope 2, and annual limited assurance</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q13" value="5"><span class="radio-custom"></span><span class="option-text">Automated emissions measurement (metered data, IoT sensors), monthly/quarterly reporting cadence, reasonable assurance, and multi-year trend analysis</span></label>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="q14">
+      <div class="question-label">How prepared are you to measure and report Scope 3 (value chain) emissions — noting ASRS allows phased introduction?</div>
+      <div class="question-number">Q14</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q14" value="1"><span class="radio-custom"></span><span class="option-text">No Scope 3 work has been started — we have not identified relevant categories or data sources</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q14" value="2"><span class="radio-custom"></span><span class="option-text">We have identified the most material Scope 3 categories but only have spend-based estimates for a few</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q14" value="3"><span class="radio-custom"></span><span class="option-text">Scope 3 screening completed across all 15 GHG Protocol categories; top categories calculated with a mix of spend-based and activity-based methods</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q14" value="4"><span class="radio-custom"></span><span class="option-text">Material Scope 3 categories calculated with supplier-specific or hybrid data where available; data quality improvement roadmap in place</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q14" value="5"><span class="radio-custom"></span><span class="option-text">Comprehensive Scope 3 with supplier-specific data for top categories, automated data exchange with key suppliers, and limited assurance over material categories</span></label>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="q15">
+      <div class="question-label">How well do your emissions data collection processes meet the quality and auditability requirements for external assurance?</div>
+      <div class="question-number">Q15</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q15" value="1"><span class="radio-custom"></span><span class="option-text">Data is collected in spreadsheets with no documentation of sources, assumptions, or emission factors used</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q15" value="2"><span class="radio-custom"></span><span class="option-text">Basic documentation exists but data trails are incomplete — an auditor would struggle to verify calculations</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q15" value="3"><span class="radio-custom"></span><span class="option-text">Documented methodology with source references and emission factor databases; data collected centrally with review steps</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q15" value="4"><span class="radio-custom"></span><span class="option-text">Auditable data management with source documentation, change logs, uncertainty analysis, and successful limited assurance engagement</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q15" value="5"><span class="radio-custom"></span><span class="option-text">Enterprise-grade GHG data platform with automated source data ingestion, version-controlled emission factors, full audit trail, and pathway to reasonable assurance</span></label>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="nav-btn nav-btn-back" onclick="prevSection(5)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+      <button class="nav-btn nav-btn-next" onclick="nextSection(5)">Continue <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+    </div>
+  </div>
+
+  <!-- ═══════ SECTION 6: CLIMATE SCENARIO ANALYSIS ═══════ -->
+  <div class="assessment-section" data-section="6">
+    <div class="section-header">
+      <div class="section-number">Section 06</div>
+      <h2 class="section-title">Climate Scenario Analysis</h2>
+      <p class="section-desc">How well prepared are you to conduct and disclose climate scenario analysis as required by AASB S2? (AASB S2 para 22, Aus-modified guidance on scenario analysis expectations)</p>
+    </div>
+
+    <div class="question-card" data-question="q16">
+      <div class="question-label">Has your organisation conducted climate scenario analysis to assess the resilience of its strategy?</div>
+      <div class="question-number">Q16</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q16" value="1"><span class="radio-custom"></span><span class="option-text">No scenario analysis has been done — we are unfamiliar with the TCFD/ISSB scenario analysis requirements</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q16" value="2"><span class="radio-custom"></span><span class="option-text">Aware of the requirement but have not yet selected scenarios or started the analysis</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q16" value="3"><span class="radio-custom"></span><span class="option-text">Qualitative scenario analysis completed using at least two scenarios (e.g. 1.5°C and 3°C+) with narrative descriptions of impacts</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q16" value="4"><span class="radio-custom"></span><span class="option-text">Quantitative scenario analysis with financial modelling of physical and transition impacts under multiple scenarios, using recognised frameworks (IEA, NGFS, IPCC)</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q16" value="5"><span class="radio-custom"></span><span class="option-text">Dynamic scenario modelling integrated into strategic planning — regularly refreshed, stress-tested against emerging data, and used to inform board-level decisions on resilience and adaptation</span></label>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="q17">
+      <div class="question-label">How well do you understand and can you disclose the financial impacts of different climate scenarios on your assets, operations, and business model?</div>
+      <div class="question-number">Q17</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q17" value="1"><span class="radio-custom"></span><span class="option-text">No understanding of how different scenarios would impact the business financially</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q17" value="2"><span class="radio-custom"></span><span class="option-text">General awareness (e.g. "carbon pricing would increase costs") but no quantified impact analysis</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q17" value="3"><span class="radio-custom"></span><span class="option-text">Key financial exposures estimated under scenarios — e.g. carbon cost impact, asset stranding risk, physical damage exposure for major facilities</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q17" value="4"><span class="radio-custom"></span><span class="option-text">Detailed financial impact analysis across revenue, costs, capital expenditure, and asset values under each scenario with documented assumptions</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q17" value="5"><span class="radio-custom"></span><span class="option-text">Scenario financial impacts integrated into long-range planning, impairment testing, and investor communications — with clear linkage to the transition plan and adaptation strategy</span></label>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="nav-btn nav-btn-back" onclick="prevSection(6)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+      <button class="nav-btn nav-btn-next" onclick="nextSection(6)">Continue <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+    </div>
+  </div>
+
+  <!-- ═══════ SECTION 7: DATA, SYSTEMS & ASSURANCE READINESS ═══════ -->
+  <div class="assessment-section" data-section="7">
+    <div class="section-header">
+      <div class="section-number">Section 07</div>
+      <h2 class="section-title">Data, Systems & Assurance Readiness</h2>
+      <p class="section-desc">How ready are your data infrastructure, reporting systems, and assurance arrangements to meet ASRS disclosure requirements on an ongoing basis?</p>
+    </div>
+
+    <div class="question-card" data-question="q18">
+      <div class="question-label">Do you have systems and tools in place to collect, consolidate, and report sustainability data at the required frequency and granularity?</div>
+      <div class="question-number">Q18</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q18" value="1"><span class="radio-custom"></span><span class="option-text">Sustainability data is collected manually in spreadsheets with no centralised system</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q18" value="2"><span class="radio-custom"></span><span class="option-text">Some tools in place (e.g. carbon accounting software) but data collection is still largely manual and disconnected from financial systems</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q18" value="3"><span class="radio-custom"></span><span class="option-text">Dedicated sustainability reporting platform with automated data feeds for major data streams (energy, waste, water) and annual reporting capability</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q18" value="4"><span class="radio-custom"></span><span class="option-text">Integrated reporting platform with ERP connectivity (e.g. SAP Sustainability Control Tower, Greenledger, Persefoni), quarterly reporting cadence, and role-based workflows</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q18" value="5"><span class="radio-custom"></span><span class="option-text">Enterprise-grade sustainability data platform fully integrated with financial reporting, automated regulatory tagging (XBRL/iXBRL), and real-time dashboards for management</span></label>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="q19">
+      <div class="question-label">How prepared are you for mandatory external assurance of sustainability disclosures (ASRS requires limited assurance initially, moving to reasonable assurance)?</div>
+      <div class="question-number">Q19</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q19" value="1"><span class="radio-custom"></span><span class="option-text">We have not considered external assurance and have no audit trail for sustainability data</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q19" value="2"><span class="radio-custom"></span><span class="option-text">Aware of the assurance requirement but not yet engaged an assurance provider or assessed readiness gaps</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q19" value="3"><span class="radio-custom"></span><span class="option-text">Assurance provider selected and readiness assessment completed — working on closing identified control gaps</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q19" value="4"><span class="radio-custom"></span><span class="option-text">Successfully completed limited assurance engagement over key sustainability metrics with clean opinion and manageable findings</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q19" value="5"><span class="radio-custom"></span><span class="option-text">Multiple years of limited assurance with a clear roadmap to reasonable assurance — controls, data quality, and documentation meet financial-grade audit standards</span></label>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="q20">
+      <div class="question-label">How well does your team understand the ASRS requirements (AASB S1, AASB S2) and the specific Australian modifications and transition reliefs?</div>
+      <div class="question-number">Q20</div>
+      <div class="options-list">
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q20" value="1"><span class="radio-custom"></span><span class="option-text">We are not aware of the ASRS requirements or when they apply to our organisation</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q20" value="2"><span class="radio-custom"></span><span class="option-text">General awareness that mandatory sustainability reporting is coming, but haven't read the standards or assessed applicability</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q20" value="3"><span class="radio-custom"></span><span class="option-text">Key team members have reviewed AASB S1/S2 and understand the reporting entity thresholds, timelines, and transition reliefs relevant to our organisation</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q20" value="4"><span class="radio-custom"></span><span class="option-text">Detailed gap analysis completed against AASB S1/S2 requirements with a costed implementation roadmap and project plan</span></label>
+        <label class="option-item" onclick="selectOption(this)"><input type="radio" name="q20" value="5"><span class="radio-custom"></span><span class="option-text">Full ASRS implementation programme underway — standards interpreted, policies drafted, dry-run disclosures completed, and team trained across Finance, Sustainability, and Operations</span></label>
+      </div>
+    </div>
+
+    <!-- ═══════ EMAIL CAPTURE ═══════ -->
+    <div class="email-section">
+      <h3>Get Your ASRS Readiness Report</h3>
+      <p>Enter your details below to see your full pillar-by-pillar breakdown with tailored recommendations for ASRS compliance.</p>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" class="form-input" id="firstName" placeholder="Your first name">
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" class="form-input" id="lastName" placeholder="Your last name">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Business Email *</label>
+          <input type="email" class="form-input" id="userEmail" placeholder="you@company.com" required>
+        </div>
+        <div class="form-group">
+          <label>Company</label>
+          <input type="text" class="form-input" id="companyName" placeholder="Your company name">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Reporting Group</label>
+          <select class="form-select" id="reportingGroup">
+            <option value="">Select reporting group</option>
+            <option value="Group 1 (2024-25)">Group 1 — Large (FY 2024–25 onwards)</option>
+            <option value="Group 2 (2026-27)">Group 2 — Medium (FY 2026–27 onwards)</option>
+            <option value="Group 3 (2027-28)">Group 3 — Small (FY 2027–28 onwards)</option>
+            <option value="Unsure">Unsure / Not yet determined</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Industry</label>
+          <select class="form-select" id="industry">
+            <option value="">Select industry</option>
+            <option value="Mining & Resources">Mining & Resources</option>
+            <option value="Energy & Utilities">Energy & Utilities</option>
+            <option value="Financial Services">Financial Services</option>
+            <option value="Manufacturing">Manufacturing</option>
+            <option value="Agriculture & Food">Agriculture & Food</option>
+            <option value="Property & Construction">Property & Construction</option>
+            <option value="Transport & Logistics">Transport & Logistics</option>
+            <option value="Retail & Consumer">Retail & Consumer</option>
+            <option value="Technology & Telco">Technology & Telco</option>
+            <option value="Healthcare">Healthcare</option>
+            <option value="Government & Public Sector">Government & Public Sector</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="validation-msg" id="validationMsg">Please answer all questions and provide a valid email to see your results.</div>
+
+      <button class="submit-btn" id="submitBtn" onclick="submitAssessment()">
+        <span id="submitText">View My Results</span>
+        <div class="spinner" id="submitSpinner"></div>
+        <svg id="submitArrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="nav-btn nav-btn-back" onclick="prevSection(7)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+      <div></div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ═══════ RESULTS VIEW ═══════ -->
+<div id="resultsSection">
+  <div class="results-hero">
+    <h2>Your ASRS Readiness Report</h2>
+    <p id="resultsSubtitle">Here's how your organisation stacks up across all ASRS pillars</p>
+  </div>
+
+  <div class="score-overview">
+    <div class="score-card">
+      <div class="score-ring-wrap">
+        <div class="score-ring">
+          <svg viewBox="0 0 160 160">
+            <circle class="score-ring-bg" cx="80" cy="80" r="72"/>
+            <circle class="score-ring-fill" id="scoreRingFill" cx="80" cy="80" r="72"/>
+          </svg>
+          <div class="score-ring-text">
+            <div class="score-value" id="scoreValue">0</div>
+            <div class="score-max">/ 100</div>
+          </div>
+        </div>
+        <span class="maturity-label" id="maturityLabel"></span>
+      </div>
+      <div class="score-details">
+        <h3 id="maturityTitle"></h3>
+        <p id="maturityDescription"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="dimensions-section">
+    <h3 class="dimensions-title">Pillar Breakdown</h3>
+    <p class="dimensions-subtitle">Readiness scores across the seven ASRS assessment pillars</p>
+    <div id="dimensionCards"></div>
+  </div>
+
+  <div class="recommendations-section">
+    <h3 class="rec-title">Priority Recommendations</h3>
+    <p class="rec-subtitle">Where to focus first to close ASRS compliance gaps and build reporting capability</p>
+    <div id="recommendationCards"></div>
+  </div>
+
+  <div class="cta-section">
+    <div class="cta-card">
+      <h3>Need Help Getting ASRS-Ready?</h3>
+      <p>I help organisations build sustainability reporting capability — from gap analysis and data architecture through to disclosure drafting and assurance readiness. Let's talk about your results.</p>
+      <a href="/#contact" class="cta-btn">
+        Get in Touch
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ TOAST ═══════ -->
+<div class="success-toast" id="successToast">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+  Your assessment is complete
+</div>
+
+<script>
+// ═══════ DATA MODEL ═══════
+const TOTAL_QUESTIONS = 20;
+const TOTAL_SECTIONS = 7;
+const MAX_SCORE = 100; // 20 questions × 5
+
+const dimensionConfig = [
+  { name: 'Governance & Oversight', questions: ['q1','q2','q3'], icon: '🏛️' },
+  { name: 'Strategy & Business Integration', questions: ['q4','q5','q6'], icon: '🧭' },
+  { name: 'Risk Management', questions: ['q7','q8','q9'], icon: '⚡' },
+  { name: 'Metrics & Targets', questions: ['q10','q11','q12'], icon: '📊' },
+  { name: 'GHG Emissions Measurement', questions: ['q13','q14','q15'], icon: '🌿' },
+  { name: 'Climate Scenario Analysis', questions: ['q16','q17'], icon: '🔮' },
+  { name: 'Data, Systems & Assurance', questions: ['q18','q19','q20'], icon: '🔒' }
+];
+
+const maturityLevels = [
+  { min: 0,  max: 20, level: 1, name: 'Not Started',   label: 'Level 1 — Not Started',   color: '#c0392b',
+    title: 'Not Started: Significant Compliance Risk',
+    desc: 'Your organisation has substantial gaps across most ASRS pillars. If you fall within reporting entity thresholds, the clock is ticking — mandatory disclosures require foundational work in governance, emissions measurement, and data infrastructure that cannot be built overnight. The good news: starting now gives you time to build capability methodically rather than in crisis mode.' },
+  { min: 21, max: 40, level: 2, name: 'Early Stage',    label: 'Level 2 — Early Stage',    color: '#e67e22',
+    title: 'Early Stage: Awareness Without Readiness',
+    desc: 'You have some building blocks in place — perhaps basic emissions data or initial governance structures — but significant work is needed to reach disclosure-ready status. Priority areas are likely Scope 3 measurement, scenario analysis, and connecting sustainability data to financial reporting. A structured implementation programme with clear milestones will be critical.' },
+  { min: 41, max: 60, level: 3, name: 'Developing',      label: 'Level 3 — Developing',      color: '#f39c12',
+    title: 'Developing: Foundations in Place, Gaps to Close',
+    desc: 'Good progress. You have governance structures, some emissions capability, and awareness of requirements. The gap is likely in depth and rigour — moving from qualitative to quantitative scenario analysis, from estimated to verified emissions data, and from manual to systematic reporting processes. Focus on assurance readiness and financial connectivity.' },
+  { min: 61, max: 80, level: 4, name: 'Advanced',        label: 'Level 4 — Advanced',        color: '#27ae60',
+    title: 'Advanced: Well-Positioned for Compliance',
+    desc: 'Your organisation is in strong shape for ASRS compliance. Governance, risk management, and emissions measurement are mature. To reach best-in-class, focus on automation, reasonable assurance readiness, sophisticated scenario analysis, and using sustainability data as a strategic asset rather than just a compliance exercise.' },
+  { min: 81, max: 100, level: 5, name: 'Leading',        label: 'Level 5 — Leading',        color: '#2d7a5e',
+    title: 'Leading: Best-in-Class Sustainability Reporting',
+    desc: 'Outstanding. Your organisation is not just compliant — you are a leader in sustainability reporting. Your disclosures likely exceed minimum requirements, your data is assured, and sustainability insights are genuinely influencing strategy and capital allocation. Focus on innovation: AI-assisted data management, real-time monitoring, and sharing your practices to lift industry standards.' }
+];
+
+// ═══════ SECTION NAVIGATION ═══════
+function selectOption(el) {
+  const card = el.closest('.question-card');
+  card.querySelectorAll('.option-item').forEach(item => item.classList.remove('selected'));
+  el.classList.add('selected');
+  el.querySelector('input').checked = true;
+  card.classList.add('answered');
+  updateProgress();
+}
+
+function getSectionQuestions(sectionNum) {
+  const section = document.querySelector(`.assessment-section[data-section="${sectionNum}"]`);
+  return section ? section.querySelectorAll('.question-card') : [];
+}
+
+function isSectionComplete(sectionNum) {
+  const questions = getSectionQuestions(sectionNum);
+  for (const q of questions) {
+    const name = q.dataset.question;
+    if (!document.querySelector(`input[name="${name}"]:checked`)) return false;
+  }
+  return true;
+}
+
+function nextSection(currentSection) {
+  if (!isSectionComplete(currentSection)) {
+    const questions = getSectionQuestions(currentSection);
+    questions.forEach(q => {
+      const name = q.dataset.question;
+      if (!document.querySelector(`input[name="${name}"]:checked`)) {
+        q.style.borderColor = 'rgba(231, 76, 60, 0.4)';
+        q.style.background = 'rgba(231, 76, 60, 0.02)';
+        setTimeout(() => { q.style.borderColor = ''; q.style.background = ''; }, 2000);
+      }
+    });
+    return;
+  }
+  showSection(currentSection + 1);
+}
+
+function prevSection(currentSection) { showSection(currentSection - 1); }
+
+function showSection(sectionNum) {
+  document.querySelectorAll('.assessment-section').forEach(s => s.classList.remove('active'));
+  const target = document.querySelector(`.assessment-section[data-section="${sectionNum}"]`);
+  if (target) {
+    target.classList.add('active');
+    window.scrollTo({ top: document.querySelector('.progress-container').offsetTop - 60, behavior: 'smooth' });
+    updateProgress();
+  }
+}
+
+function updateProgress() {
+  let answered = 0;
+  for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
+    if (document.querySelector(`input[name="q${i}"]:checked`)) answered++;
+  }
+  const pct = (answered / TOTAL_QUESTIONS) * 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+  const activeSection = document.querySelector('.assessment-section.active');
+  const sectionNum = activeSection ? activeSection.dataset.section : 1;
+  document.getElementById('progressText').textContent = `Section ${sectionNum} of ${TOTAL_SECTIONS}`;
+}
+
+// ═══════ SUBMIT ═══════
+function submitAssessment() {
+  const email = document.getElementById('userEmail').value.trim();
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  let allAnswered = true;
+  for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
+    if (!document.querySelector(`input[name="q${i}"]:checked`)) { allAnswered = false; break; }
+  }
+
+  if (!allAnswered || !emailRegex.test(email)) {
+    document.getElementById('validationMsg').style.display = 'block';
+    if (!emailRegex.test(email)) document.getElementById('userEmail').classList.add('error');
+    return;
+  }
+
+  document.getElementById('validationMsg').style.display = 'none';
+  document.getElementById('userEmail').classList.remove('error');
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  document.getElementById('submitText').textContent = 'Generating Report...';
+  document.getElementById('submitSpinner').style.display = 'block';
+  document.getElementById('submitArrow').style.display = 'none';
+
+  const scores = calculateScores();
+  const results = generateResults(scores);
+
+  sendNotificationEmail(scores, results);
+
+  setTimeout(() => {
+    renderResults(scores, results);
+    document.getElementById('assessmentView').style.display = 'none';
+    document.getElementById('resultsSection').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    setTimeout(() => {
+      document.getElementById('successToast').classList.add('show');
+      setTimeout(() => document.getElementById('successToast').classList.remove('show'), 4000);
+    }, 1000);
+  }, 1500);
+}
+
+// ═══════ SCORE CALCULATION ═══════
+function calculateScores() {
+  const answers = {};
+  for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
+    const checked = document.querySelector(`input[name="q${i}"]:checked`);
+    answers[`q${i}`] = checked ? parseInt(checked.value) : 0;
+  }
+
+  const dimensions = dimensionConfig.map(dim => {
+    const dimScores = dim.questions.map(q => answers[q]);
+    const total = dimScores.reduce((a, b) => a + b, 0);
+    const max = dim.questions.length * 5;
+    const pct = Math.round((total / max) * 100);
+    return { ...dim, total, max, pct, scores: dimScores };
+  });
+
+  const totalScore = dimensions.reduce((a, d) => a + d.total, 0);
+  const maturity = maturityLevels.find(l => totalScore >= l.min && totalScore <= l.max) || maturityLevels[0];
+
+  return { answers, dimensions, totalScore, maturity };
+}
+
+// ═══════ RECOMMENDATIONS ═══════
+function generateResults(scores) {
+  const recs = [];
+  const sorted = [...scores.dimensions].sort((a, b) => a.pct - b.pct);
+
+  sorted.forEach(dim => {
+    const priority = dim.pct < 40 ? 'high' : dim.pct < 65 ? 'medium' : 'low';
+    const dimRecs = getRecommendations(dim.name, dim.pct);
+    dimRecs.forEach(r => recs.push({ ...r, priority, dimension: dim.name }));
+  });
+
+  return recs;
+}
+
+function getRecommendations(dimName, pct) {
+  const recs = [];
+
+  if (dimName === 'Governance & Oversight') {
+    if (pct < 40) {
+      recs.push({ title: 'Establish Board-Level Sustainability Oversight', desc: 'AASB S1 requires disclosure of how the board oversees sustainability-related risks. Start by adding sustainability to an existing committee charter (e.g. Risk or Audit) and scheduling quarterly sustainability updates. Appoint a board member with accountability for ESG oversight.' });
+      recs.push({ title: 'Define Management Roles and Accountability', desc: 'Create clear RACI for sustainability reporting — who collects data, who reviews it, who signs it off. Even without a dedicated sustainability team, assigning accountability across Finance, Operations, and Risk dramatically improves disclosure quality.' });
+    } else if (pct < 65) {
+      recs.push({ title: 'Integrate Sustainability into Internal Controls', desc: 'Extend your financial internal control framework to cover sustainability data. This means documented procedures, segregation of duties, management review, and audit trails — the same discipline applied to financial reporting.' });
+    } else {
+      recs.push({ title: 'Embed Sustainability into Board Skills and Remuneration', desc: 'Strengthen governance by ensuring board skills matrices include climate/sustainability competence, and linking executive remuneration to measurable ESG outcomes. This demonstrates the governance maturity ASRS disclosures are designed to reveal.' });
+    }
+  }
+
+  if (dimName === 'Strategy & Business Integration') {
+    if (pct < 40) {
+      recs.push({ title: 'Conduct a Materiality Assessment', desc: 'Start with a structured materiality assessment (or double-materiality if you anticipate ESRS relevance) to identify which sustainability-related risks and opportunities could reasonably affect your prospects. This is the foundation for all ASRS disclosures.' });
+      recs.push({ title: 'Map Sustainability to Financial Impacts', desc: 'AASB S1 requires disclosure of how sustainability-related risks affect financial position and performance. Begin by identifying the most obvious connections — carbon cost exposure, physical asset risk, regulatory compliance costs — and estimating their financial magnitude.' });
+    } else if (pct < 65) {
+      recs.push({ title: 'Develop a Climate Transition Plan', desc: 'Build a board-approved transition plan that connects your emissions targets to strategic actions, capital allocation, and timelines. This becomes the backbone of your AASB S2 strategy disclosure and demonstrates credibility to investors and assurance providers.' });
+    } else {
+      recs.push({ title: 'Achieve Full Financial Connectivity', desc: 'Close the loop between sustainability and financial reporting — ensure climate-related assumptions flow into impairment testing, provisions, useful life estimates, and forward-looking statements. ASRS explicitly requires this connectivity.' });
+    }
+  }
+
+  if (dimName === 'Risk Management') {
+    if (pct < 40) {
+      recs.push({ title: 'Add Climate Risks to Your Enterprise Risk Register', desc: 'Start by identifying the top 5–10 physical and transition risks relevant to your industry and geography. Use the AASB S2 risk categories (physical: acute and chronic; transition: policy, legal, technology, market, reputation) as a starting framework.' });
+      recs.push({ title: 'Conduct a Value Chain Risk Screening', desc: 'ASRS requires disclosure of how you manage risks across your value chain. Begin with a high-level screening of your critical suppliers and customers for climate exposure — geographic physical risk, carbon intensity, and regulatory exposure.' });
+    } else if (pct < 65) {
+      recs.push({ title: 'Integrate Sustainability into ERM', desc: 'Move sustainability risks from a standalone register into your enterprise risk management framework. Use consistent risk taxonomy, scoring methodology, and escalation protocols so that sustainability risks are assessed alongside financial and operational risks.' });
+    } else {
+      recs.push({ title: 'Implement Continuous Value Chain Monitoring', desc: 'Invest in tools that provide ongoing visibility of climate-related risks across your value chain — geospatial risk platforms for physical risk, supplier ESG scoring, and automated exposure reporting. This moves you from periodic assessment to continuous monitoring.' });
+    }
+  }
+
+  if (dimName === 'Metrics & Targets') {
+    if (pct < 40) {
+      recs.push({ title: 'Define Your Sustainability Metric Set', desc: 'Start by mapping AASB S1/S2 required metrics to your material topics. At minimum you need GHG emissions (Scope 1, 2, and eventually 3), plus industry-specific metrics from the SASB standards referenced by AASB S1. Document calculation methodologies from day one.' });
+      recs.push({ title: 'Set Quantitative Targets with Baselines', desc: 'ASRS requires disclosure of any targets set. Start with emissions reduction targets — define a base year, scope, and interim milestones. Even if you are not yet ready for SBTi validation, having structured targets demonstrates intent and gives you something to report against.' });
+    } else if (pct < 65) {
+      recs.push({ title: 'Pursue Science-Based Target Validation', desc: 'If you have not already, submit your emissions targets for SBTi validation. Validated science-based targets add credibility to your disclosures and are increasingly expected by investors and proxy advisors evaluating ASRS reports.' });
+    } else {
+      recs.push({ title: 'Link Sustainability KPIs to Financial Metrics', desc: 'Develop the connectivity between sustainability metrics and financial KPIs — e.g. carbon intensity per revenue dollar, energy cost as a percentage of COGS, climate-adjusted return on capital. This is where metrics become strategically useful beyond compliance.' });
+    }
+  }
+
+  if (dimName === 'GHG Emissions Measurement') {
+    if (pct < 40) {
+      recs.push({ title: 'Build Your GHG Inventory Foundation', desc: 'Start with Scope 1 and 2 using the GHG Protocol Corporate Standard and Australian NGER emission factors. Identify all emission sources (stationary combustion, mobile, fugitive, process), collect activity data, and calculate using appropriate factors. Document everything — assurance providers will need it.' });
+      recs.push({ title: 'Begin Scope 3 Category Screening', desc: 'The ASRS Scope 3 phase-in gives you time, but start now. Screen all 15 GHG Protocol Scope 3 categories for materiality to your business. For the top 3–5 categories, begin collecting spend or activity data to produce initial estimates.' });
+    } else if (pct < 65) {
+      recs.push({ title: 'Improve Scope 3 Data Quality', desc: 'Move your most material Scope 3 categories from spend-based estimates to activity-based or supplier-specific data. Engage key suppliers to provide their emissions data directly. Build a data quality improvement roadmap that progressively replaces estimates with measured data.' });
+    } else {
+      recs.push({ title: 'Automate and Assure Your Emissions Data', desc: 'Invest in automated data collection (utility API feeds, IoT metering, supplier data portals) to reduce manual effort and improve accuracy. Prepare for reasonable assurance by ensuring every data point has a documented source, calculation trail, and review record.' });
+    }
+  }
+
+  if (dimName === 'Climate Scenario Analysis') {
+    if (pct < 40) {
+      recs.push({ title: 'Start with Qualitative Scenario Analysis', desc: 'You do not need to start with complex financial modelling. Begin with a qualitative scenario analysis using two or three recognised scenarios (e.g. IEA NZE 2050, NGFS Current Policies, IPCC SSP5-8.5). Describe how each scenario would affect your business model, revenue streams, cost base, and assets.' });
+      recs.push({ title: 'Identify Key Climate Assumptions and Variables', desc: 'For each scenario, identify the key variables that would drive financial impact — carbon price trajectory, energy prices, physical risk exposure, demand shifts, regulatory timeline. This exercise builds the foundation for future quantitative analysis.' });
+    } else if (pct < 65) {
+      recs.push({ title: 'Move to Quantitative Scenario Modelling', desc: 'Build financial impact models for your most material scenarios. Start with the variables you identified and model their impact on revenue, costs, asset values, and capital expenditure over short, medium, and long-term horizons. Use recognised scenario parameters from IEA or NGFS.' });
+    } else {
+      recs.push({ title: 'Integrate Scenario Analysis into Strategic Planning', desc: 'Make scenario analysis a living tool rather than a compliance exercise. Refresh scenarios annually, test strategic decisions against multiple climate futures, and use scenario outputs to inform capital allocation, risk appetite, and adaptation planning.' });
+    }
+  }
+
+  if (dimName === 'Data, Systems & Assurance') {
+    if (pct < 40) {
+      recs.push({ title: 'Centralise Sustainability Data Collection', desc: 'Move from scattered spreadsheets to a centralised data collection process — even if it starts as a structured workbook with defined templates, owners, and timelines. Evaluate dedicated sustainability reporting platforms (e.g. FigBytes, Persefoni, Greenledger, SAP Sustainability Control Tower) for medium-term.' });
+      recs.push({ title: 'Engage an Assurance Provider Early', desc: 'Don\'t wait until your first mandatory reporting year to engage an assurance provider. An early readiness assessment will identify the specific control, data quality, and documentation gaps you need to close before limited assurance becomes mandatory.' });
+    } else if (pct < 65) {
+      recs.push({ title: 'Build Financial-Grade Data Controls', desc: 'ASRS disclosures will be subject to the same assurance expectations as financial statements over time. Implement version control, access controls, reconciliation procedures, and management review processes for sustainability data — the same discipline as your month-end close.' });
+    } else {
+      recs.push({ title: 'Prepare the Roadmap to Reasonable Assurance', desc: 'Limited assurance is the starting point, but reasonable assurance is the destination. Work with your assurance provider to identify the incremental controls, evidence standards, and system capabilities needed. Build these into your technology and process roadmap now so the transition is smooth.' });
+    }
+  }
+
+  return recs;
+}
+
+// ═══════ RENDER RESULTS ═══════
+function renderResults(scores, recommendations) {
+  const { totalScore, maturity, dimensions } = scores;
+
+  const pct = totalScore / MAX_SCORE;
+  const circumference = 2 * Math.PI * 72;
+  const offset = circumference * (1 - pct);
+  setTimeout(() => {
+    document.getElementById('scoreRingFill').style.strokeDashoffset = offset;
+    document.getElementById('scoreRingFill').style.stroke = maturity.color;
+  }, 300);
+
+  let current = 0;
+  const interval = setInterval(() => {
+    current++;
+    document.getElementById('scoreValue').textContent = current;
+    if (current >= totalScore) clearInterval(interval);
+  }, 25);
+
+  const label = document.getElementById('maturityLabel');
+  label.textContent = maturity.label;
+  label.className = `maturity-label maturity-level-${maturity.level}`;
+
+  document.getElementById('maturityTitle').textContent = maturity.title;
+  document.getElementById('maturityDescription').textContent = maturity.desc;
+
+  const firstName = document.getElementById('firstName').value.trim();
+  const company = document.getElementById('companyName').value.trim();
+  if (firstName && company) {
+    document.getElementById('resultsSubtitle').textContent = `${firstName}, here's how ${company}'s ASRS readiness stacks up`;
+  } else if (firstName) {
+    document.getElementById('resultsSubtitle').textContent = `${firstName}, here's how your ASRS readiness stacks up`;
+  }
+
+  const dimContainer = document.getElementById('dimensionCards');
+  dimContainer.innerHTML = '';
+  dimensions.forEach(dim => {
+    const barColor = dim.pct >= 70 ? '#2d7a5e' : dim.pct >= 45 ? '#f39c12' : '#e74c3c';
+    const insight = dim.pct >= 70 ? 'Strong — maintain and refine current practices towards reasonable assurance readiness' :
+                    dim.pct >= 45 ? 'Developing — solid foundations with clear areas to deepen and formalise' :
+                    'Needs attention — this pillar has significant gaps that need to be addressed for ASRS compliance';
+    const card = document.createElement('div');
+    card.className = 'dimension-card';
+    card.innerHTML = `
+      <div class="dimension-header">
+        <span class="dimension-name">${dim.icon} ${dim.name}</span>
+        <span class="dimension-score">${dim.total}/${dim.max}</span>
+      </div>
+      <div class="dimension-bar-wrap">
+        <div class="dimension-bar-fill" style="background: ${barColor};" data-width="${dim.pct}"></div>
+      </div>
+      <div class="dimension-insight">${insight}</div>
+    `;
+    dimContainer.appendChild(card);
+  });
+
+  setTimeout(() => {
+    document.querySelectorAll('.dimension-bar-fill').forEach(bar => {
+      bar.style.width = bar.dataset.width + '%';
+    });
+  }, 500);
+
+  const recContainer = document.getElementById('recommendationCards');
+  recContainer.innerHTML = '';
+  recommendations.slice(0, 8).forEach(rec => {
+    const card = document.createElement('div');
+    card.className = `rec-card rec-priority-${rec.priority}`;
+    card.innerHTML = `
+      <span class="rec-priority-tag">${rec.priority} priority</span>
+      <h4>${rec.title}</h4>
+      <p>${rec.desc}</p>
+    `;
+    recContainer.appendChild(card);
+  });
+}
+
+// ═══════ EMAIL NOTIFICATION ═══════
+function sendNotificationEmail(scores, recommendations) {
+  const formData = {
+    firstName: document.getElementById('firstName').value.trim(),
+    lastName: document.getElementById('lastName').value.trim(),
+    email: document.getElementById('userEmail').value.trim(),
+    company: document.getElementById('companyName').value.trim(),
+    reportingGroup: document.getElementById('reportingGroup').value,
+    industry: document.getElementById('industry').value,
+    totalScore: scores.totalScore,
+    maturityLevel: scores.maturity.name,
+    maturityTitle: scores.maturity.title,
+    dimensions: scores.dimensions.map(d => ({
+      name: d.name, score: d.total, max: d.max, percentage: d.pct
+    })),
+    topRecommendations: recommendations.slice(0, 5).map(r => ({
+      title: r.title, priority: r.priority, dimension: r.dimension
+    })),
+    submittedAt: new Date().toISOString()
+  };
+
+  // Log for development — replace with your preferred email/webhook integration
+  console.log('🌿 ASRS Readiness Assessment Submission:', JSON.stringify(formData, null, 2));
+}
+
+// Init
+updateProgress();
+</script>
+</body>
+</html>
